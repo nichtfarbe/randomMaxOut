@@ -2,12 +2,6 @@ body {
     font-family: 'Roboto';font-size: 22px;
 }
 
-.header {
-    height: 30%;
-    position: fixed;
-    background-image: url(/randomMaxOut/headerImage.jpg);
-    border: 1px solid red;
-  }
 
 .weekday-container {
     display: flex;

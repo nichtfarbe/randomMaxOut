@@ -2,6 +2,11 @@ body {
     font-family: 'Roboto';font-size: 22px;
 }
 
+.header {
+  padding: 60px;
+  background: #1abc9c;
+}
+
 
 .weekday-container {
     display: flex;

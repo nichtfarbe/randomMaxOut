@@ -16,7 +16,8 @@ body {
 .calender{
   font-size: 32px;
   display: grid;
-  grid-template-columns: auto auto auto auto auto auto auto;
+  grid-template-columns: auto;
+  grid-template-rows: auto;
   gap: 80px;
   padding: 30px;
   justify-content: space-around;
@@ -45,16 +46,37 @@ body {
 #fr{
   grid-column-start: 5;
   grid-column-end:6;
+
+
 }
 
 #sa{
   grid-column-start: 6;
   grid-column-end:7;
+
+
 }
 
 #so{
   grid-column-start: 7;
   grid-column-end:8;
+
 }
 
+.addSession{
+  height: 104px;
+  width: 129px;
+  left: 53px;
+  top: 460px;
+  border-radius: 0px;
+}
+
+@media only screen and (max-width: 600px){
+
+  .calender{
+    grid-template-rows: auto;
+    grid-auto-rows: 1fr;
+  }
+
+}
 

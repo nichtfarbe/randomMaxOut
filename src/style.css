@@ -1,0 +1,59 @@
+html{
+  box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto';font-size: 22px;
+}
+
+.header{
+  position: relative;
+  height: 400px;
+  background-color: blue;
+}
+
+.calender{
+  background-color: silver;
+  display: grid;
+  grid-template-columns: auto auto auto auto auto auto auto;
+  gap: 10px;
+  padding: 10px;
+
+}
+
+#mo{
+  grid-column-start: 1;
+  grid-column-end:2;
+}
+
+#di{
+  grid-column-start: 2;
+  grid-column-end:3;
+}
+
+#mi{
+  grid-column-start: 3;
+  grid-column-end:4;
+}
+
+#do{
+  grid-column-start: 4;
+  grid-column-end:5;
+}
+
+#fr{
+  grid-column-start: 5;
+  grid-column-end:6;
+}
+
+#sa{
+  grid-column-start: 6;
+  grid-column-end:7;
+}
+
+#so{
+  grid-column-start: 7;
+  grid-column-end:8;
+}
+
+

@@ -5,22 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
     <link rel="stylesheet" href="style.css">
+    <script src="script.js"></script>
     <title>Maxout</title>
   </head>
   
-  <body>
+  <body onload="init()">
 
-
+    <div id="overlay"></div>
       <div class="wrapper">
-        <div class="header">
-        </div>
+        <div class="header"></div>
 
 
         <div class="calender">
 
             <div class="weekday">
                 <p class="day-string">MO</p>
-                <button class="add-session">+ Einheit</button>
+                <button id="add-mo-session">+ Einheit</button>
             </div>
             <div class="weekday">
               <p class="day-string">DI</p>
@@ -42,5 +42,9 @@
             </div>
         </div>
       </div>
+ 
+
+
+
   </body>
 </html>

@@ -22,11 +22,11 @@ body {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.93);
+  background-color: rgba(0, 0, 0, 0.88);
   display: none;
   z-index: 2;
   overflow: auto;
-  cursor: pointer;
+  cursor: default;
 }
 
 #card-flex-container{
@@ -51,9 +51,7 @@ body {
   height: 75%;
 
   z-index: 2;
-  border:
-  
-  1px solid red;
+  /*border:  1px solid red; */
 }
 
 #card-flex-container > div{
@@ -63,10 +61,237 @@ body {
 .session-card{
   height: 45%; 
   width: 35%;
-  /* background-color: powderblue; */
   background-color: rgba(176, 224,230,1);
 }
 
+/*designing the cards itself*/
+
+/*snatch card*/
+
+#snatch-card{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+#snatch-color{
+  background-color: rgb(86,204,242);
+  width: 100%;
+  height: 55%;
+}
+
+#snatch-menu-container{
+  background-color: rgb(245,245,245);
+  width: 100%;
+  height: 45%;
+
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+#snatch-headline,
+#snatch-subtext{
+  padding-left: 5%;
+}
+
+#snatch-headline{
+  font-size: 18px;
+  font-weight: bold;
+}
+
+#snatch-subtext{
+  font-size: 14px;
+
+  margin-top: -2%;
+}
+
+#add-snatch-session{
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: bold;
+  color: rgb(98,2,238);
+
+  background-color: transparent;
+  border: transparent;
+  padding-left: 5%;
+  margin-top: -7%;  
+
+  cursor: pointer;
+}
+
+
+/*clean card*/
+
+#clean-card{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+#clean-color{
+  background-color: rgb(155,81,224);
+  width: 100%;
+  height: 55%;
+}
+
+#clean-menu-container{
+  background-color: rgb(245,245,245);
+  width: 100%;
+  height: 45%;
+
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+#clean-headline,
+#clean-subtext{
+  padding-left: 5%;
+}
+
+#clean-headline{
+  font-size: 18px;
+  font-weight: bold;
+}
+
+#clean-subtext{
+  font-size: 14px;
+
+  margin-top: -2%;
+  margin-right: 3%;
+}
+
+#add-clean-session{
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: bold;
+  color: rgb(98,2,238);
+
+  background-color: transparent;
+  border: transparent;
+  padding-left: 5%;
+  margin-top: -8.5%;
+
+  cursor: pointer;
+}
+
+
+/*accessorie card*/
+
+#accessorie-card{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+#accessorie-color{
+  background-color: rgb(242,201,76);
+  width: 100%;
+  height: 55%;
+}
+
+#accessorie-menu-container{
+  background-color: rgb(245,245,245);
+  width: 100%;
+  height: 45%;
+
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+#accessorie-headline,
+#accessorie-subtext{
+  padding-left: 5%;
+}
+
+#accessorie-headline{
+  font-size: 18px;
+  font-weight: bold;
+}
+
+#accessorie-subtext{
+  font-size: 14px;
+
+  margin-top: -2%;
+}
+
+#add-accessorie-session{
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: bold;
+  color: rgb(98,2,238);
+
+  background-color: transparent;
+  border: transparent;
+  padding-left: 5%;
+  margin-top: -7%;
+
+  cursor: pointer;
+}
+
+
+/*restday card*/
+
+#restday-card{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+#restday-color{
+  background-color: rgb(224,224,224);
+  width: 100%;
+  height: 55%;
+}
+
+#restday-menu-container{
+  background-color: rgb(245,245,245);
+  width: 100%;
+  height: 45%;
+
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: self-start;
+}
+
+#restday-menu-container>
+#restday-headline,
+#restday-subtext{
+  flex: 0 1 100%;
+}
+
+#restday-headline,
+#restday-subtext{
+  padding-left: 5%;
+}
+
+#restday-headline{
+  font-size: 18px;
+  font-weight: bold;
+}
+
+#restday-subtext{
+  font-size: 14px;
+
+  margin-top: -2%;
+}
+
+#add-restday{
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: bold;
+  color: rgb(98,2,238);
+
+  background-color: transparent;
+  border: transparent;
+  padding-left: 5%;
+  margin-top: -1%;
+
+  cursor: pointer;
+}
 
 
 
@@ -126,7 +351,8 @@ body {
 
 }
 
-#add-mo-session:hover, #add-mo-session:focus {
+#add-mo-session:hover, 
+#add-mo-session:focus {
   background-color: rgb(47,79,79);
   cursor: pointer;
 }

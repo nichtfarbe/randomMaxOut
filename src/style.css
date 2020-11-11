@@ -23,90 +23,63 @@ body {
   right: 0;
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.88);
-  display: none;
   z-index: 2;
-  overflow: auto;
+  overflow: hidden;
   cursor: default;
+  display: none;
+  justify-content: center;
+  align-items: center;
 }
 
-#card-flex-container{
-
-  visibility: hidden;
-
+.card-container {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
 
-
-  /* position: fixed;  */
-  margin-top: 15%;
-  margin-bottom: 15%;
-  margin-left: auto;
-  margin-right: auto;
-
-
-
   width: 60%;
   height: 75%;
 
   z-index: 2;
-  /*border:  1px solid red; */
 }
 
-#card-flex-container > div{
+.card-container > div {
   margin: 2%;
 }
 
-.session-card{
+.card {
   height: 45%; 
   width: 35%;
-  background-color: rgba(176, 224,230,1);
 }
 
 /*designing the cards itself*/
 
-/*snatch card*/
-
-#snatch-card{
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-}
-
-#snatch-color{
-  background-color: rgb(86,204,242);
-  width: 100%;
+.card-color{
+  width: auto;
   height: 55%;
 }
 
-#snatch-menu-container{
+.card-sub-container {
   background-color: rgb(245,245,245);
-  width: 100%;
+  width: auto;
   height: 45%;
-
+  overflow: hidden;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  padding: 1vmin;
 }
 
-#snatch-headline,
-#snatch-subtext{
-  padding-left: 5%;
-}
-
-#snatch-headline{
+.card-headline {
   font-size: 18px;
   font-weight: bold;
 }
 
-#snatch-subtext{
+.card-subtext {
   font-size: 14px;
-
-  margin-top: -2%;
 }
 
-#add-snatch-session{
+button.add {
   font-family: 'Roboto';
   font-style: normal;
   font-weight: bold;
@@ -114,186 +87,31 @@ body {
 
   background-color: transparent;
   border: transparent;
-  padding-left: 5%;
-  margin-top: -7%;  
+
+  padding: 0;
 
   cursor: pointer;
 }
 
+/*snatch card*/
+#snatch-card {
+  background-color: rgb(86,204,242);
+}
 
 /*clean card*/
-
-#clean-card{
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-}
-
-#clean-color{
+#clean-card {
   background-color: rgb(155,81,224);
-  width: 100%;
-  height: 55%;
 }
-
-#clean-menu-container{
-  background-color: rgb(245,245,245);
-  width: 100%;
-  height: 45%;
-
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-}
-
-#clean-headline,
-#clean-subtext{
-  padding-left: 5%;
-}
-
-#clean-headline{
-  font-size: 18px;
-  font-weight: bold;
-}
-
-#clean-subtext{
-  font-size: 14px;
-
-  margin-top: -2%;
-  margin-right: 3%;
-}
-
-#add-clean-session{
-  font-family: 'Roboto';
-  font-style: normal;
-  font-weight: bold;
-  color: rgb(98,2,238);
-
-  background-color: transparent;
-  border: transparent;
-  padding-left: 5%;
-  margin-top: -8.5%;
-
-  cursor: pointer;
-}
-
 
 /*accessorie card*/
-
 #accessorie-card{
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-}
-
-#accessorie-color{
   background-color: rgb(242,201,76);
-  width: 100%;
-  height: 55%;
 }
-
-#accessorie-menu-container{
-  background-color: rgb(245,245,245);
-  width: 100%;
-  height: 45%;
-
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-}
-
-#accessorie-headline,
-#accessorie-subtext{
-  padding-left: 5%;
-}
-
-#accessorie-headline{
-  font-size: 18px;
-  font-weight: bold;
-}
-
-#accessorie-subtext{
-  font-size: 14px;
-
-  margin-top: -2%;
-}
-
-#add-accessorie-session{
-  font-family: 'Roboto';
-  font-style: normal;
-  font-weight: bold;
-  color: rgb(98,2,238);
-
-  background-color: transparent;
-  border: transparent;
-  padding-left: 5%;
-  margin-top: -7%;
-
-  cursor: pointer;
-}
-
 
 /*restday card*/
-
 #restday-card{
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-}
-
-#restday-color{
   background-color: rgb(224,224,224);
-  width: 100%;
-  height: 55%;
 }
-
-#restday-menu-container{
-  background-color: rgb(245,245,245);
-  width: 100%;
-  height: 45%;
-
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-items: self-start;
-}
-
-#restday-menu-container>
-#restday-headline,
-#restday-subtext{
-  flex: 0 1 100%;
-}
-
-#restday-headline,
-#restday-subtext{
-  padding-left: 5%;
-}
-
-#restday-headline{
-  font-size: 18px;
-  font-weight: bold;
-}
-
-#restday-subtext{
-  font-size: 14px;
-
-  margin-top: -2%;
-}
-
-#add-restday{
-  font-family: 'Roboto';
-  font-style: normal;
-  font-weight: bold;
-  color: rgb(98,2,238);
-
-  background-color: transparent;
-  border: transparent;
-  padding-left: 5%;
-  margin-top: -1%;
-
-  cursor: pointer;
-}
-
-
 
 /*everything for the generic layout of the site including media queries*/
 
@@ -379,10 +197,7 @@ body {
     padding-left: 4%;
   }
 
-  #card-flex-container{
-
-    visibility: hidden;
-  
+  .card-container{
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
@@ -395,25 +210,35 @@ body {
     margin-left: auto;
     margin-right: auto;
   
-  
-  
     width: 60%;
     height: 85%;
   
     z-index: 2;
-    border: 1px solid red;
   }
 
-  #card-flex-container > div{
+  .card-container > div {
     margin: 3%;
     margin-left: 5%;
   }
 
-  .session-card{
+  .card {
     height: 20%; 
     width: 90%;
-    background-color: powderblue;
   }
 
-}
+  .card-sub-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    padding: 0 2vmin;
+  }
 
+  .card-headline{
+    align-self: center;
+  }
+
+  .card-subtext{
+    display: none;
+  }
+}

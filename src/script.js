@@ -13,10 +13,10 @@ button.addEventListener('click', function(){
     button.parentElement.removeChild(button);
 
     //create overlay on button click
-    document.getElementById("overlay").style.display = "block";
+    document.getElementById("overlay").style.display = "flex";
 
-    //unhide card flex container
-    document.getElementById("card-flex-container").style.visibility = "visible";
+    // //unhide card flex container
+    // document.getElementById("card-flex-container").style.visibility = "visible";
 
     
     });

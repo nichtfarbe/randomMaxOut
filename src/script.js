@@ -15,6 +15,9 @@ button.addEventListener('click', function(){
     //create overlay on button click
     document.getElementById("overlay").style.display = "block";
 
+    //unhide card flex container
+    document.getElementById("card-flex-container").style.visibility = "visible";
+
     
     });
 }

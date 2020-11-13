@@ -76,6 +76,7 @@ body {
 }
 
 .card-subtext {
+  width: 100%;
   font-size: 14px;
 }
 

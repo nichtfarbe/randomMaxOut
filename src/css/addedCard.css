@@ -1,0 +1,96 @@
+.added-card {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+
+  width: 80%;
+  height: 70%;
+  align-self: center;
+
+  background-color: lightblue;
+  border: 0.5px solid black;
+  border-width: thin;
+}
+
+.added-card-color {
+  background-color: black;
+  height: 70%;
+}
+
+#added-snatch-card {
+  background-color: rgb(86, 204, 242);
+}
+
+.added-card-subcontainer {
+  padding-left: 1vmin;
+  padding-right: 0.5vmin;
+  height: 30%;
+
+  background-color: rgb(245, 245, 245);
+
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+.added-card-headline {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.added-card-subtext {
+  font-size: 13px;
+  align-self: flex-end;
+}
+
+.delete {
+  align-self: end;
+
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: bold;
+  color: rgb(98, 2, 238);
+
+  background-color: transparent;
+  border: transparent;
+
+  padding: 0%;
+
+  cursor: pointer;
+}
+
+@media only screen and (max-width: 600px) {
+  .added-card {
+    width: 75%;
+    height: 80%;
+
+    display: flex;
+    flex-direction: row-reverse;
+    flex-wrap: wrap;
+  }
+
+  .added-card-color {
+    width: 60%;
+  }
+
+  .added-card-subcontainer {
+    width: 40%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .added-card-headline {
+    font-size: 14px;
+  }
+
+  .added-card-subtext {
+    display: none;
+  }
+
+  .delete {
+    font-size: 12px;
+    align-self: center;
+  }
+}

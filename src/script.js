@@ -1,8 +1,4 @@
 function init() {
-  const overlay = document.getElementById('overlay');
-  const cardContainer = document.querySelector('.card-container');
-  const calendar = document.querySelector('.calendar');
-
   const DAYS = {
     1: 'MO',
     2: 'DI',
@@ -60,6 +56,7 @@ function init() {
     <div class="weekday" id="${DAYS[day]}">
       <p class="day-string">${DAYS[day]}</p>
     </div>`;
+    const calendar = document.querySelector('.calendar');
     calendar.insertAdjacentHTML('beforeend', weekday);
   }
 
@@ -110,6 +107,7 @@ function init() {
   );
 
   // escape through overlay, normalize pointer and re-insert the add button
+  const overlay = document.getElementById('overlay');
   overlay.addEventListener('click', () => {
     overlay.style.display = 'none';
     overlay.style.cursor = 'default';
@@ -117,6 +115,7 @@ function init() {
   });
 
   //prevent blur on click on actual modal
+  const cardContainer = document.querySelector('.card-container');
   cardContainer.addEventListener('click', (event) => {
     event.stopPropagation();
   });

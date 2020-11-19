@@ -1,9 +1,24 @@
 function init() {
   const SESSIONS = {
-    1: 'Reißen',
-    2: 'Umsetzen + Stoßen',
-    3: 'Accessories',
-    4: 'Restday',
+    snatch: {
+      title: 'Reißen',
+      text: `Klicke hier, um eine Einheit mit Schwerpunkt
+              <strong>Reißen</strong> hinzuzufügen.`,
+    },
+    clean: {
+      title: 'Umsetzen + Stoßen',
+      text: `Klicke hier, um eine Einheit mit dem Schwerpunkt
+              <strong>Umsetzen + Stoßen</strong> hinzuzufügen.`,
+    },
+    accessorie: {
+      title: 'Accessories',
+      text: `Klicke hier, um eine Einheit mit dem Schwerpunkt
+              <strong>Accessories</strong> hinzuzufügen.`,
+    },
+    restday: {
+      title: 'Restday',
+      text: `Klicke hier, um einen <strong>Restday</strong> hinzuzufügen.`,
+    },
   };
 
   const ADD_SESSION_BUTTON_LABEL = '+Einheit';
@@ -11,31 +26,31 @@ function init() {
   const weekdays = [
     {
       day: 'MO',
-      session: 1,
+      session: 'snatch',
     },
     {
       day: 'DI',
-      session: 2,
+      session: 'clean',
     },
     {
       day: 'MI',
-      session: 3,
+      session: 'accessorie',
     },
     {
       day: 'DO',
-      session: 0,
+      session: '',
     },
     {
       day: 'FR',
-      session: 3,
+      session: 'accessorie',
     },
     {
       day: 'SA',
-      session: 0,
+      session: '',
     },
     {
       day: 'SO',
-      session: 4,
+      session: 'restday',
     },
   ];
 
@@ -51,16 +66,16 @@ function init() {
     calendar.insertAdjacentHTML('beforeend', weekday);
   }
 
-  // render session cards
-  weekdays.forEach(renderSessionCard);
-  function renderSessionCard({ day, session }) {
+  // render added session cards
+  weekdays.forEach(renderAddedSessionCard);
+  function renderAddedSessionCard({ day, session }) {
     if (session) {
-      const sessionText = SESSIONS[session];
+      const sessionTitle = SESSIONS[session].title;
       const sessionCard = ` 
         <div class="added-card">
-          <div class="added-card-color" id="added-snatch-card"></div>
+          <div class="added-card-color" id="${session}-card"></div>
           <div class="added-card-subcontainer">
-            <div class="added-card-headline">${sessionText}</div>
+            <div class="added-card-headline">${sessionTitle}</div>
             <div class="added-card-subtext">
               Klick hier, um die Session zu bearbeiten.
             </div>
@@ -108,4 +123,20 @@ function init() {
   cardContainer.addEventListener('click', (event) => {
     event.stopPropagation();
   });
+
+  // render overlay session cards
+  Object.keys(SESSIONS).forEach(renderOverlaySessionCards);
+  function renderOverlaySessionCards(sessionCardKey) {
+    const overlayCard = `
+        <div class="card">
+          <div class="card-color" id="${sessionCardKey}-card"></div>
+          <div class="card-sub-container">
+            <div class="card-headline">${SESSIONS[sessionCardKey].title}</div>
+            <div class="card-subtext">${SESSIONS[sessionCardKey].text}</div>
+            <button class="add">Hinzufügen</button>
+          </div>
+        </div>
+    `;
+    cardContainer.insertAdjacentHTML('beforeend', overlayCard);
+  }
 }

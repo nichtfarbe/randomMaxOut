@@ -129,7 +129,7 @@ button.add {
   filter: grayscale(70%);
 }
 
-.calender {
+.calendar {
   font-size: 2rem;
   display: grid;
   grid-template-columns: repeat(7, 1fr);
@@ -147,7 +147,7 @@ button.add {
   align-self: center;
 }
 
-#add-mo-session {
+button.add-session {
   font-family: 'Roboto';
   font-size: 20px;
 
@@ -167,6 +167,7 @@ button.add {
   padding-bottom: 5%;
   padding-right: 10%;
   padding-left: 8%;
+  cursor: pointer;
 }
 
 #add-mo-session:hover,

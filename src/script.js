@@ -1,14 +1,4 @@
 function init() {
-  const DAYS = {
-    1: 'MO',
-    2: 'DI',
-    3: 'MI',
-    4: 'DO',
-    5: 'FR',
-    6: 'SA',
-    7: 'SO',
-  };
-
   const SESSIONS = {
     1: 'Reißen',
     2: 'Umsetzen + Stoßen',
@@ -20,31 +10,31 @@ function init() {
 
   const weekdays = [
     {
-      day: 1,
+      day: 'MO',
       session: 1,
     },
     {
-      day: 2,
+      day: 'DI',
       session: 2,
     },
     {
-      day: 3,
+      day: 'MI',
       session: 3,
     },
     {
-      day: 4,
-      session: 3,
-    },
-    {
-      day: 5,
-      session: 3,
-    },
-    {
-      day: 6,
+      day: 'DO',
       session: 0,
     },
     {
-      day: 7,
+      day: 'FR',
+      session: 3,
+    },
+    {
+      day: 'SA',
+      session: 0,
+    },
+    {
+      day: 'SO',
       session: 4,
     },
   ];
@@ -53,9 +43,10 @@ function init() {
   weekdays.forEach(renderWeekday);
   function renderWeekday({ day }) {
     const weekday = `
-    <div class="weekday" id="${DAYS[day]}">
-      <p class="day-string">${DAYS[day]}</p>
-    </div>`;
+      <div class="weekday" id="${day}">
+        <p class="day-string">${day}</p>
+      </div>
+    `;
     const calendar = document.querySelector('.calendar');
     calendar.insertAdjacentHTML('beforeend', weekday);
   }
@@ -63,22 +54,21 @@ function init() {
   // render session cards
   weekdays.forEach(renderSessionCard);
   function renderSessionCard({ day, session }) {
-    const dayText = DAYS[day];
-    const sessionText = SESSIONS[session];
-    const sessionCard = ` 
-    <div class="added-card">
-      <div class="added-card-color" id="added-snatch-card"></div>
-      <div class="added-card-subcontainer">
-        <div class="added-card-headline">${sessionText}</div>
-        <div class="added-card-subtext">
-          Klick hier, um die Session zu bearbeiten.
+    if (session) {
+      const sessionText = SESSIONS[session];
+      const sessionCard = ` 
+        <div class="added-card">
+          <div class="added-card-color" id="added-snatch-card"></div>
+          <div class="added-card-subcontainer">
+            <div class="added-card-headline">${sessionText}</div>
+            <div class="added-card-subtext">
+              Klick hier, um die Session zu bearbeiten.
+            </div>
+            <button class="delete">Löschen</button>
+          </div>
         </div>
-        <button class="delete">Löschen</button>
-      </div>
-    </div>
-    `;
-    const weekday = document.getElementById(`${dayText}`);
-    if (session !== 0) {
+      `;
+      const weekday = document.getElementById(`${day}`);
       weekday.insertAdjacentHTML('beforeend', sessionCard);
     }
   }
@@ -86,10 +76,9 @@ function init() {
   // render add session buttons
   weekdays.forEach(renderAddSessionButton);
   function renderAddSessionButton({ day, session }) {
-    const dayText = DAYS[day];
-    const addButton = `<button class="add-session">${ADD_SESSION_BUTTON_LABEL}</button>`;
-    const weekday = document.getElementById(`${dayText}`);
-    if (session === 0) {
+    if (!session) {
+      const addButton = `<button class="add-session">${ADD_SESSION_BUTTON_LABEL}</button>`;
+      const weekday = document.getElementById(`${day}`);
       weekday.insertAdjacentHTML('beforeend', addButton);
     }
   }

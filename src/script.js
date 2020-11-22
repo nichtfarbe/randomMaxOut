@@ -3,22 +3,22 @@ function init() {
     snatch: {
       title: 'Reißen',
       text: `Klicke hier, um eine Einheit mit Schwerpunkt
-              <strong>Reißen</strong> hinzuzufügen.`,
+              <strong>Reißen</strong> hinzuzufügen.`
     },
     clean: {
       title: 'Umsetzen + Stoßen',
       text: `Klicke hier, um eine Einheit mit dem Schwerpunkt
-              <strong>Umsetzen + Stoßen</strong> hinzuzufügen.`,
+              <strong>Umsetzen + Stoßen</strong> hinzuzufügen.`
     },
     accessorie: {
       title: 'Accessories',
       text: `Klicke hier, um eine Einheit mit dem Schwerpunkt
-              <strong>Accessories</strong> hinzuzufügen.`,
+              <strong>Accessories</strong> hinzuzufügen.`
     },
     restday: {
       title: 'Restday',
-      text: `Klicke hier, um einen <strong>Restday</strong> hinzuzufügen.`,
-    },
+      text: `Klicke hier, um einen <strong>Restday</strong> hinzuzufügen.`
+    }
   };
 
   const ADD_SESSION_BUTTON_LABEL = '+Einheit';
@@ -26,35 +26,36 @@ function init() {
   const weekdays = [
     {
       day: 'MO',
-      session: 'snatch',
+      session: 'snatch'
     },
     {
       day: 'DI',
-      session: 'clean',
+      session: 'clean'
     },
     {
       day: 'MI',
-      session: 'accessorie',
+      session: ''
     },
     {
       day: 'DO',
-      session: '',
+      session: ''
     },
     {
       day: 'FR',
-      session: 'accessorie',
+      session: 'restday'
     },
     {
       day: 'SA',
-      session: '',
+      session: ''
     },
     {
       day: 'SO',
-      session: 'restday',
-    },
+      session: ''
+    }
   ];
 
   // render weekdays
+
   weekdays.forEach(renderWeekday);
   function renderWeekday({ day }) {
     const weekday = `
@@ -83,15 +84,9 @@ function init() {
           </div>
         </div>
       `;
-      const weekday = document.getElementById(`${day}`);
+      const weekday = document.getElementById(day);
       weekday.insertAdjacentHTML('beforeend', sessionCard);
-    }
-  }
-
-  // render add session buttons
-  weekdays.forEach(renderAddSessionButton);
-  function renderAddSessionButton({ day, session }) {
-    if (!session) {
+    } else {
       const addButton = `<button class="add-session">${ADD_SESSION_BUTTON_LABEL}</button>`;
       const weekday = document.getElementById(`${day}`);
       weekday.insertAdjacentHTML('beforeend', addButton);

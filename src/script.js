@@ -1,73 +1,142 @@
 function init() {
-  const button = document.getElementById('add-mo-session');
-  const overlay = document.getElementById('overlay');
-  const cardContainer = document.querySelector('.card-container');
-  const weekday = document.querySelector('.weekday');
-  const monday = document.getElementById('monday');
-  const tuesday = document.getElementById('tuesday');
-  const wednesday = document.getElementById('wednesday');
-  const thursday = document.getElementById('thursday');
-  const friday = document.getElementById('friday');
-  const saturday = document.getElementById('saturday');
-  const sunday = document.getElementById('sunday');
-  const week = [
+  const SESSIONS = {
+    snatch: {
+      title: 'Reißen',
+      text: `Klicke hier, um eine Einheit mit Schwerpunkt
+              <strong>Reißen</strong> hinzuzufügen.`,
+    },
+    clean: {
+      title: 'Umsetzen + Stoßen',
+      text: `Klicke hier, um eine Einheit mit dem Schwerpunkt
+              <strong>Umsetzen + Stoßen</strong> hinzuzufügen.`,
+    },
+    accessorie: {
+      title: 'Accessories',
+      text: `Klicke hier, um eine Einheit mit dem Schwerpunkt
+              <strong>Accessories</strong> hinzuzufügen.`,
+    },
+    restday: {
+      title: 'Restday',
+      text: `Klicke hier, um einen <strong>Restday</strong> hinzuzufügen.`,
+    },
+  };
+
+  const ADD_SESSION_BUTTON_LABEL = '+Einheit';
+
+  const weekdays = [
     {
-      monday: 2
+      day: 'MO',
+      session: 'snatch',
     },
     {
-      tuesday: 1
+      day: 'DI',
+      session: 'clean',
     },
     {
-      wednesday: 4
+      day: 'MI',
+      session: 'accessorie',
     },
     {
-      thursday: 2
+      day: 'DO',
+      session: '',
     },
     {
-      friday: 3
+      day: 'FR',
+      session: 'accessorie',
     },
     {
-      saturday: 1
+      day: 'SA',
+      session: '',
     },
     {
-      sunday: 4
-    }
+      day: 'SO',
+      session: 'restday',
+    },
   ];
-  week.forEach(renderWeekday);
 
-  function renderWeekday() {
-    const addedCard = ` 
-    <div class="added-card">
-      <div class="added-card-color" id="added-snatch-card"></div>
-      <div class="added-card-subcontainer">
-        <div class="added-card-headline">Reißen</div>
-        <div class="added-card-subtext">
-          Klick hier, um die Session zu bearbeiten.
-        </div>
-        <button class="delete">Löschen</button>
+  // render weekdays
+  weekdays.forEach(renderWeekday);
+  function renderWeekday({ day }) {
+    const weekday = `
+      <div class="weekday" id="${day}">
+        <p class="day-string">${day}</p>
       </div>
-    </div>
     `;
-    weekday.insertAdjacentHTML('beforeend', addedCard);
+    const calendar = document.querySelector('.calendar');
+    calendar.insertAdjacentHTML('beforeend', weekday);
   }
-  button.addEventListener('click', () => {
-    // button should not be displayed in overlay mode, just plain site below the overlay
-    button.style.display = 'none';
 
-    // create overlay on button click
-    overlay.style.display = 'flex';
-    overlay.style.cursor = 'pointer';
-  });
+  // render added session cards
+  weekdays.forEach(renderAddedSessionCard);
+  function renderAddedSessionCard({ day, session }) {
+    if (session) {
+      const sessionTitle = SESSIONS[session].title;
+      const sessionCard = ` 
+        <div class="added-card">
+          <div class="added-card-color" id="${session}-card"></div>
+          <div class="added-card-subcontainer">
+            <div class="added-card-headline">${sessionTitle}</div>
+            <div class="added-card-subtext">
+              Klick hier, um die Session zu bearbeiten.
+            </div>
+            <button class="delete">Löschen</button>
+          </div>
+        </div>
+      `;
+      const weekday = document.getElementById(`${day}`);
+      weekday.insertAdjacentHTML('beforeend', sessionCard);
+    }
+  }
+
+  // render add session buttons
+  weekdays.forEach(renderAddSessionButton);
+  function renderAddSessionButton({ day, session }) {
+    if (!session) {
+      const addButton = `<button class="add-session">${ADD_SESSION_BUTTON_LABEL}</button>`;
+      const weekday = document.getElementById(`${day}`);
+      weekday.insertAdjacentHTML('beforeend', addButton);
+    }
+  }
+
+  // add event listeners to add session buttons
+  const addButtons = document.querySelectorAll('button.add-session');
+  addButtons.forEach((button) =>
+    button.addEventListener('click', () => {
+      // button should not be displayed in overlay mode, just plain site below the overlay
+      button.style.display = 'none';
+      // create overlay on button click
+      overlay.style.display = 'flex';
+      overlay.style.cursor = 'pointer';
+    })
+  );
 
   // escape through overlay, normalize pointer and re-insert the add button
+  const overlay = document.getElementById('overlay');
   overlay.addEventListener('click', () => {
     overlay.style.display = 'none';
     overlay.style.cursor = 'default';
-    button.style.display = 'block';
+    addButtons.forEach((button) => (button.style.display = 'block'));
   });
 
   //prevent blur on click on actual modal
+  const cardContainer = document.querySelector('.card-container');
   cardContainer.addEventListener('click', (event) => {
     event.stopPropagation();
   });
+
+  // render overlay session cards
+  Object.keys(SESSIONS).forEach(renderOverlaySessionCards);
+  function renderOverlaySessionCards(sessionCardKey) {
+    const overlayCard = `
+        <div class="card">
+          <div class="card-color" id="${sessionCardKey}-card"></div>
+          <div class="card-sub-container">
+            <div class="card-headline">${SESSIONS[sessionCardKey].title}</div>
+            <div class="card-subtext">${SESSIONS[sessionCardKey].text}</div>
+            <button class="add">Hinzufügen</button>
+          </div>
+        </div>
+    `;
+    cardContainer.insertAdjacentHTML('beforeend', overlayCard);
+  }
 }

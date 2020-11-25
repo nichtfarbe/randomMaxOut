@@ -68,6 +68,9 @@ function init() {
   }
 
   // render added session cards
+
+  const ADDED_SESSION_CARD_LABEL = 'Klick hier, um die Session zu bearbeiten.';
+  const DELETE_SESSION_BUTTON_LABEL = 'Löschen';
   weekdays.forEach(renderAddedSessionCard);
   function renderAddedSessionCard({ day, session }) {
     if (session) {
@@ -78,9 +81,9 @@ function init() {
           <div class="added-card-subcontainer">
             <div class="added-card-headline">${sessionTitle}</div>
             <div class="added-card-subtext">
-              Klick hier, um die Session zu bearbeiten.
+            ${ADDED_SESSION_CARD_LABEL}
             </div>
-            <button class="delete">Löschen</button>
+            <button class="delete">${DELETE_SESSION_BUTTON_LABEL}</button>
           </div>
         </div>
       `;
@@ -93,15 +96,37 @@ function init() {
     }
   }
 
-  // add event listeners to add session buttons
-  const addButtons = document.querySelectorAll('button.add-session');
-  addButtons.forEach((button) =>
+  //why do you do this??
+  const addEventListenerToAddButton = (button) => {
+    console.log('Wir sind close.');
+    console.log(button);
     button.addEventListener('click', () => {
       // button should not be displayed in overlay mode, just plain site below the overlay
       button.style.display = 'none';
       // create overlay on button click
       overlay.style.display = 'flex';
       overlay.style.cursor = 'pointer';
+    });
+  };
+
+  //add event listeners to add session buttons
+  const addButtons = document.querySelectorAll('button.add-session');
+  addButtons.forEach(addEventListenerToAddButton);
+
+  //functionality for delete button
+  //HOW DO I ADD THE EVENTLISTENER HERE???
+  const deleteButtons = document.querySelectorAll('button.delete');
+  deleteButtons.forEach((deleteButton) =>
+    deleteButton.addEventListener('click', () => {
+      const deletableCard = deleteButton.parentNode.parentNode;
+      const weekday = deletableCard.parentNode;
+      deletableCard.remove();
+      const addButton = document.createElement('button');
+      addButton.innerText = ADD_SESSION_BUTTON_LABEL;
+      addButton.classList.add('add-session');
+      weekday.appendChild(addButton);
+      console.log(addButton);
+      addEventListenerToAddButton(addButton);
     })
   );
 
@@ -110,6 +135,7 @@ function init() {
   overlay.addEventListener('click', () => {
     overlay.style.display = 'none';
     overlay.style.cursor = 'default';
+    const addButtons = document.querySelectorAll('button.add-session');
     addButtons.forEach((button) => (button.style.display = 'block'));
   });
 

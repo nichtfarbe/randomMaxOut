@@ -163,13 +163,13 @@ button.add-session {
   cursor: pointer;
 }
 
-#add-mo-session:hover,
-#add-mo-session:focus {
+button.add-session:hover,
+button.add-session:focus {
   background-color: rgb(47, 79, 79);
   cursor: pointer;
 }
 
-#add-mo-session:active {
+button.add-session:active {
   background-color: black;
   transform: translateY(4px);
 }
@@ -181,7 +181,7 @@ button.add-session {
     grid-template-columns: auto;
   }
 
-  #add-mo-session {
+  #add-session {
     padding-top: 2%;
     padding-bottom: 2%;
     padding-right: 5%;

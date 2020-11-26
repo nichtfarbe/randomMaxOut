@@ -96,10 +96,7 @@ function init() {
     }
   }
 
-  //why do you do this??
   const addEventListenerToAddButton = (button) => {
-    console.log('Wir sind close.');
-    console.log(button);
     button.addEventListener('click', () => {
       // button should not be displayed in overlay mode, just plain site below the overlay
       button.style.display = 'none';
@@ -114,18 +111,30 @@ function init() {
   addButtons.forEach(addEventListenerToAddButton);
 
   //functionality for delete button
-  //HOW DO I ADD THE EVENTLISTENER HERE???
   const deleteButtons = document.querySelectorAll('button.delete');
   deleteButtons.forEach((deleteButton) =>
     deleteButton.addEventListener('click', () => {
+      //find surrounding div of delete button in order to remove it from the DOM
       const deletableCard = deleteButton.parentNode.parentNode;
       const weekday = deletableCard.parentNode;
       deletableCard.remove();
+
+      //find index of affected weekday in weekday array, manipulate the session string to ''
+      const weekdayID = weekday.id;
+      console.log(weekdayID);
+
+      weekdays.forEach((weekday) => {
+        if (weekday.day == weekdayID) {
+          weekday.session = '';
+          console.log(weekdays);
+        }
+      });
+
+      //re-create the add session button and make sure it gets an eventlistener assignes
       const addButton = document.createElement('button');
       addButton.innerText = ADD_SESSION_BUTTON_LABEL;
       addButton.classList.add('add-session');
       weekday.appendChild(addButton);
-      console.log(addButton);
       addEventListenerToAddButton(addButton);
     })
   );
@@ -146,6 +155,8 @@ function init() {
   });
 
   // render overlay session cards
+
+  const ADD_BUTTON_LABEL = 'Hinzufügen';
   Object.keys(SESSIONS).forEach(renderOverlaySessionCards);
   function renderOverlaySessionCards(sessionCardKey) {
     const overlayCard = `
@@ -154,10 +165,14 @@ function init() {
           <div class="card-sub-container">
             <div class="card-headline">${SESSIONS[sessionCardKey].title}</div>
             <div class="card-subtext">${SESSIONS[sessionCardKey].text}</div>
-            <button class="add">Hinzufügen</button>
+            <button class="add">${ADD_BUTTON_LABEL}</button>
           </div>
         </div>
     `;
     cardContainer.insertAdjacentHTML('beforeend', overlayCard);
   }
+
+  //add functionalitie to add button in overlay
+  const addButtonsFromOverlay = document.querySelectorAll('button.add');
+  console.log(addButtonsFromOverlay);
 }

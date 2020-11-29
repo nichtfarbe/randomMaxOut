@@ -54,6 +54,65 @@ function init() {
     }
   ];
 
+  // render weekdays
+
+  weekdays.forEach(renderWeekday);
+  function renderWeekday({ day }) {
+    const weekday = `
+      <div class="weekday" id="${day}">
+        <p class="day-string">${day}</p>
+      </div>
+    `;
+    const calendar = document.querySelector('.calendar');
+    calendar.insertAdjacentHTML('beforeend', weekday);
+  }
+
+  // render added session cards
+
+  const ADDED_SESSION_CARD_LABEL = 'Klick hier, um die Session zu bearbeiten.';
+  const DELETE_SESSION_BUTTON_LABEL = 'Löschen';
+  weekdays.forEach(renderAddedSessionCard);
+  function renderAddedSessionCard({ day, session }) {
+    if (session) {
+      const sessionTitle = SESSIONS[session].title;
+      const sessionCard = ` 
+        <div class="added-card">
+          <div class="added-card-color" id="${session}-card"></div>
+          <div class="added-card-subcontainer">
+            <div class="added-card-headline">${sessionTitle}</div>
+            <div class="added-card-subtext">
+            ${ADDED_SESSION_CARD_LABEL}
+            </div>
+            <button class="delete">${DELETE_SESSION_BUTTON_LABEL}</button>
+          </div>
+        </div>
+      `;
+      const weekday = document.getElementById(day);
+      weekday.insertAdjacentHTML('beforeend', sessionCard);
+      const deleteButton = weekday.getElementsByClassName('delete');
+      console.log(deleteButton[0]);
+    } else {
+      const addButton = `<button class="add-session">${ADD_SESSION_BUTTON_LABEL}</button>`;
+      const weekday = document.getElementById(`${day}`);
+      weekday.insertAdjacentHTML('beforeend', addButton);
+    }
+  }
+
+  let clickedWeekdayID = null;
+  const addEventListenerToAddButton = (button) => {
+    button.addEventListener('click', (event) => {
+      // create overlay on button click
+      overlay.style.display = 'flex';
+      overlay.style.cursor = 'pointer';
+      //retrieve the weekday
+      clickedWeekdayID = event.target.parentNode.id;
+    });
+  };
+
+  //add event listeners to add session buttons
+  const addButtons = document.querySelectorAll('button.add-session');
+  addButtons.forEach(addEventListenerToAddButton);
+
   function addDeleteSessionCardLogic(deleteButton) {
     //find surrounding div of delete button in order to remove it from the DOM
     const deletableCard = deleteButton.parentNode.parentNode;
@@ -76,64 +135,6 @@ function init() {
     weekday.appendChild(addButton);
     addEventListenerToAddButton(addButton);
   }
-
-  // render weekdays
-
-  weekdays.forEach(renderWeekday);
-  function renderWeekday({ day }) {
-    const weekday = `
-      <div class="weekday" id="${day}">
-        <p class="day-string">${day}</p>
-      </div>
-    `;
-    const calendar = document.querySelector('.calendar');
-    calendar.insertAdjacentHTML('beforeend', weekday);
-  }
-
-  // render added session cards
-  const ADDED_SESSION_CARD_LABEL = 'Klick hier, um die Session zu bearbeiten.';
-  const DELETE_SESSION_BUTTON_LABEL = 'Löschen';
-  weekdays.forEach(renderAddedSessionCard);
-  function renderAddedSessionCard({ day, session }) {
-    if (session) {
-      const sessionTitle = SESSIONS[session].title;
-      const sessionCard = ` 
-        <div class="added-card">
-          <div class="added-card-color" id="${session}-card"></div>
-          <div class="added-card-subcontainer">
-            <div class="added-card-headline">${sessionTitle}</div>
-            <div class="added-card-subtext">
-            ${ADDED_SESSION_CARD_LABEL}
-            </div>
-            <button class="delete">${DELETE_SESSION_BUTTON_LABEL}</button>
-          </div>
-        </div>
-      `;
-      const weekday = document.getElementById(day);
-      weekday.insertAdjacentHTML('beforeend', sessionCard);
-      const deleteButton = weekday.getElementsByClassName('delete')[0];
-      addDeleteSessionCardLogic(deleteButton);
-    } else {
-      const addButton = `<button class="add-session">${ADD_SESSION_BUTTON_LABEL}</button>`;
-      const weekday = document.getElementById(`${day}`);
-      weekday.insertAdjacentHTML('beforeend', addButton);
-    }
-  }
-
-  let clickedWeekdayID = null;
-  const addEventListenerToAddButton = (button) => {
-    button.addEventListener('click', (event) => {
-      // create overlay on button click
-      overlay.style.display = 'flex';
-      overlay.style.cursor = 'pointer';
-      //retrieve the weekday
-      clickedWeekdayID = event.target.parentNode.id;
-    });
-  };
-
-  //add event listeners to add session buttons
-  const addButtons = document.querySelectorAll('button.add-session');
-  addButtons.forEach(addEventListenerToAddButton);
 
   //functionality for delete button
   const deleteButtons = document.querySelectorAll('button.delete');

@@ -54,6 +54,29 @@ function init() {
     }
   ];
 
+  function addDeleteSessionCardLogic(deleteButton) {
+    //find surrounding div of delete button in order to remove it from the DOM
+    const deletableCard = deleteButton.parentNode.parentNode;
+    const weekday = deletableCard.parentNode;
+    deletableCard.remove();
+
+    //find index of affected weekday in weekday array, manipulate the session string to ''
+    const weekdayID = weekday.id;
+
+    weekdays.map((weekday) => {
+      if (weekday.day === weekdayID) {
+        weekday.session = '';
+      }
+    });
+
+    //re-create the add session button and make sure it gets an eventlistener assignes
+    const addButton = document.createElement('button');
+    addButton.innerText = ADD_SESSION_BUTTON_LABEL;
+    addButton.classList.add('add-session');
+    weekday.appendChild(addButton);
+    addEventListenerToAddButton(addButton);
+  }
+
   // render weekdays
 
   weekdays.forEach(renderWeekday);
@@ -68,7 +91,6 @@ function init() {
   }
 
   // render added session cards
-
   const ADDED_SESSION_CARD_LABEL = 'Klick hier, um die Session zu bearbeiten.';
   const DELETE_SESSION_BUTTON_LABEL = 'Löschen';
   weekdays.forEach(renderAddedSessionCard);
@@ -89,6 +111,8 @@ function init() {
       `;
       const weekday = document.getElementById(day);
       weekday.insertAdjacentHTML('beforeend', sessionCard);
+      const deleteButton = weekday.getElementsByClassName('delete')[0];
+      addDeleteSessionCardLogic(deleteButton);
     } else {
       const addButton = `<button class="add-session">${ADD_SESSION_BUTTON_LABEL}</button>`;
       const weekday = document.getElementById(`${day}`);
@@ -96,13 +120,14 @@ function init() {
     }
   }
 
+  let clickedWeekdayID = null;
   const addEventListenerToAddButton = (button) => {
-    button.addEventListener('click', () => {
-      // button should not be displayed in overlay mode, just plain site below the overlay
-      button.style.display = 'none';
+    button.addEventListener('click', (event) => {
       // create overlay on button click
       overlay.style.display = 'flex';
       overlay.style.cursor = 'pointer';
+      //retrieve the weekday
+      clickedWeekdayID = event.target.parentNode.id;
     });
   };
 
@@ -112,41 +137,21 @@ function init() {
 
   //functionality for delete button
   const deleteButtons = document.querySelectorAll('button.delete');
-  deleteButtons.forEach((deleteButton) =>
-    deleteButton.addEventListener('click', () => {
-      //find surrounding div of delete button in order to remove it from the DOM
-      const deletableCard = deleteButton.parentNode.parentNode;
-      const weekday = deletableCard.parentNode;
-      deletableCard.remove();
-
-      //find index of affected weekday in weekday array, manipulate the session string to ''
-      const weekdayID = weekday.id;
-      console.log(weekdayID);
-
-      weekdays.forEach((weekday) => {
-        if (weekday.day == weekdayID) {
-          weekday.session = '';
-          console.log(weekdays);
-        }
-      });
-
-      //re-create the add session button and make sure it gets an eventlistener assignes
-      const addButton = document.createElement('button');
-      addButton.innerText = ADD_SESSION_BUTTON_LABEL;
-      addButton.classList.add('add-session');
-      weekday.appendChild(addButton);
-      addEventListenerToAddButton(addButton);
-    })
-  );
+  deleteButtons.forEach((deleteButton) => {
+    deleteButton.addEventListener('click', () =>
+      addDeleteSessionCardLogic(deleteButton)
+    );
+  });
 
   // escape through overlay, normalize pointer and re-insert the add button
   const overlay = document.getElementById('overlay');
-  overlay.addEventListener('click', () => {
+
+  function blurOverlay() {
     overlay.style.display = 'none';
     overlay.style.cursor = 'default';
-    const addButtons = document.querySelectorAll('button.add-session');
-    addButtons.forEach((button) => (button.style.display = 'block'));
-  });
+  }
+
+  overlay.addEventListener('click', blurOverlay);
 
   //prevent blur on click on actual modal
   const cardContainer = document.querySelector('.card-container');
@@ -173,6 +178,36 @@ function init() {
   }
 
   //add functionalitie to add button in overlay
-  const addButtonsFromOverlay = document.querySelectorAll('button.add');
-  console.log(addButtonsFromOverlay);
+  const addButtonsFromOverlay = Array.from(
+    document.querySelectorAll('button.add')
+  );
+  addButtonsFromOverlay.forEach((addButtonFromOverlay) =>
+    addButtonFromOverlay.addEventListener('click', () => {
+      blurOverlay();
+      //TODO: manipulate weekdays array
+      //find button that has caused the overlay and find surronding weekday of that button
+      // --> done: clickedWeekdayID can be used here
+
+      //find id of the selected card
+      const selectedCard = addButtonFromOverlay.parentNode.parentNode;
+      const selectedCardID = selectedCard.firstElementChild.id;
+
+      const addSessionButton = document.querySelector(
+        `#${clickedWeekdayID} > button.add-session`
+      );
+      console.log(addSessionButton);
+      addSessionButton.remove();
+
+      //create session names for the weekdays array
+      let selectedSessionName = selectedCardID.split('-')[0];
+
+      //manipluate session property weekdays array
+      weekdays.forEach((weekday) => {
+        if (weekday.day === clickedWeekdayID) {
+          weekday.session = selectedSessionName;
+          renderAddedSessionCard(weekday);
+        }
+      });
+    })
+  );
 }

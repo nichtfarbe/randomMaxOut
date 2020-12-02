@@ -18,8 +18,19 @@ function init() {
     addButton.innerText = ADD_SESSION_BUTTON_LABEL;
     addButton.classList.add('add-session');
     weekday.appendChild(addButton);
-    addEventListenerToAddButton(addButton);
+    addAddSessionCardLogic(addButton);
   }
+
+  let clickedWeekdayID = null;
+  const addAddSessionCardLogic = (button) => {
+    button.addEventListener('click', (event) => {
+      // create overlay on button click
+      overlay.style.display = 'flex';
+      overlay.style.cursor = 'pointer';
+      //retrieve the weekday
+      clickedWeekdayID = event.target.parentNode.id;
+    });
+  };
 
   // render weekdays
   weekdays.forEach(renderWeekday);
@@ -57,26 +68,15 @@ function init() {
         addDeleteSessionCardLogic(deleteButton)
       );
     } else {
-      const addButton = `<button class="add-session">${ADD_SESSION_BUTTON_LABEL}</button>`;
+      const addSessionButton = `<button class="add-session">${ADD_SESSION_BUTTON_LABEL}</button>`;
       const weekday = document.getElementById(`${day}`);
-      weekday.insertAdjacentHTML('beforeend', addButton);
+      weekday.insertAdjacentHTML('beforeend', addSessionButton);
+      const addSessionButtonElement = weekday.getElementsByClassName(
+        'add-session'
+      )[0];
+      addAddSessionCardLogic(addSessionButtonElement);
     }
   }
-
-  let clickedWeekdayID = null;
-  const addEventListenerToAddButton = (button) => {
-    button.addEventListener('click', (event) => {
-      // create overlay on button click
-      overlay.style.display = 'flex';
-      overlay.style.cursor = 'pointer';
-      //retrieve the weekday
-      clickedWeekdayID = event.target.parentNode.id;
-    });
-  };
-
-  //add event listeners to add session buttons
-  const addButtons = document.querySelectorAll('button.add-session');
-  addButtons.forEach(addEventListenerToAddButton);
 
   // escape through overlay, normalize pointer and re-insert the add button
   const overlay = document.getElementById('overlay');

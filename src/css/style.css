@@ -48,6 +48,7 @@ body {
 .card {
   display: flex;
   flex-direction: column;
+  cursor: default;
 }
 
 .card-color {

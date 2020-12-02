@@ -1,4 +1,4 @@
-const weekdays = [
+export const weekdays = [
   {
     day: 'MO',
     session: 'snatch'

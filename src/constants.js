@@ -1,9 +1,10 @@
-const ADD_SESSION_BUTTON_LABEL = '+Einheit';
-const ADDED_SESSION_CARD_LABEL = 'Klick hier, um die Session zu bearbeiten.';
-const DELETE_SESSION_BUTTON_LABEL = 'Löschen';
-const ADD_BUTTON_LABEL = 'Hinzufügen';
+export const ADD_SESSION_BUTTON_LABEL = '+Einheit';
+export const ADDED_SESSION_CARD_LABEL =
+  'Klick hier, um die Session zu bearbeiten.';
+export const DELETE_SESSION_BUTTON_LABEL = 'Löschen';
+export const ADD_BUTTON_LABEL = 'Hinzufügen';
 
-const SESSIONS = {
+export const SESSIONS = {
   snatch: {
     title: 'Reißen',
     text: `Klicke hier, um eine Einheit mit Schwerpunkt

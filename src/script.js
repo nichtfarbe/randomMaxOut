@@ -1,3 +1,12 @@
+import {
+  ADD_SESSION_BUTTON_LABEL,
+  ADDED_SESSION_CARD_LABEL,
+  DELETE_SESSION_BUTTON_LABEL,
+  ADD_BUTTON_LABEL,
+  SESSIONS
+} from './constants.js';
+import { weekdays } from './data.js';
+
 function init() {
   function addDeleteSessionCardLogic(deleteButton) {
     //find surrounding div of delete button in order to remove it from the DOM
@@ -137,3 +146,4 @@ function init() {
     })
   );
 }
+init();

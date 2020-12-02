@@ -88,6 +88,10 @@ button.add {
   cursor: pointer;
 }
 
+button.add:focus {
+  outline: 0;
+}
+
 /*snatch card*/
 #snatch-card {
   background-color: rgb(86, 204, 242);

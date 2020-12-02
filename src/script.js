@@ -1,59 +1,4 @@
 function init() {
-  const SESSIONS = {
-    snatch: {
-      title: 'Reißen',
-      text: `Klicke hier, um eine Einheit mit Schwerpunkt
-              <strong>Reißen</strong> hinzuzufügen.`
-    },
-    clean: {
-      title: 'Umsetzen + Stoßen',
-      text: `Klicke hier, um eine Einheit mit dem Schwerpunkt
-              <strong>Umsetzen + Stoßen</strong> hinzuzufügen.`
-    },
-    accessorie: {
-      title: 'Accessories',
-      text: `Klicke hier, um eine Einheit mit dem Schwerpunkt
-              <strong>Accessories</strong> hinzuzufügen.`
-    },
-    restday: {
-      title: 'Restday',
-      text: `Klicke hier, um einen <strong>Restday</strong> hinzuzufügen.`
-    }
-  };
-
-  const ADD_SESSION_BUTTON_LABEL = '+Einheit';
-
-  const weekdays = [
-    {
-      day: 'MO',
-      session: 'snatch'
-    },
-    {
-      day: 'DI',
-      session: 'clean'
-    },
-    {
-      day: 'MI',
-      session: ''
-    },
-    {
-      day: 'DO',
-      session: ''
-    },
-    {
-      day: 'FR',
-      session: 'restday'
-    },
-    {
-      day: 'SA',
-      session: ''
-    },
-    {
-      day: 'SO',
-      session: ''
-    }
-  ];
-
   // render weekdays
 
   weekdays.forEach(renderWeekday);
@@ -68,9 +13,6 @@ function init() {
   }
 
   // render added session cards
-
-  const ADDED_SESSION_CARD_LABEL = 'Klick hier, um die Session zu bearbeiten.';
-  const DELETE_SESSION_BUTTON_LABEL = 'Löschen';
   weekdays.forEach(renderAddedSessionCard);
   function renderAddedSessionCard({ day, session }) {
     if (session) {
@@ -162,7 +104,7 @@ function init() {
 
   // render overlay session cards
 
-  const ADD_BUTTON_LABEL = 'Hinzufügen';
+  // const ADD_BUTTON_LABEL = 'Hinzufügen';
   Object.keys(SESSIONS).forEach(renderOverlaySessionCards);
   function renderOverlaySessionCards(sessionCardKey) {
     const overlayCard = `

@@ -154,6 +154,9 @@ function init() {
           renderAddedSessionCard(weekday);
         }
       });
+
+      // save session card to local storage
+      myStorage.setItem('weekdays', JSON.stringify(weekdays));
     })
   );
 }

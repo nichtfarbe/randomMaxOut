@@ -9,7 +9,7 @@ import { weekdaysData } from './data.js';
 
 const myStorage = window.localStorage;
 
-const isLocalStorageEmpty = !localStorage.getItem('weekdays').length;
+const isLocalStorageEmpty = !localStorage.getItem('weekdays');
 if (isLocalStorageEmpty) {
   myStorage.setItem('weekdays', JSON.stringify(weekdaysData));
 }

@@ -8,7 +8,11 @@ import {
 import { weekdaysData } from './data.js';
 
 const myStorage = window.localStorage;
-myStorage.setItem('weekdays', JSON.stringify(weekdaysData));
+
+const isLocalStorageEmpty = !localStorage.getItem('weekdays').length;
+if (isLocalStorageEmpty) {
+  myStorage.setItem('weekdays', JSON.stringify(weekdaysData));
+}
 const weekdays = JSON.parse(localStorage.getItem('weekdays'));
 
 function init() {
@@ -25,6 +29,9 @@ function init() {
         weekday.session = '';
       }
     });
+
+    // delete session card from local storage
+    myStorage.setItem('weekdays', JSON.stringify(weekdays));
 
     //re-create the add session button and make sure it gets an eventlistener assignes
     const addButton = document.createElement('button');

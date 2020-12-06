@@ -67,6 +67,7 @@ function init() {
   // render added session cards
   weekdays.forEach(renderAddedSessionCard);
   function renderAddedSessionCard({ day, session }) {
+    console.log(session);
     if (session) {
       const sessionTitle = SESSIONS[session].title;
       const sessionCard = ` 
@@ -75,7 +76,7 @@ function init() {
           <div class="added-card-subcontainer">
             <div class="added-card-headline">${sessionTitle}</div>
             <div class="added-card-subtext">
-            ${ADDED_SESSION_CARD_LABEL}
+            ${session !== 'restday' ? ADDED_SESSION_CARD_LABEL : ''}
             </div>
             <button class="delete">${DELETE_SESSION_BUTTON_LABEL}</button>
           </div>

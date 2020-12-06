@@ -1,4 +1,4 @@
-export const weekdays = [
+export const weekdaysData = [
   {
     day: 'MO',
     session: 'snatch'
@@ -27,4 +27,4 @@ export const weekdays = [
     day: 'SO',
     session: ''
   }
-];
+]

@@ -5,7 +5,11 @@ import {
   ADD_BUTTON_LABEL,
   SESSIONS
 } from './constants.js';
-import { weekdays } from './data.js';
+import { weekdaysData } from './data.js';
+
+const myStorage = window.localStorage;
+myStorage.setItem('weekdays', JSON.stringify(weekdaysData));
+const weekdays = JSON.parse(localStorage.getItem('weekdays'));
 
 function init() {
   function addDeleteSessionCardLogic(deleteButton) {

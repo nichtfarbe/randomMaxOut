@@ -67,7 +67,6 @@ function init() {
   // render added session cards
   weekdays.forEach(renderAddedSessionCard);
   function renderAddedSessionCard({ day, session }) {
-    console.log(session);
     if (session) {
       const sessionTitle = SESSIONS[session].title;
       const sessionCard = ` 

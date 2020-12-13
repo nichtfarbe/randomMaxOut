@@ -23,10 +23,88 @@ body {
 
 .exercise-body-container {
   display: grid;
-  grid-template-columns: 1fr repeat(4, 4fr) 10fr;
+  grid-template-columns: 1fr 5fr repeat(3, 2fr) 8fr;
 }
 
 .exercise-header,
 .exercise-content {
   text-align: center;
+}
+
+.exercise-header {
+  font-weight: bold;
+  font-size: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.exercise-number {
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
+.note-input {
+  width: 70%;
+  height: 60%;
+  background-color: #ededed;
+  border-left: none;
+  border-top: none;
+  border-right: none;
+  border-bottom: 1px solid black;
+  font-family: 'Roboto';
+}
+
+.note-input:focus {
+  outline: none;
+}
+
+.weight-input {
+  height: 30%;
+  width: 75%;
+  background-color: #ededed;
+  border-left: none;
+  border-top: none;
+  border-right: none;
+  border-bottom: 1px solid black;
+  font-family: 'Roboto';
+  text-align: center;
+}
+
+.weight-input:focus {
+  outline: none;
+}
+
+.exercise-dropdown,
+.reps-dropdown,
+.set-dropdown {
+  width: 30%;
+  background-color: transparent;
+  border-top: none;
+  border-right: none;
+  border-left: none;
+  text-align: center;
+  font-family: 'Roboto';
+  font-size: 1rem;
+}
+
+.exercise-dropdown {
+  width: 70%;
+}
+
+.exercise-dropdown:focus,
+.reps-dropdown:focus,
+.set-dropdown:focus {
+  outline: none;
+}
+
+.exercise-dropdown-delete-me {
+  width: 70%;
+  background-color: transparent;
+  border-top: none;
+  border-right: none;
+  border-left: none;
+  text-align: center;
+  font-family: 'Roboto';
+  font-size: 1rem;
 }

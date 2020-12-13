@@ -23,7 +23,8 @@ body {
 
 .exercise-body-container {
   display: grid;
-  grid-template-columns: 1fr 5fr repeat(3, 2fr) 8fr;
+  grid-gap: 20px;
+  grid-template-columns: 1fr 5fr repeat(3, 2fr) 8fr 1fr;
 }
 
 .exercise-header,
@@ -44,15 +45,21 @@ body {
   font-size: 1.5rem;
 }
 
+.exercise-add-button,
+.exercise-delete-button {
+  font-size: 3rem;
+}
+
 .note-input {
-  width: 70%;
-  height: 60%;
+  width: 100%;
+  height: 100%;
   background-color: #ededed;
   border-left: none;
   border-top: none;
   border-right: none;
   border-bottom: 1px solid black;
   font-family: 'Roboto';
+  font-size: 1rem;
 }
 
 .note-input:focus {
@@ -60,8 +67,7 @@ body {
 }
 
 .weight-input {
-  height: 30%;
-  width: 75%;
+  padding: 5px;
   background-color: #ededed;
   border-left: none;
   border-top: none;
@@ -69,6 +75,7 @@ body {
   border-bottom: 1px solid black;
   font-family: 'Roboto';
   text-align: center;
+  font-size: 1rem;
 }
 
 .weight-input:focus {

@@ -9,10 +9,41 @@
     />
     <link rel="stylesheet" href="./css/style_2.css" />
     <title>Maxout2</title>
+    <link
+      href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css"
+      rel="stylesheet"
+    />
+    <script
+      src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"
+    >
+      // mdc.ripple.MDCRipple.attachTo(document.querySelector('.mdc-menu-surface'));
+    </script>
   </head>
   <div class="wrapper_2">
     <div class="header_2">
-      <div class="current-weekday">MO</div>
+      <div class="current-weekday">
+        MO
+
+        <div class="mdc-slider">
+          <div class="mdc-slider__track">
+            <div class="mdc-slider__track--inactive"></div>
+            <div class="mdc-slider__track--active">
+              <div class="mdc-slider__track--active_fill"></div>
+            </div>
+          </div>
+          <div
+            class="mdc-slider__thumb"
+            role="slider"
+            tabindex="0"
+            aria-label="Continuous slider demo"
+            aria-valuemin="0"
+            aria-valuemax="100"
+            aria-valuenow="50"
+          >
+            <div class="mdc-slider__thumb-knob"></div>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="exercise-body-container">
       <div class="exercise-header"></div>
@@ -23,13 +54,24 @@
       <div class="exercise-header">Anmerkungen</div>
       <div class="exercise-content exercise-number">1.</div>
       <div class="exercise-content exercise-dropdown-wrapper">
-        <select class="exercise-dropdown">
-          <option>Reißen</option>
-          <option>Standreißen</option>
-          <option>Unterhocken</option>
-          <option>Hocke Senken</option>
-          <option>Reißen aus dem Hang</option>
-        </select>
+        <div class="mdc-menu mdc-menu-surface">
+          <ul
+            class="mdc-list"
+            role="menu"
+            aria-hidden="true"
+            aria-orientation="vertical"
+            tabindex="-1"
+          >
+            <li class="mdc-list-item" role="menuitem">
+              <span class="mdc-list-item__ripple"></span>
+              <span class="mdc-list-item__text">A Menu Item</span>
+            </li>
+            <li class="mdc-list-item" role="menuitem">
+              <span class="mdc-list-item__ripple"></span>
+              <span class="mdc-list-item__text">Another Menu Item</span>
+            </li>
+          </ul>
+        </div>
       </div>
       <div class="exercise-content set-dropdown-wrapper">
         <select class="set-dropdown">

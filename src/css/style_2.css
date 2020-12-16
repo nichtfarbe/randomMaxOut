@@ -18,7 +18,43 @@ body {
 }
 
 .header_2 {
-  background-color: coral;
+  display: flex;
+  justify-content: space-around;
+  background-color: rgb(86, 204, 242);
+}
+
+.current-weekday {
+  flex: 1;
+  font-size: 1.5rem;
+  font-weight: bold;
+  display: flex;
+  justify-content: end;
+  align-items: flex-end;
+  margin-left: 0.5%;
+  margin-bottom: 0.5%;
+}
+
+.return-button-wrapper {
+  flex: 1;
+}
+
+.return-button {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: bold;
+  color: rgb(98, 2, 238);
+
+  background-color: transparent;
+  border: transparent;
+  outline: transparent;
+
+  cursor: pointer;
+
+  position: absolute;
+  right: 0%;
+  margin-right: 0.5%;
+  margin-top: 0.5%;
+  font-size: 1.2rem;
 }
 
 .exercise-body-container {
@@ -45,9 +81,19 @@ body {
   font-size: 1.5rem;
 }
 
-.exercise-add-button,
-.exercise-delete-button {
+.exercise-add-button-wrapper,
+.exercise-delete-button-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.exercise-delete-button,
+.exercise-add-button {
   font-size: 3rem;
+  background-color: transparent;
+  border: transparent;
+  outline: transparent;
+  cursor: pointer;
 }
 
 .note-input {

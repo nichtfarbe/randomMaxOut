@@ -1,23 +1,13 @@
-html {
-  box-sizing: border-box;
-}
-
-body {
-  font-family: 'Roboto';
-  font-size: 1rem;
-  width: 100vw;
+.exercise-wrapper {
+  position: absolute;
+  z-index: 2;
+  display: none;
+  grid-template-rows: 1fr 5fr;
   height: 100vh;
-  margin: 0;
   background-color: #f5f5f5;
 }
 
-.wrapper_2 {
-  display: grid;
-  grid-template-rows: 1fr 5fr;
-  height: 100vh;
-}
-
-.header_2 {
+.exercise-header {
   display: flex;
   justify-content: space-around;
   background-color: rgb(86, 204, 242);
@@ -63,12 +53,12 @@ body {
   grid-template-columns: 1fr 5fr repeat(3, 2fr) 8fr 1fr;
 }
 
-.exercise-header,
+.exercise-title,
 .exercise-content {
   text-align: center;
 }
 
-.exercise-header {
+.exercise-title {
   font-weight: bold;
   font-size: 2rem;
   display: flex;

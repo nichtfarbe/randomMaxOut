@@ -30,6 +30,7 @@ function init() {
       weekdays.map((weekday) => {
         if (weekday.day === weekdayID) {
           weekday.session = '';
+          weekday.exercises = [];
         }
       });
 
@@ -91,7 +92,7 @@ function init() {
       // add session card event listener
       const sessionCardElement = weekday.querySelector('.added-card');
       sessionCardElement.addEventListener('click', () => {
-        renderExercisePage();
+        renderExercisePage({ weekdays, day, session });
       });
 
       // add delete card event listener

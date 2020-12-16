@@ -122,6 +122,7 @@ button.add:focus {
   grid-template-columns: auto;
   grid-template-rows: 1fr 2fr;
   height: 100%;
+  width: 100%;
 }
 
 .header {

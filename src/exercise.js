@@ -1,12 +1,12 @@
-import { weekdaysData } from './data.js';
+import { SESSIONS, SET_OPTIONS, REP_OPTIONS } from './constants.js';
 
-export const renderExercisePage = () => {
+export const renderExercisePage = ({ weekdays, day, session }) => {
   const exerciseWrapper = document.querySelector('.exercise-wrapper');
-  console.log(exerciseWrapper);
-  // create header and body divs
+
+  // create header div
   const headerElement = `
-    <div class="exercise-header">
-      <div class="current-weekday">MO, 13. Dezember</div>
+    <div class="exercise-header" id=${session}-card>
+      <div class="current-weekday">${day}, 13. Dezember</div>
       <div class="return-button-wrapper">
         <button class="return-button">Zurück</button>
       </div>
@@ -14,9 +14,17 @@ export const renderExercisePage = () => {
     `;
   exerciseWrapper.insertAdjacentHTML('beforeend', headerElement);
 
+  // create return button event listener
+  const returnButton = document.querySelector('.return-button');
+  returnButton.addEventListener('click', () => {
+    exerciseWrapper.innerHTML = '';
+  });
+
+  // create body div
   const bodyContainerElement = `<div class="exercise-body-container"></div>`;
   exerciseWrapper.insertAdjacentHTML('beforeend', bodyContainerElement);
 
+  // create title divs
   const bodyContainer = document.querySelector('.exercise-body-container');
   const bodyTitles = `<div></div>
       <div class="exercise-title">Übung</div>
@@ -27,51 +35,48 @@ export const renderExercisePage = () => {
       <div></div>`;
   bodyContainer.insertAdjacentHTML('beforeend', bodyTitles);
 
-  const exercises = weekdaysData[0].exercises;
-  exercises.forEach((exercise, index) => {
-    // erstelle 7 divs mit den daten
-    let repOptions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-    const inputFields = `<div class="exercise-content exercise-number">${
-      index + 1
-    }.</div>
-        <div class="exercise-content exercise-dropdown-wrapper">
-          <select class="exercise-dropdown">
-            <option value="snatch">Reißen</option>
-            <option value="powersnatch">Standreißen</option>
-            <option value="snatchbalance">Unterhocken</option>
-            <option value="">Hocke Senken</option>
-            <option value="">Reißen aus dem Hang</option>
-          </select>
-        </div>
-        <div class="exercise-content set-dropdown-wrapper">
-          <select class="set-dropdown">
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option>
-            <option>6</option>
-          </select>
-        </div>
-        <div class="exercise-content reps-dropdown-wrapper">
-          <select class="reps-dropdown">
-          ${repOptions.map((option) => {
-            // find saved rep in database and make it the selected option
-            const selected = exercise.reps === option ? 'selected' : '';
+  // render saved exercises from database
+  const weekday = weekdays.filter((weekday) => weekday.day === day)[0];
+  weekday?.exercises?.forEach((exercise, index) => {
+    const exerciseOptions = SESSIONS[session].exercises;
+    const inputFields = `
+    <div class="exercise-content exercise-number">${index + 1}.</div>
+      <div class="exercise-content exercise-dropdown-wrapper">
+        <select class="exercise-dropdown">
+          ${Object.keys(exerciseOptions).map((option) => {
+            // find saved exercise in database and make it the selected option
+            const selected = exercise.exercise === option ? 'selected' : '';
+            return `<option ${selected}>${exerciseOptions[option]}</option>`;
+          })}
+        </select>
+      </div>
+      <div class="exercise-content set-dropdown-wrapper">
+        <select class="set-dropdown">
+          ${SET_OPTIONS.map((option) => {
+            // find saved set in database and make it the selected option
+            const selected = exercise.sets === option ? 'selected' : '';
             return `<option ${selected}>${option}</option>`;
           })}
-          </select>
-        </div>
-        <div class="exercise-content weight-input-wrapper">
-          <input type="text" class="weight-input" value="${exercise.weight}"/>
-        </div>
-        <div class="exercise-content note-input-wrapper">
-          <textarea class="note-input">${exercise.notes}</textarea>
-        </div>
-        <div class="exercise-content exercise-delete-button-wrapper">
-          <button class="exercise-delete-button">-</button>
-        </div>`;
-    // fuege 7 divs in den bodycontainer hinzu
+        </select>
+      </div>
+      <div class="exercise-content reps-dropdown-wrapper">
+        <select class="reps-dropdown">
+        ${REP_OPTIONS.map((option) => {
+          // find saved rep in database and make it the selected option
+          const selected = exercise.reps === option ? 'selected' : '';
+          return `<option ${selected}>${option}</option>`;
+        })}
+        </select>
+      </div>
+      <div class="exercise-content weight-input-wrapper">
+        <input type="text" class="weight-input" value="${exercise.weight}"/>
+      </div>
+      <div class="exercise-content note-input-wrapper">
+        <textarea class="note-input">${exercise.notes}</textarea>
+      </div>
+      <div class="exercise-content exercise-delete-button-wrapper">
+      <button class="exercise-delete-button">-</button>
+    </div>`;
     bodyContainer.insertAdjacentHTML('beforeend', inputFields);
   });
 

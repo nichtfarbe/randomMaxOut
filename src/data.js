@@ -4,50 +4,50 @@ export const weekdaysData = [
     session: 'snatch',
     exercises: [
       {
-        exercise: 'snatch',
+        exercise: 'Reißen',
         sets: 3,
         reps: 4,
         weight: '14kg',
-        notes: 'Cooler text',
+        notes: 'Cooler text'
       },
       {
-        exercise: 'powersnatch',
+        exercise: 'Standreißen',
         sets: 1,
         reps: 5,
         weight: '4kg',
-        notes: 'Noch coolerer Text',
+        notes: 'Noch coolerer Text'
       },
       {
-        exercise: 'snatchbalance',
+        exercise: 'Hocke Senken',
         sets: 6,
         reps: 2,
         weight: '30kg',
-        notes: 'Der coolste Text',
-      },
-    ],
+        notes: 'Der coolste Text'
+      }
+    ]
   },
   {
     day: 'DI',
-    session: 'clean',
+    session: 'clean'
   },
   {
     day: 'MI',
-    session: '',
+    session: ''
   },
   {
     day: 'DO',
-    session: '',
+    session: ''
   },
   {
     day: 'FR',
-    session: 'restday',
+    session: 'restday'
   },
   {
     day: 'SA',
-    session: '',
+    session: ''
   },
   {
     day: 'SO',
-    session: '',
-  },
+    session: ''
+  }
 ];

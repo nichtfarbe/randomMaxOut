@@ -14,6 +14,12 @@ export const renderExercisePage = () => {
     `;
   exerciseWrapper.insertAdjacentHTML('beforeend', headerElement);
 
+  //add backButtonLogic
+  const backButton = document.querySelector('.return-button');
+  backButton.addEventListener('click', () => {
+    console.log('I want back');
+  });
+
   const bodyContainerElement = `<div class="exercise-body-container"></div>`;
   exerciseWrapper.insertAdjacentHTML('beforeend', bodyContainerElement);
 
@@ -29,28 +35,35 @@ export const renderExercisePage = () => {
 
   const exercises = weekdaysData[0].exercises;
   exercises.forEach((exercise, index) => {
-    // erstelle 7 divs mit den daten
+    //create 7 divs with data
+    let setExercises = [
+      'Reißen',
+      'Standreißen',
+      'Unterhocken',
+      'Hocke Senken',
+      'Reißen aus dem Hang'
+    ];
+    let setOptions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     let repOptions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     const inputFields = `<div class="exercise-content exercise-number">${
       index + 1
     }.</div>
         <div class="exercise-content exercise-dropdown-wrapper">
           <select class="exercise-dropdown">
-            <option value="snatch">Reißen</option>
-            <option value="powersnatch">Standreißen</option>
-            <option value="snatchbalance">Unterhocken</option>
-            <option value="">Hocke Senken</option>
-            <option value="">Reißen aus dem Hang</option>
+          ${setExercises.map((option) => {
+            //find saved exercise in database and make it the selected option
+            const selected = exercise.exercise === option ? 'selected' : '';
+            return `<option ${selected}>${option}</option>`;
+          })}
           </select>
         </div>
         <div class="exercise-content set-dropdown-wrapper">
           <select class="set-dropdown">
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option>
-            <option>6</option>
+          ${setOptions.map((option) => {
+            //find saved set in database and make it the selected option
+            const selected = exercise.sets === option ? 'selected' : '';
+            return `<option ${selected}>${option}</option>`;
+          })}
           </select>
         </div>
         <div class="exercise-content reps-dropdown-wrapper">
@@ -71,7 +84,7 @@ export const renderExercisePage = () => {
         <div class="exercise-content exercise-delete-button-wrapper">
           <button class="exercise-delete-button">-</button>
         </div>`;
-    // fuege 7 divs in den bodycontainer hinzu
+    // add 7 divs to bodycontainer
     bodyContainer.insertAdjacentHTML('beforeend', inputFields);
   });
 
@@ -81,12 +94,11 @@ export const renderExercisePage = () => {
     </div>`;
   bodyContainer.insertAdjacentHTML('beforeend', addExerciseButton);
 
-  // create titles within grid
+  // create titles within grid (line 21?)
   // create one line of input elements with delete button
   // create add button
   return console.log('hello');
 };
 
 // add addbutton logic
-// add back button logic
 // add dynamic title and color

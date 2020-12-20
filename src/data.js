@@ -4,23 +4,23 @@ export const weekdaysData = [
     session: 'snatch',
     exercises: [
       {
-        exercise: 'Reißen',
+        name: 'snatch',
         sets: 3,
         reps: 4,
         weight: '14kg',
         notes: 'Cooler text'
       },
       {
-        exercise: 'Standreißen',
+        name: 'Hocke Senken',
         sets: 1,
         reps: 5,
         weight: '4kg',
         notes: 'Noch coolerer Text'
       },
       {
-        exercise: 'Hocke Senken',
+        name: 'Hocke Senken',
         sets: 6,
-        reps: 2,
+        reps: 1,
         weight: '30kg',
         notes: 'Der coolste Text'
       }

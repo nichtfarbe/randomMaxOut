@@ -3,7 +3,7 @@ import {
   ADDED_SESSION_CARD_LABEL,
   DELETE_SESSION_BUTTON_LABEL,
   ADD_BUTTON_LABEL,
-  SESSIONS,
+  SESSIONS
 } from './constants.js';
 import { weekdaysData } from './data.js';
 import { renderExercisePage } from './exercise.js';
@@ -91,7 +91,7 @@ function init() {
       // add session card event listener
       const sessionCardElement = weekday.querySelector('.added-card');
       sessionCardElement.addEventListener('click', () => {
-        renderExercisePage();
+        renderExercisePage(session, day);
       });
 
       // add delete card event listener

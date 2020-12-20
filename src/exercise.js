@@ -1,12 +1,13 @@
 import { weekdaysData } from './data.js';
+import { SESSIONS } from './constants.js';
 
-export const renderExercisePage = () => {
+export const renderExercisePage = (session, day) => {
   const exerciseWrapper = document.querySelector('.exercise-wrapper');
   console.log(exerciseWrapper);
   // create header and body divs
   const headerElement = `
-    <div class="exercise-header">
-      <div class="current-weekday">MO, 13. Dezember</div>
+    <div class="exercise-header" id=${session}-card>
+      <div class="current-weekday">${day}, 13. Dezember</div>
       <div class="return-button-wrapper">
         <button class="return-button">Zurück</button>
       </div>
@@ -17,7 +18,7 @@ export const renderExercisePage = () => {
   //add backButtonLogic
   const backButton = document.querySelector('.return-button');
   backButton.addEventListener('click', () => {
-    console.log('I want back');
+    exerciseWrapper.innerHTML = '';
   });
 
   const bodyContainerElement = `<div class="exercise-body-container"></div>`;
@@ -36,24 +37,18 @@ export const renderExercisePage = () => {
   const exercises = weekdaysData[0].exercises;
   exercises.forEach((exercise, index) => {
     //create 7 divs with data
-    let setExercises = [
-      'Reißen',
-      'Standreißen',
-      'Unterhocken',
-      'Hocke Senken',
-      'Reißen aus dem Hang'
-    ];
-    let setOptions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-    let repOptions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+    const exerciseOptions = SESSIONS[session].exercises;
+    const setOptions = [1, 2, 3, 4, 5, 6];
+    const repOptions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     const inputFields = `<div class="exercise-content exercise-number">${
       index + 1
     }.</div>
         <div class="exercise-content exercise-dropdown-wrapper">
           <select class="exercise-dropdown">
-          ${setExercises.map((option) => {
+          ${Object.keys(exerciseOptions).map((option) => {
             //find saved exercise in database and make it the selected option
-            const selected = exercise.exercise === option ? 'selected' : '';
-            return `<option ${selected}>${option}</option>`;
+            const selected = exercise.name === option ? 'selected' : '';
+            return `<option ${selected}>${exerciseOptions[option]}</option>`;
           })}
           </select>
         </div>
@@ -97,7 +92,6 @@ export const renderExercisePage = () => {
   // create titles within grid (line 21?)
   // create one line of input elements with delete button
   // create add button
-  return console.log('hello');
 };
 
 // add addbutton logic

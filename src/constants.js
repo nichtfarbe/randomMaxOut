@@ -8,17 +8,37 @@ export const SESSIONS = {
   snatch: {
     title: 'Reißen',
     text: `Klicke hier, um eine Einheit mit Schwerpunkt
-            <strong>Reißen</strong> hinzuzufügen.`
+            <strong>Reißen</strong> hinzuzufügen.`,
+    exercises: {
+      snatch: 'Reißen',
+      powerSnatch: 'Standreißen',
+      snatchDrop: 'Unterhocken',
+      snatchBalance: 'Hocke Senken',
+      hangSnatch: 'Reißen aus dem Hang'
+    }
   },
   clean: {
     title: 'Umsetzen + Stoßen',
     text: `Klicke hier, um eine Einheit mit dem Schwerpunkt
-            <strong>Umsetzen + Stoßen</strong> hinzuzufügen.`
+            <strong>Umsetzen + Stoßen</strong> hinzuzufügen.`,
+    exercises: {
+      clean: 'Umsetzen',
+      powerClean: 'Standumsetzen',
+      cleanAndJerk: 'Stoßen',
+      splitJerk: 'Ausstoßen',
+      hangClean: 'Umsetzen aus dem Hang'
+    }
   },
   accessorie: {
     title: 'Accessories',
     text: `Klicke hier, um eine Einheit mit dem Schwerpunkt
-            <strong>Accessories</strong> hinzuzufügen.`
+            <strong>Accessories</strong> hinzuzufügen.`,
+    exercises: {
+      backSquat: 'Kniebeuge hinten',
+      frontSquat: 'Kniebeuge vorne',
+      pushPress: 'Schwungdrücken',
+      pullUp: 'Klimmzüge'
+    }
   },
   restday: {
     title: 'Restday',

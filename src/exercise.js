@@ -38,6 +38,8 @@ export const renderExercisePage = (session, day) => {
   exercises.forEach((exercise, index) => {
     //create 7 divs with data
     const exerciseOptions = SESSIONS[session].exercises;
+    console.log(exerciseOptions);
+    console.log(session);
     const setOptions = [1, 2, 3, 4, 5, 6];
     const repOptions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     const inputFields = `<div class="exercise-content exercise-number">${

@@ -81,7 +81,7 @@ function init() {
             <div class="added-card-subtext">
             ${session !== 'restday' ? ADDED_SESSION_CARD_LABEL : ''}
             </div>
-            <button class="delete">${DELETE_SESSION_BUTTON_LABEL}</button>
+            <div class="delete">${DELETE_SESSION_BUTTON_LABEL}</div>
           </div>
         </div>
       `;
@@ -90,9 +90,13 @@ function init() {
 
       // add session card event listener
       const sessionCardElement = weekday.querySelector('.added-card');
-      sessionCardElement.addEventListener('click', () => {
-        renderExercisePage(session, day);
-      });
+      if (session !== 'restday') {
+        sessionCardElement.addEventListener('click', () => {
+          renderExercisePage(session, day);
+        });
+      } else {
+        sessionCardElement.style.cursor = 'default';
+      }
 
       // add delete card event listener
       const deleteButton = weekday.getElementsByClassName('delete')[0];

@@ -45,7 +45,7 @@ export const renderExercisePage = ({ weekdaysData, day, session }) => {
         <select class="exercise-dropdown">
           ${Object.keys(exerciseOptions).map((option) => {
             // find saved exercise in database and make it the selected option
-            const selected = exercise.exercise === option ? 'selected' : '';
+            const selected = exercise.name === option ? 'selected' : '';
             return `<option ${selected}>${exerciseOptions[option]}</option>`;
           })}
         </select>

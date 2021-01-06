@@ -5,14 +5,14 @@ import {
   ADD_BUTTON_LABEL,
   SESSIONS
 } from './constants.js';
-import { weekdaysData } from './data.js';
+import { weekdaysMockData } from './data.js';
 import { renderExercisePage } from './exercise.js';
 
 const myStorage = window.localStorage;
 
 const isLocalStorageEmpty = !localStorage.getItem('weekdays');
 if (isLocalStorageEmpty) {
-  myStorage.setItem('weekdays', JSON.stringify(weekdaysData));
+  myStorage.setItem('weekdays', JSON.stringify(weekdaysMockData));
 }
 const weekdaysData = JSON.parse(localStorage.getItem('weekdays'));
 

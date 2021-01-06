@@ -1,4 +1,4 @@
-export const weekdaysData = [
+export const weekdaysMockData = [
   {
     day: 'MO',
     session: 'snatch',
@@ -11,14 +11,14 @@ export const weekdaysData = [
         notes: 'Cooler text'
       },
       {
-        name: 'Hocke Senken',
+        name: 'snatchBalance',
         sets: 1,
         reps: 5,
         weight: '4kg',
         notes: 'Noch coolerer Text'
       },
       {
-        name: 'Hocke Senken',
+        name: 'hangSnatch',
         sets: 6,
         reps: 1,
         weight: '30kg',
@@ -28,7 +28,30 @@ export const weekdaysData = [
   },
   {
     day: 'DI',
-    session: 'clean'
+    session: 'clean',
+    exercises: [
+      {
+        name: 'clean',
+        sets: 2,
+        reps: 3,
+        weight: '25kg',
+        notes: 'Cooler text'
+      },
+      {
+        name: 'splitJerk',
+        sets: 5,
+        reps: 3,
+        weight: '4kg',
+        notes: 'Noch coolerer Text'
+      },
+      {
+        name: 'hangClean',
+        sets: 3,
+        reps: 3,
+        weight: '25kg',
+        notes: 'Der coolste Text'
+      }
+    ]
   },
   {
     day: 'MI',

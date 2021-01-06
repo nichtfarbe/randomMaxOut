@@ -14,7 +14,7 @@ const isLocalStorageEmpty = !localStorage.getItem('weekdays');
 if (isLocalStorageEmpty) {
   myStorage.setItem('weekdays', JSON.stringify(weekdaysData));
 }
-const weekdays = JSON.parse(localStorage.getItem('weekdays'));
+const weekdaysData = JSON.parse(localStorage.getItem('weekdays'));
 
 function init() {
   function addDeleteSessionCardLogic(deleteButton) {
@@ -27,14 +27,15 @@ function init() {
 
       //find index of affected weekday in weekday array, manipulate the session string to ''
       const weekdayID = weekday.id;
-      weekdays.map((weekday) => {
+      weekdaysData.map((weekday) => {
         if (weekday.day === weekdayID) {
           weekday.session = '';
+          weekday.exercises = [];
         }
       });
 
       // delete session card from local storage
-      myStorage.setItem('weekdays', JSON.stringify(weekdays));
+      myStorage.setItem('weekdays', JSON.stringify(weekdaysData));
 
       //re-create the add session button and make sure it gets an eventlistener assignes
       const addButton = document.createElement('button');
@@ -57,7 +58,7 @@ function init() {
   };
 
   // render weekdays
-  weekdays.forEach(renderWeekday);
+  weekdaysData.forEach(renderWeekday);
   function renderWeekday({ day }) {
     const weekday = `
       <div class="weekday" id="${day}">
@@ -69,7 +70,7 @@ function init() {
   }
 
   // render added session cards
-  weekdays.forEach(renderAddedSessionCard);
+  weekdaysData.forEach(renderAddedSessionCard);
   function renderAddedSessionCard({ day, session }) {
     if (session) {
       const sessionTitle = SESSIONS[session].title;
@@ -92,7 +93,7 @@ function init() {
       const sessionCardElement = weekday.querySelector('.added-card');
       if (session !== 'restday') {
         sessionCardElement.addEventListener('click', () => {
-          renderExercisePage(session, day);
+          renderExercisePage({ weekdaysData, day, session });
         });
       } else {
         sessionCardElement.style.cursor = 'default';
@@ -165,7 +166,7 @@ function init() {
       let selectedSessionName = selectedCardID.split('-')[0];
 
       //manipluate session property weekdays array
-      weekdays.forEach((weekday) => {
+      weekdaysData.forEach((weekday) => {
         if (weekday.day === clickedWeekdayID) {
           weekday.session = selectedSessionName;
           renderAddedSessionCard(weekday);
@@ -173,7 +174,7 @@ function init() {
       });
 
       // save session card to local storage
-      myStorage.setItem('weekdays', JSON.stringify(weekdays));
+      myStorage.setItem('weekdays', JSON.stringify(weekdaysData));
     })
   );
 }

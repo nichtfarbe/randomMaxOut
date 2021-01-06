@@ -45,3 +45,6 @@ export const SESSIONS = {
     text: `Klicke hier, um einen <strong>Restday</strong> hinzuzufügen.`
   }
 };
+
+export const SET_OPTIONS = [1, 2, 3, 4, 5, 6];
+export const REP_OPTIONS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];

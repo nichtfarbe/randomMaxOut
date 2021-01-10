@@ -93,7 +93,7 @@ function init() {
       const sessionCardElement = weekday.querySelector('.added-card');
       if (session !== 'restday') {
         sessionCardElement.addEventListener('click', () => {
-          renderExercisePage({ weekdaysData, day, session });
+          renderExercisePage({ weekdaysData, day, session, myStorage });
         });
       } else {
         sessionCardElement.style.cursor = 'default';

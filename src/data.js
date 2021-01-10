@@ -55,7 +55,16 @@ export const weekdaysMockData = [
   },
   {
     day: 'MI',
-    session: ''
+    session: 'accessorie',
+    exercises: [
+      {
+        name: '',
+        sets: '',
+        reps: '',
+        weight: '',
+        notes: ''
+      }
+    ]
   },
   {
     day: 'DO',

@@ -1,6 +1,11 @@
 import { SESSIONS, SET_OPTIONS, REP_OPTIONS } from './constants.js';
 
-export const renderExercisePage = ({ weekdaysData, day, session }) => {
+export const renderExercisePage = ({
+  weekdaysData,
+  day,
+  session,
+  myStorage
+}) => {
   const body = document.querySelector('body');
   const exerciseWrapperElement = `<div class="exercise-wrapper"></div>`;
   body.insertAdjacentHTML('beforeend', exerciseWrapperElement);
@@ -46,6 +51,7 @@ export const renderExercisePage = ({ weekdaysData, day, session }) => {
     <div class="exercise-content exercise-number">${index + 1}.</div>
       <div class="exercise-content exercise-dropdown-wrapper">
         <select class="exercise-dropdown">
+          <option value="" disabled selected></option>
           ${Object.keys(exerciseOptions).map((option) => {
             // find saved exercise in database and make it the selected option
             const selected = exercise.name === option ? 'selected' : '';
@@ -55,6 +61,7 @@ export const renderExercisePage = ({ weekdaysData, day, session }) => {
       </div>
       <div class="exercise-content set-dropdown-wrapper">
         <select class="set-dropdown">
+          <option value="" disabled selected></option>
           ${SET_OPTIONS.map((option) => {
             // find saved set in database and make it the selected option
             const selected = exercise.sets === option ? 'selected' : '';
@@ -64,11 +71,12 @@ export const renderExercisePage = ({ weekdaysData, day, session }) => {
       </div>
       <div class="exercise-content reps-dropdown-wrapper">
         <select class="reps-dropdown">
-        ${REP_OPTIONS.map((option) => {
-          // find saved rep in database and make it the selected option
-          const selected = exercise.reps === option ? 'selected' : '';
-          return `<option ${selected}>${option}</option>`;
-        })}
+          <option value="" disabled selected></option>
+          ${REP_OPTIONS.map((option) => {
+            // find saved rep in database and make it the selected option
+            const selected = exercise.reps === option ? 'selected' : '';
+            return `<option ${selected}>${option}</option>`;
+          })}
         </select>
       </div>
       <div class="exercise-content weight-input-wrapper">
@@ -83,12 +91,21 @@ export const renderExercisePage = ({ weekdaysData, day, session }) => {
     bodyContainer.insertAdjacentHTML('beforeend', inputFields);
   });
 
-  const addExerciseButton = `
+  const addExerciseButtonElement = `
     <div class="exercise-content exercise-add-button-wrapper">
         <button class="exercise-add-button">+</button>
     </div>`;
-  bodyContainer.insertAdjacentHTML('beforeend', addExerciseButton);
-};
+  bodyContainer.insertAdjacentHTML('beforeend', addExerciseButtonElement);
 
-// add addbutton logic
-// add dynamic title and color
+  // add addbutton logic
+  const addExerciseButton = document.querySelector(
+    '.exercise-add-button-wrapper'
+  );
+
+  addExerciseButton.addEventListener('click', () => {
+    const oldData = myStorage.getItem('weekdays');
+    console.log(oldData);
+    // const updatedData = '';
+    // myStorage.setItem('weekdays',JSON.stringify(updatedData));
+  });
+};

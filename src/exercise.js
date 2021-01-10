@@ -1,6 +1,9 @@
 import { SESSIONS, SET_OPTIONS, REP_OPTIONS } from './constants.js';
 
 export const renderExercisePage = ({ weekdaysData, day, session }) => {
+  const body = document.querySelector('body');
+  const exerciseWrapperElement = `<div class="exercise-wrapper"></div>`;
+  body.insertAdjacentHTML('beforeend', exerciseWrapperElement);
   const exerciseWrapper = document.querySelector('.exercise-wrapper');
 
   // create header div
@@ -17,7 +20,7 @@ export const renderExercisePage = ({ weekdaysData, day, session }) => {
   // create return button event listener
   const returnButton = document.querySelector('.return-button');
   returnButton.addEventListener('click', () => {
-    exerciseWrapper.innerHTML = '';
+    body.removeChild(exerciseWrapper);
   });
 
   // create body div
@@ -85,10 +88,6 @@ export const renderExercisePage = ({ weekdaysData, day, session }) => {
         <button class="exercise-add-button">+</button>
     </div>`;
   bodyContainer.insertAdjacentHTML('beforeend', addExerciseButton);
-
-  // create titles within grid (line 21?)
-  // create one line of input elements with delete button
-  // create add button
 };
 
 // add addbutton logic

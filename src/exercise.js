@@ -7,7 +7,7 @@ export const renderExercisePage = ({
   myStorage
 }) => {
   const body = document.querySelector('body');
-  const exerciseWrapperElement = `<div class="exercise-wrapper"></div>`;
+  const exerciseWrapperElement = '<div class="exercise-wrapper"></div>';
   body.insertAdjacentHTML('beforeend', exerciseWrapperElement);
   const exerciseWrapper = document.querySelector('.exercise-wrapper');
 
@@ -29,7 +29,7 @@ export const renderExercisePage = ({
   });
 
   // create body div
-  const bodyContainerElement = `<div class="exercise-body-container"></div>`;
+  const bodyContainerElement = '<div class="exercise-body-container"></div>';
   exerciseWrapper.insertAdjacentHTML('beforeend', bodyContainerElement);
 
   // create title divs
@@ -44,52 +44,56 @@ export const renderExercisePage = ({
   bodyContainer.insertAdjacentHTML('beforeend', bodyTitles);
 
   // render saved exercises from database
+  function renderElements(weekdayData) {
+    weekdayData?.exercises?.forEach((exercise, index) => {
+      const exerciseOptions = SESSIONS[session].exercises;
+      const inputFields = `
+      <div class="exercise-content exercise-number">${index + 1}.</div>
+        <div class="exercise-content exercise-dropdown-wrapper">
+          <select class="exercise-dropdown">
+            <option value="" disabled selected></option>
+            ${Object.keys(exerciseOptions).map((option) => {
+              // find saved exercise in database and make it the selected option
+              const selected = exercise.name === option ? 'selected' : '';
+              return `<option ${selected}>${exerciseOptions[option]}</option>`;
+            })}
+          </select>
+        </div>
+        <div class="exercise-content set-dropdown-wrapper">
+          <select class="set-dropdown">
+            <option value="" disabled selected></option>
+            ${SET_OPTIONS.map((option) => {
+              // find saved set in database and make it the selected option
+              const selected = exercise.sets === option ? 'selected' : '';
+              return `<option ${selected}>${option}</option>`;
+            })}
+          </select>
+        </div>
+        <div class="exercise-content reps-dropdown-wrapper">
+          <select class="reps-dropdown">
+            <option value="" disabled selected></option>
+            ${REP_OPTIONS.map((option) => {
+              // find saved rep in database and make it the selected option
+              const selected = exercise.reps === option ? 'selected' : '';
+              return `<option ${selected}>${option}</option>`;
+            })}
+          </select>
+        </div>
+        <div class="exercise-content weight-input-wrapper">
+          <input type="text" class="weight-input" value="${exercise.weight}"/>
+        </div>
+        <div class="exercise-content note-input-wrapper">
+          <textarea class="note-input">${exercise.notes}</textarea>
+        </div>
+        <div class="exercise-content exercise-delete-button-wrapper">
+        <button class="exercise-delete-button">-</button>
+      </div>`;
+      bodyContainer.insertAdjacentHTML('beforeend', inputFields);
+    });
+  }
+
   const weekdayData = weekdaysData.filter((weekday) => weekday.day === day)[0];
-  weekdayData?.exercises?.forEach((exercise, index) => {
-    const exerciseOptions = SESSIONS[session].exercises;
-    const inputFields = `
-    <div class="exercise-content exercise-number">${index + 1}.</div>
-      <div class="exercise-content exercise-dropdown-wrapper">
-        <select class="exercise-dropdown">
-          <option value="" disabled selected></option>
-          ${Object.keys(exerciseOptions).map((option) => {
-            // find saved exercise in database and make it the selected option
-            const selected = exercise.name === option ? 'selected' : '';
-            return `<option ${selected}>${exerciseOptions[option]}</option>`;
-          })}
-        </select>
-      </div>
-      <div class="exercise-content set-dropdown-wrapper">
-        <select class="set-dropdown">
-          <option value="" disabled selected></option>
-          ${SET_OPTIONS.map((option) => {
-            // find saved set in database and make it the selected option
-            const selected = exercise.sets === option ? 'selected' : '';
-            return `<option ${selected}>${option}</option>`;
-          })}
-        </select>
-      </div>
-      <div class="exercise-content reps-dropdown-wrapper">
-        <select class="reps-dropdown">
-          <option value="" disabled selected></option>
-          ${REP_OPTIONS.map((option) => {
-            // find saved rep in database and make it the selected option
-            const selected = exercise.reps === option ? 'selected' : '';
-            return `<option ${selected}>${option}</option>`;
-          })}
-        </select>
-      </div>
-      <div class="exercise-content weight-input-wrapper">
-        <input type="text" class="weight-input" value="${exercise.weight}"/>
-      </div>
-      <div class="exercise-content note-input-wrapper">
-        <textarea class="note-input">${exercise.notes}</textarea>
-      </div>
-      <div class="exercise-content exercise-delete-button-wrapper">
-      <button class="exercise-delete-button">-</button>
-    </div>`;
-    bodyContainer.insertAdjacentHTML('beforeend', inputFields);
-  });
+  renderElements(weekdayData);
 
   const addExerciseButtonElement = `
     <div class="exercise-content exercise-add-button-wrapper">
@@ -101,11 +105,37 @@ export const renderExercisePage = ({
   const addExerciseButton = document.querySelector(
     '.exercise-add-button-wrapper'
   );
+  addExerciseButtonEventListener(addExerciseButton);
 
-  addExerciseButton.addEventListener('click', () => {
-    const oldData = myStorage.getItem('weekdays');
-    console.log(oldData);
-    // const updatedData = '';
-    // myStorage.setItem('weekdays',JSON.stringify(updatedData));
-  });
+  function addExerciseButtonEventListener(addExerciseButton) {
+    addExerciseButton.addEventListener('click', () => {
+      const weekdayData = weekdaysData.filter(
+        (weekDayData) => weekDayData.day === day
+      )[0];
+      const emptyEntry = {
+        name: '',
+        sets: '',
+        reps: '',
+        weight: '',
+        notes: ''
+      };
+      weekdayData.exercises.push(emptyEntry);
+
+      const index = weekdaysData.findIndex((weekDay) => weekDay.day === day);
+      const updatedData = [
+        ...weekdaysData.slice(0, index),
+        weekdayData,
+        ...weekdaysData.slice(index + 1)
+      ];
+      bodyContainer.innerHTML = '';
+      bodyContainer.insertAdjacentHTML('beforeend', bodyTitles);
+      renderElements(weekdayData);
+      bodyContainer.insertAdjacentHTML('beforeend', addExerciseButtonElement);
+      const addExerciseButton = document.querySelector(
+        '.exercise-add-button-wrapper'
+      );
+      addExerciseButtonEventListener(addExerciseButton);
+      myStorage.setItem('weekdays', JSON.stringify(updatedData));
+    });
+  }
 };

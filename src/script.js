@@ -5,40 +5,45 @@ import {
   ADD_BUTTON_LABEL,
   SESSIONS
 } from './constants.js';
-import { weekdaysData } from './data.js';
+import { weekdaysMockData } from './data.js';
+import { renderExercisePage } from './exercise.js';
 
 const myStorage = window.localStorage;
 
 const isLocalStorageEmpty = !localStorage.getItem('weekdays');
 if (isLocalStorageEmpty) {
-  myStorage.setItem('weekdays', JSON.stringify(weekdaysData));
+  myStorage.setItem('weekdays', JSON.stringify(weekdaysMockData));
 }
-const weekdays = JSON.parse(localStorage.getItem('weekdays'));
+const weekdaysData = JSON.parse(localStorage.getItem('weekdays'));
 
 function init() {
   function addDeleteSessionCardLogic(deleteButton) {
-    //find surrounding div of delete button in order to remove it from the DOM
-    const deletableCard = deleteButton.parentNode.parentNode;
-    const weekday = deletableCard.parentNode;
-    deletableCard.remove();
+    const shallDelete = confirm('Bist du sicher?');
+    if (shallDelete) {
+      //find surrounding div of delete button in order to remove it from the DOM
+      const deletableCard = deleteButton.parentNode.parentNode;
+      const weekday = deletableCard.parentNode;
+      deletableCard.remove();
 
-    //find index of affected weekday in weekday array, manipulate the session string to ''
-    const weekdayID = weekday.id;
-    weekdays.map((weekday) => {
-      if (weekday.day === weekdayID) {
-        weekday.session = '';
-      }
-    });
+      //find index of affected weekday in weekday array, manipulate the session string to ''
+      const weekdayID = weekday.id;
+      weekdaysData.map((weekday) => {
+        if (weekday.day === weekdayID) {
+          weekday.session = '';
+          weekday.exercises = [];
+        }
+      });
 
-    // delete session card from local storage
-    myStorage.setItem('weekdays', JSON.stringify(weekdays));
+      // delete session card from local storage
+      myStorage.setItem('weekdays', JSON.stringify(weekdaysData));
 
-    //re-create the add session button and make sure it gets an eventlistener assignes
-    const addButton = document.createElement('button');
-    addButton.innerText = ADD_SESSION_BUTTON_LABEL;
-    addButton.classList.add('add-session');
-    weekday.appendChild(addButton);
-    addAddSessionCardLogic(addButton);
+      //re-create the add session button and make sure it gets an eventlistener assignes
+      const addButton = document.createElement('button');
+      addButton.innerText = ADD_SESSION_BUTTON_LABEL;
+      addButton.classList.add('add-session');
+      weekday.appendChild(addButton);
+      addAddSessionCardLogic(addButton);
+    }
   }
 
   let clickedWeekdayID = null;
@@ -53,7 +58,7 @@ function init() {
   };
 
   // render weekdays
-  weekdays.forEach(renderWeekday);
+  weekdaysData.forEach(renderWeekday);
   function renderWeekday({ day }) {
     const weekday = `
       <div class="weekday" id="${day}">
@@ -65,28 +70,41 @@ function init() {
   }
 
   // render added session cards
-  weekdays.forEach(renderAddedSessionCard);
+  weekdaysData.forEach(renderAddedSessionCard);
   function renderAddedSessionCard({ day, session }) {
     if (session) {
       const sessionTitle = SESSIONS[session].title;
       const sessionCard = ` 
-        <div class="added-card">
-          <div class="added-card-color" id="${session}-card"></div>
+        <div class="added-card" id="${session}-card">
+          <div class="added-card-color"></div>
           <div class="added-card-subcontainer">
             <div class="added-card-headline">${sessionTitle}</div>
             <div class="added-card-subtext">
             ${session !== 'restday' ? ADDED_SESSION_CARD_LABEL : ''}
             </div>
-            <button class="delete">${DELETE_SESSION_BUTTON_LABEL}</button>
+            <div class="delete">${DELETE_SESSION_BUTTON_LABEL}</div>
           </div>
         </div>
       `;
       const weekday = document.getElementById(day);
       weekday.insertAdjacentHTML('beforeend', sessionCard);
+
+      // add session card event listener
+      const sessionCardElement = weekday.querySelector('.added-card');
+      if (session !== 'restday') {
+        sessionCardElement.addEventListener('click', () => {
+          renderExercisePage({ weekdaysData, day, session, myStorage });
+        });
+      } else {
+        sessionCardElement.style.cursor = 'default';
+      }
+
+      // add delete card event listener
       const deleteButton = weekday.getElementsByClassName('delete')[0];
-      deleteButton.addEventListener('click', () =>
-        addDeleteSessionCardLogic(deleteButton)
-      );
+      deleteButton.addEventListener('click', (event) => {
+        event.stopPropagation();
+        addDeleteSessionCardLogic(deleteButton);
+      });
     } else {
       const addSessionButton = `<button class="add-session">${ADD_SESSION_BUTTON_LABEL}</button>`;
       const weekday = document.getElementById(`${day}`);
@@ -148,7 +166,7 @@ function init() {
       let selectedSessionName = selectedCardID.split('-')[0];
 
       //manipluate session property weekdays array
-      weekdays.forEach((weekday) => {
+      weekdaysData.forEach((weekday) => {
         if (weekday.day === clickedWeekdayID) {
           weekday.session = selectedSessionName;
           renderAddedSessionCard(weekday);
@@ -156,7 +174,7 @@ function init() {
       });
 
       // save session card to local storage
-      myStorage.setItem('weekdays', JSON.stringify(weekdays));
+      myStorage.setItem('weekdays', JSON.stringify(weekdaysData));
     })
   );
 }

@@ -116,10 +116,13 @@ button.add:focus {
 /*everything for the generic layout of the site including media queries*/
 
 .wrapper {
+  position: absolute;
+  z-index: 1;
   display: grid;
   grid-template-columns: auto;
   grid-template-rows: 1fr 2fr;
   height: 100%;
+  width: 100%;
 }
 
 .header {

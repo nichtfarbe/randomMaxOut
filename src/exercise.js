@@ -45,10 +45,10 @@ export const renderExercisePage = ({
 
   // render saved exercises from database
   function renderElements(weekdayData) {
-    weekdayData?.exercises?.forEach((exercise, index) => {
+    weekdayData?.exercises?.forEach((exercise, exerciseIndex) => {
       const exerciseOptions = SESSIONS[session].exercises;
       const inputFields = `
-      <div class="exercise-content exercise-number">${index + 1}.</div>
+      <div class="exercise-content exercise-number">${exerciseIndex + 1}.</div>
         <div class="exercise-content exercise-dropdown-wrapper">
           <select class="exercise-dropdown">
             <option value="" disabled selected></option>
@@ -85,10 +85,14 @@ export const renderExercisePage = ({
         <div class="exercise-content note-input-wrapper">
           <textarea class="note-input">${exercise.notes}</textarea>
         </div>
-        <div class="exercise-content exercise-delete-button-wrapper">
+        <div class="exercise-content exercise-delete-button-wrapper-${exerciseIndex}">
         <button class="exercise-delete-button">-</button>
       </div>`;
       bodyContainer.insertAdjacentHTML('beforeend', inputFields);
+      const deleteExerciseButton = document.querySelector(
+        `.exercise-delete-button-wrapper-${exerciseIndex}`
+      );
+      deleteExerciseButtonEventListener(deleteExerciseButton, exerciseIndex);
     });
   }
 
@@ -109,6 +113,7 @@ export const renderExercisePage = ({
 
   function addExerciseButtonEventListener(addExerciseButton) {
     addExerciseButton.addEventListener('click', () => {
+      //database change
       const weekdayData = weekdaysData.filter(
         (weekDayData) => weekDayData.day === day
       )[0];
@@ -119,6 +124,9 @@ export const renderExercisePage = ({
         weight: '',
         notes: ''
       };
+      if (!weekdayData.exercises) {
+        weekdayData.exercises = [];
+      }
       weekdayData.exercises.push(emptyEntry);
 
       const index = weekdaysData.findIndex((weekDay) => weekDay.day === day);
@@ -127,6 +135,9 @@ export const renderExercisePage = ({
         weekdayData,
         ...weekdaysData.slice(index + 1)
       ];
+      myStorage.setItem('weekdays', JSON.stringify(updatedData));
+
+      //ui change
       bodyContainer.innerHTML = '';
       bodyContainer.insertAdjacentHTML('beforeend', bodyTitles);
       renderElements(weekdayData);
@@ -135,7 +146,42 @@ export const renderExercisePage = ({
         '.exercise-add-button-wrapper'
       );
       addExerciseButtonEventListener(addExerciseButton);
+    });
+  }
+
+  function deleteExerciseButtonEventListener(
+    deleteExerciseButton,
+    exerciseIndex
+  ) {
+    deleteExerciseButton.addEventListener('click', () => {
+      //database change
+      const weekdayData = weekdaysData.filter(
+        (weekdayData) => weekdayData.day === day
+      )[0];
+
+      const updatedWeekdayExercisesData = weekdayData.exercises.filter(
+        (weekdayExercise, index) => index !== exerciseIndex
+      );
+      weekdayData.exercises = updatedWeekdayExercisesData;
+
+      const index = weekdaysData.findIndex((weekDay) => weekDay.day === day);
+      const updatedData = [
+        ...weekdaysData.slice(0, index),
+        weekdayData,
+        ...weekdaysData.slice(index + 1)
+      ];
+
       myStorage.setItem('weekdays', JSON.stringify(updatedData));
+
+      //ui change
+      bodyContainer.innerHTML = '';
+      bodyContainer.insertAdjacentHTML('beforeend', bodyTitles);
+      renderElements(weekdayData);
+      bodyContainer.insertAdjacentHTML('beforeend', addExerciseButtonElement);
+      const addExerciseButton = document.querySelector(
+        '.exercise-add-button-wrapper'
+      );
+      addExerciseButtonEventListener(addExerciseButton);
     });
   }
 };

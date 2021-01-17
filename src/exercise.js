@@ -50,7 +50,7 @@ export const renderExercisePage = ({
       const inputFields = `
       <div class="exercise-content exercise-number">${exerciseIndex + 1}.</div>
         <div class="exercise-content exercise-dropdown-wrapper">
-          <select class="exercise-dropdown">
+          <select class="exercise-dropdown" id="exercise-dropdown-${exerciseIndex}">
             <option value="" disabled selected></option>
             ${Object.keys(exerciseOptions).map((option) => {
               // find saved exercise in database and make it the selected option
@@ -85,12 +85,24 @@ export const renderExercisePage = ({
         <div class="exercise-content note-input-wrapper">
           <textarea class="note-input">${exercise.notes}</textarea>
         </div>
-        <div class="exercise-content exercise-delete-button-wrapper-${exerciseIndex}">
+        <div class="exercise-content exercise-delete-button-wrapper" id="exercise-delete-button-wrapper-${exerciseIndex}">
         <button class="exercise-delete-button">-</button>
       </div>`;
       bodyContainer.insertAdjacentHTML('beforeend', inputFields);
+
+      // input fields event listeners
+      const exerciseDropdownElement = document.querySelector(
+        `#exercise-dropdown-${exerciseIndex}`
+      );
+      addExerciseDropdownEventListener(
+        exerciseDropdownElement,
+        exerciseOptions,
+        exerciseIndex
+      );
+
+      // insert delete button
       const deleteExerciseButton = document.querySelector(
-        `.exercise-delete-button-wrapper-${exerciseIndex}`
+        `#exercise-delete-button-wrapper-${exerciseIndex}`
       );
       deleteExerciseButtonEventListener(deleteExerciseButton, exerciseIndex);
     });
@@ -182,6 +194,45 @@ export const renderExercisePage = ({
         '.exercise-add-button-wrapper'
       );
       addExerciseButtonEventListener(addExerciseButton);
+    });
+  }
+
+  function addExerciseDropdownEventListener(
+    exerciseDropdownElement,
+    exerciseOptions,
+    exerciseIndex
+  ) {
+    exerciseDropdownElement.addEventListener('change', (event) => {
+      // find the corresponding exercise key of the selected value
+      // find matching keys to selected value
+      const exerciseKeyArray = Object.entries(exerciseOptions).map((entry) => {
+        if (entry[1] === event.target.value) {
+          return entry[0];
+        }
+      });
+      // filter out undefined values and select the only remaining element within the keyArray
+      const exerciseKey = exerciseKeyArray.filter((item) => item)[0];
+      // save selected key to local storage as we did before
+      const weekdayData = weekdaysData.filter(
+        (weekdayData) => weekdayData.day === day
+      )[0];
+      const updatedWeekdayExercisesData = weekdayData.exercises.map(
+        (weekdayExercise, index) => {
+          if (index === exerciseIndex) {
+            return { ...weekdayExercise, name: exerciseKey };
+          }
+          return weekdayExercise;
+        }
+      );
+      weekdayData.exercises = updatedWeekdayExercisesData;
+      const index = weekdaysData.findIndex((weekDay) => weekDay.day === day);
+      const updatedData = [
+        ...weekdaysData.slice(0, index),
+        weekdayData,
+        ...weekdaysData.slice(index + 1)
+      ];
+
+      myStorage.setItem('weekdays', JSON.stringify(updatedData));
     });
   }
 };

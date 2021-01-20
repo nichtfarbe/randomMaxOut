@@ -85,7 +85,9 @@ export const renderExercisePage = ({
       }"/>
         </div>
         <div class="exercise-content note-input-wrapper">
-          <textarea class="note-input">${exercise.notes}</textarea>
+          <textarea class="note-input" id="note-input-${exerciseIndex}">${
+        exercise.notes
+      }</textarea>
         </div>
         <div class="exercise-content exercise-delete-button-wrapper" id="exercise-delete-button-wrapper-${exerciseIndex}">
         <button class="exercise-delete-button">-</button>
@@ -120,6 +122,12 @@ export const renderExercisePage = ({
         `#weight-input-${exerciseIndex}`
       );
       addWeightInputFieldEventListener(weightInputFieldElement, exerciseIndex);
+
+      // exercise notes input field
+      const notesInputFieldElement = document.querySelector(
+        `#note-input-${exerciseIndex}`
+      );
+      addNotesInputFieldEventListener(notesInputFieldElement, exerciseIndex);
 
       // insert delete button
       const deleteExerciseButton = document.querySelector(
@@ -328,6 +336,40 @@ export const renderExercisePage = ({
           (weekdayExercise, index) => {
             if (index === exerciseIndex) {
               return { ...weekdayExercise, weight: weightInputValue };
+            }
+            return weekdayExercise;
+          }
+        );
+        weekdayData.exercises = updatedWeekdayExercisesData;
+        const index = weekdaysData.findIndex((weekDay) => weekDay.day === day);
+        const updatedData = [
+          ...weekdaysData.slice(0, index),
+          weekdayData,
+          ...weekdaysData.slice(index + 1)
+        ];
+
+        myStorage.setItem('weekdays', JSON.stringify(updatedData));
+      })
+    );
+  }
+
+  function addNotesInputFieldEventListener(
+    notesInputFieldElement,
+    exerciseIndex
+  ) {
+    notesInputFieldElement.addEventListener(
+      'input',
+      debounce((event) => {
+        const notesInputValue = event.target.value;
+        console.log(notesInputValue);
+        // save selected key to local storage as we did before
+        const weekdayData = weekdaysData.filter(
+          (weekdayData) => weekdayData.day === day
+        )[0];
+        const updatedWeekdayExercisesData = weekdayData.exercises.map(
+          (weekdayExercise, index) => {
+            if (index === exerciseIndex) {
+              return { ...weekdayExercise, notes: notesInputValue };
             }
             return weekdayExercise;
           }

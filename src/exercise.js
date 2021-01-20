@@ -69,8 +69,8 @@ export const renderExercisePage = ({
             })}
           </select>
         </div>
-        <div class="exercise-content reps-dropdown-wrapper">
-          <select class="reps-dropdown">
+        <div class="exercise-content rep-dropdown-wrapper">
+          <select class="rep-dropdown" id="rep-dropdown-${exerciseIndex}">
             <option value="" disabled selected></option>
             ${REP_OPTIONS.map((option) => {
               // find saved rep in database and make it the selected option
@@ -80,7 +80,9 @@ export const renderExercisePage = ({
           </select>
         </div>
         <div class="exercise-content weight-input-wrapper">
-          <input type="text" class="weight-input" value="${exercise.weight}"/>
+          <input type="text" class="weight-input" id="weight-input-${exerciseIndex}" value="${
+        exercise.weight
+      }"/>
         </div>
         <div class="exercise-content note-input-wrapper">
           <textarea class="note-input">${exercise.notes}</textarea>
@@ -105,11 +107,19 @@ export const renderExercisePage = ({
       const setDropdownElement = document.querySelector(
         `#set-dropdown-${exerciseIndex}`
       );
-      addSetDropdownEventListener(
-        setDropdownElement,
-        SET_OPTIONS,
-        exerciseIndex
+      addSetDropdownEventListener(setDropdownElement, exerciseIndex);
+
+      //rep dropdown
+      const repDropdownElement = document.querySelector(
+        `#rep-dropdown-${exerciseIndex}`
       );
+      addRepDropdownEventListener(repDropdownElement, exerciseIndex);
+
+      //weight input field
+      const weightInputFieldElement = document.querySelector(
+        `#weight-input-${exerciseIndex}`
+      );
+      addWeightInputFieldEventListener(weightInputFieldElement, exerciseIndex);
 
       // insert delete button
       const deleteExerciseButton = document.querySelector(
@@ -247,14 +257,9 @@ export const renderExercisePage = ({
     });
   }
 
-  function addSetDropdownEventListener(
-    setDropdownElement,
-    SET_OPTIONS,
-    exerciseIndex
-  ) {
+  function addSetDropdownEventListener(setDropdownElement, exerciseIndex) {
     setDropdownElement.addEventListener('change', (event) => {
       const selectedSetValue = Number(event.target.value);
-      console.log(typeof selectedSetValue);
       // save selected key to local storage as we did before
       const weekdayData = weekdaysData.filter(
         (weekdayData) => weekdayData.day === day
@@ -263,6 +268,64 @@ export const renderExercisePage = ({
         (weekdayExercise, index) => {
           if (index === exerciseIndex) {
             return { ...weekdayExercise, sets: selectedSetValue };
+          }
+          return weekdayExercise;
+        }
+      );
+      weekdayData.exercises = updatedWeekdayExercisesData;
+      const index = weekdaysData.findIndex((weekDay) => weekDay.day === day);
+      const updatedData = [
+        ...weekdaysData.slice(0, index),
+        weekdayData,
+        ...weekdaysData.slice(index + 1)
+      ];
+
+      myStorage.setItem('weekdays', JSON.stringify(updatedData));
+    });
+  }
+
+  function addRepDropdownEventListener(repDropdownElement, exerciseIndex) {
+    repDropdownElement.addEventListener('change', (event) => {
+      const selectedRepValue = Number(event.target.value);
+      // save selected key to local storage as we did before
+      const weekdayData = weekdaysData.filter(
+        (weekdayData) => weekdayData.day === day
+      )[0];
+      const updatedWeekdayExercisesData = weekdayData.exercises.map(
+        (weekdayExercise, index) => {
+          if (index === exerciseIndex) {
+            return { ...weekdayExercise, reps: selectedRepValue };
+          }
+          return weekdayExercise;
+        }
+      );
+      weekdayData.exercises = updatedWeekdayExercisesData;
+      const index = weekdaysData.findIndex((weekDay) => weekDay.day === day);
+      const updatedData = [
+        ...weekdaysData.slice(0, index),
+        weekdayData,
+        ...weekdaysData.slice(index + 1)
+      ];
+
+      myStorage.setItem('weekdays', JSON.stringify(updatedData));
+    });
+  }
+
+  function addWeightInputFieldEventListener(
+    weightInputFieldElement,
+    exerciseIndex
+  ) {
+    weightInputFieldElement.addEventListener('input', (event) => {
+      const weightInputValue = event.target.value;
+      console.log(weightInputValue);
+      // save selected key to local storage as we did before
+      const weekdayData = weekdaysData.filter(
+        (weekdayData) => weekdayData.day === day
+      )[0];
+      const updatedWeekdayExercisesData = weekdayData.exercises.map(
+        (weekdayExercise, index) => {
+          if (index === exerciseIndex) {
+            return { ...weekdayExercise, weight: weightInputValue };
           }
           return weekdayExercise;
         }

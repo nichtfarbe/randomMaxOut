@@ -60,7 +60,7 @@ export const renderExercisePage = ({
           </select>
         </div>
         <div class="exercise-content set-dropdown-wrapper">
-          <select class="set-dropdown">
+          <select class="set-dropdown" id="set-dropdown-${exerciseIndex}">
             <option value="" disabled selected></option>
             ${SET_OPTIONS.map((option) => {
               // find saved set in database and make it the selected option
@@ -91,12 +91,23 @@ export const renderExercisePage = ({
       bodyContainer.insertAdjacentHTML('beforeend', inputFields);
 
       // input fields event listeners
+      //exercise dropdown
       const exerciseDropdownElement = document.querySelector(
         `#exercise-dropdown-${exerciseIndex}`
       );
       addExerciseDropdownEventListener(
         exerciseDropdownElement,
         exerciseOptions,
+        exerciseIndex
+      );
+
+      //set dropdown
+      const setDropdownElement = document.querySelector(
+        `#set-dropdown-${exerciseIndex}`
+      );
+      addSetDropdownEventListener(
+        setDropdownElement,
+        SET_OPTIONS,
         exerciseIndex
       );
 
@@ -220,6 +231,38 @@ export const renderExercisePage = ({
         (weekdayExercise, index) => {
           if (index === exerciseIndex) {
             return { ...weekdayExercise, name: exerciseKey };
+          }
+          return weekdayExercise;
+        }
+      );
+      weekdayData.exercises = updatedWeekdayExercisesData;
+      const index = weekdaysData.findIndex((weekDay) => weekDay.day === day);
+      const updatedData = [
+        ...weekdaysData.slice(0, index),
+        weekdayData,
+        ...weekdaysData.slice(index + 1)
+      ];
+
+      myStorage.setItem('weekdays', JSON.stringify(updatedData));
+    });
+  }
+
+  function addSetDropdownEventListener(
+    setDropdownElement,
+    SET_OPTIONS,
+    exerciseIndex
+  ) {
+    setDropdownElement.addEventListener('change', (event) => {
+      const selectedSetValue = Number(event.target.value);
+      console.log(typeof selectedSetValue);
+      // save selected key to local storage as we did before
+      const weekdayData = weekdaysData.filter(
+        (weekdayData) => weekdayData.day === day
+      )[0];
+      const updatedWeekdayExercisesData = weekdayData.exercises.map(
+        (weekdayExercise, index) => {
+          if (index === exerciseIndex) {
+            return { ...weekdayExercise, sets: selectedSetValue };
           }
           return weekdayExercise;
         }

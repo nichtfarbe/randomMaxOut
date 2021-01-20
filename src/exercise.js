@@ -315,30 +315,44 @@ export const renderExercisePage = ({
     weightInputFieldElement,
     exerciseIndex
   ) {
-    weightInputFieldElement.addEventListener('input', (event) => {
-      const weightInputValue = event.target.value;
-      console.log(weightInputValue);
-      // save selected key to local storage as we did before
-      const weekdayData = weekdaysData.filter(
-        (weekdayData) => weekdayData.day === day
-      )[0];
-      const updatedWeekdayExercisesData = weekdayData.exercises.map(
-        (weekdayExercise, index) => {
-          if (index === exerciseIndex) {
-            return { ...weekdayExercise, weight: weightInputValue };
+    weightInputFieldElement.addEventListener(
+      'input',
+      debounce((event) => {
+        const weightInputValue = event.target.value;
+        console.log(weightInputValue);
+        // save selected key to local storage as we did before
+        const weekdayData = weekdaysData.filter(
+          (weekdayData) => weekdayData.day === day
+        )[0];
+        const updatedWeekdayExercisesData = weekdayData.exercises.map(
+          (weekdayExercise, index) => {
+            if (index === exerciseIndex) {
+              return { ...weekdayExercise, weight: weightInputValue };
+            }
+            return weekdayExercise;
           }
-          return weekdayExercise;
-        }
-      );
-      weekdayData.exercises = updatedWeekdayExercisesData;
-      const index = weekdaysData.findIndex((weekDay) => weekDay.day === day);
-      const updatedData = [
-        ...weekdaysData.slice(0, index),
-        weekdayData,
-        ...weekdaysData.slice(index + 1)
-      ];
+        );
+        weekdayData.exercises = updatedWeekdayExercisesData;
+        const index = weekdaysData.findIndex((weekDay) => weekDay.day === day);
+        const updatedData = [
+          ...weekdaysData.slice(0, index),
+          weekdayData,
+          ...weekdaysData.slice(index + 1)
+        ];
 
-      myStorage.setItem('weekdays', JSON.stringify(updatedData));
-    });
+        myStorage.setItem('weekdays', JSON.stringify(updatedData));
+      })
+    );
+  }
+
+  //debounce function for text input fields
+  function debounce(func, timeout = 300) {
+    let timer;
+    return (...args) => {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        func.apply(this, args);
+      }, timeout);
+    };
   }
 };

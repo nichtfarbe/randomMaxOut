@@ -50,7 +50,7 @@ export const renderExercisePage = ({
       const inputFields = `
       <div class="exercise-content exercise-number">${exerciseIndex + 1}.</div>
         <div class="exercise-content exercise-dropdown-wrapper">
-          <select class="exercise-dropdown">
+          <select class="exercise-dropdown" id="exercise-dropdown-${exerciseIndex}">
             <option value="" disabled selected></option>
             ${Object.keys(exerciseOptions).map((option) => {
               // find saved exercise in database and make it the selected option
@@ -60,7 +60,7 @@ export const renderExercisePage = ({
           </select>
         </div>
         <div class="exercise-content set-dropdown-wrapper">
-          <select class="set-dropdown">
+          <select class="set-dropdown" id="set-dropdown-${exerciseIndex}">
             <option value="" disabled selected></option>
             ${SET_OPTIONS.map((option) => {
               // find saved set in database and make it the selected option
@@ -69,8 +69,8 @@ export const renderExercisePage = ({
             })}
           </select>
         </div>
-        <div class="exercise-content reps-dropdown-wrapper">
-          <select class="reps-dropdown">
+        <div class="exercise-content rep-dropdown-wrapper">
+          <select class="rep-dropdown" id="rep-dropdown-${exerciseIndex}">
             <option value="" disabled selected></option>
             ${REP_OPTIONS.map((option) => {
               // find saved rep in database and make it the selected option
@@ -80,17 +80,58 @@ export const renderExercisePage = ({
           </select>
         </div>
         <div class="exercise-content weight-input-wrapper">
-          <input type="text" class="weight-input" value="${exercise.weight}"/>
+          <input type="text" class="weight-input" id="weight-input-${exerciseIndex}" value="${
+        exercise.weight
+      }"/>
         </div>
         <div class="exercise-content note-input-wrapper">
-          <textarea class="note-input">${exercise.notes}</textarea>
+          <textarea class="note-input" id="note-input-${exerciseIndex}">${
+        exercise.notes
+      }</textarea>
         </div>
-        <div class="exercise-content exercise-delete-button-wrapper-${exerciseIndex}">
+        <div class="exercise-content exercise-delete-button-wrapper" id="exercise-delete-button-wrapper-${exerciseIndex}">
         <button class="exercise-delete-button">-</button>
       </div>`;
       bodyContainer.insertAdjacentHTML('beforeend', inputFields);
+
+      // input fields event listeners
+      //exercise dropdown
+      const exerciseDropdownElement = document.querySelector(
+        `#exercise-dropdown-${exerciseIndex}`
+      );
+      addExerciseDropdownEventListener(
+        exerciseDropdownElement,
+        exerciseOptions,
+        exerciseIndex
+      );
+
+      //set dropdown
+      const setDropdownElement = document.querySelector(
+        `#set-dropdown-${exerciseIndex}`
+      );
+      addSetDropdownEventListener(setDropdownElement, exerciseIndex);
+
+      //rep dropdown
+      const repDropdownElement = document.querySelector(
+        `#rep-dropdown-${exerciseIndex}`
+      );
+      addRepDropdownEventListener(repDropdownElement, exerciseIndex);
+
+      //weight input field
+      const weightInputFieldElement = document.querySelector(
+        `#weight-input-${exerciseIndex}`
+      );
+      addWeightInputFieldEventListener(weightInputFieldElement, exerciseIndex);
+
+      // exercise notes input field
+      const notesInputFieldElement = document.querySelector(
+        `#note-input-${exerciseIndex}`
+      );
+      addNotesInputFieldEventListener(notesInputFieldElement, exerciseIndex);
+
+      // insert delete button
       const deleteExerciseButton = document.querySelector(
-        `.exercise-delete-button-wrapper-${exerciseIndex}`
+        `#exercise-delete-button-wrapper-${exerciseIndex}`
       );
       deleteExerciseButtonEventListener(deleteExerciseButton, exerciseIndex);
     });
@@ -183,5 +224,177 @@ export const renderExercisePage = ({
       );
       addExerciseButtonEventListener(addExerciseButton);
     });
+  }
+
+  function addExerciseDropdownEventListener(
+    exerciseDropdownElement,
+    exerciseOptions,
+    exerciseIndex
+  ) {
+    exerciseDropdownElement.addEventListener('change', (event) => {
+      // find the corresponding exercise key of the selected value
+      // find matching keys to selected value
+      const exerciseKeyArray = Object.entries(exerciseOptions).map((entry) => {
+        if (entry[1] === event.target.value) {
+          return entry[0];
+        }
+      });
+      // filter out undefined values and select the only remaining element within the keyArray
+      const exerciseKey = exerciseKeyArray.filter((item) => item)[0];
+      // save selected key to local storage as we did before
+      const weekdayData = weekdaysData.filter(
+        (weekdayData) => weekdayData.day === day
+      )[0];
+      const updatedWeekdayExercisesData = weekdayData.exercises.map(
+        (weekdayExercise, index) => {
+          if (index === exerciseIndex) {
+            return { ...weekdayExercise, name: exerciseKey };
+          }
+          return weekdayExercise;
+        }
+      );
+      weekdayData.exercises = updatedWeekdayExercisesData;
+      const index = weekdaysData.findIndex((weekDay) => weekDay.day === day);
+      const updatedData = [
+        ...weekdaysData.slice(0, index),
+        weekdayData,
+        ...weekdaysData.slice(index + 1)
+      ];
+
+      myStorage.setItem('weekdays', JSON.stringify(updatedData));
+    });
+  }
+
+  function addSetDropdownEventListener(setDropdownElement, exerciseIndex) {
+    setDropdownElement.addEventListener('change', (event) => {
+      const selectedSetValue = Number(event.target.value);
+      // save selected key to local storage as we did before
+      const weekdayData = weekdaysData.filter(
+        (weekdayData) => weekdayData.day === day
+      )[0];
+      const updatedWeekdayExercisesData = weekdayData.exercises.map(
+        (weekdayExercise, index) => {
+          if (index === exerciseIndex) {
+            return { ...weekdayExercise, sets: selectedSetValue };
+          }
+          return weekdayExercise;
+        }
+      );
+      weekdayData.exercises = updatedWeekdayExercisesData;
+      const index = weekdaysData.findIndex((weekDay) => weekDay.day === day);
+      const updatedData = [
+        ...weekdaysData.slice(0, index),
+        weekdayData,
+        ...weekdaysData.slice(index + 1)
+      ];
+
+      myStorage.setItem('weekdays', JSON.stringify(updatedData));
+    });
+  }
+
+  function addRepDropdownEventListener(repDropdownElement, exerciseIndex) {
+    repDropdownElement.addEventListener('change', (event) => {
+      const selectedRepValue = Number(event.target.value);
+      // save selected key to local storage as we did before
+      const weekdayData = weekdaysData.filter(
+        (weekdayData) => weekdayData.day === day
+      )[0];
+      const updatedWeekdayExercisesData = weekdayData.exercises.map(
+        (weekdayExercise, index) => {
+          if (index === exerciseIndex) {
+            return { ...weekdayExercise, reps: selectedRepValue };
+          }
+          return weekdayExercise;
+        }
+      );
+      weekdayData.exercises = updatedWeekdayExercisesData;
+      const index = weekdaysData.findIndex((weekDay) => weekDay.day === day);
+      const updatedData = [
+        ...weekdaysData.slice(0, index),
+        weekdayData,
+        ...weekdaysData.slice(index + 1)
+      ];
+
+      myStorage.setItem('weekdays', JSON.stringify(updatedData));
+    });
+  }
+
+  function addWeightInputFieldEventListener(
+    weightInputFieldElement,
+    exerciseIndex
+  ) {
+    weightInputFieldElement.addEventListener(
+      'input',
+      debounce((event) => {
+        const weightInputValue = event.target.value;
+        console.log(weightInputValue);
+        // save selected key to local storage as we did before
+        const weekdayData = weekdaysData.filter(
+          (weekdayData) => weekdayData.day === day
+        )[0];
+        const updatedWeekdayExercisesData = weekdayData.exercises.map(
+          (weekdayExercise, index) => {
+            if (index === exerciseIndex) {
+              return { ...weekdayExercise, weight: weightInputValue };
+            }
+            return weekdayExercise;
+          }
+        );
+        weekdayData.exercises = updatedWeekdayExercisesData;
+        const index = weekdaysData.findIndex((weekDay) => weekDay.day === day);
+        const updatedData = [
+          ...weekdaysData.slice(0, index),
+          weekdayData,
+          ...weekdaysData.slice(index + 1)
+        ];
+
+        myStorage.setItem('weekdays', JSON.stringify(updatedData));
+      })
+    );
+  }
+
+  function addNotesInputFieldEventListener(
+    notesInputFieldElement,
+    exerciseIndex
+  ) {
+    notesInputFieldElement.addEventListener(
+      'input',
+      debounce((event) => {
+        const notesInputValue = event.target.value;
+        console.log(notesInputValue);
+        // save selected key to local storage as we did before
+        const weekdayData = weekdaysData.filter(
+          (weekdayData) => weekdayData.day === day
+        )[0];
+        const updatedWeekdayExercisesData = weekdayData.exercises.map(
+          (weekdayExercise, index) => {
+            if (index === exerciseIndex) {
+              return { ...weekdayExercise, notes: notesInputValue };
+            }
+            return weekdayExercise;
+          }
+        );
+        weekdayData.exercises = updatedWeekdayExercisesData;
+        const index = weekdaysData.findIndex((weekDay) => weekDay.day === day);
+        const updatedData = [
+          ...weekdaysData.slice(0, index),
+          weekdayData,
+          ...weekdaysData.slice(index + 1)
+        ];
+
+        myStorage.setItem('weekdays', JSON.stringify(updatedData));
+      })
+    );
+  }
+
+  //debounce function for text input fields
+  function debounce(func, timeout = 300) {
+    let timer;
+    return (...args) => {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        func.apply(this, args);
+      }, timeout);
+    };
   }
 };

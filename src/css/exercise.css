@@ -121,7 +121,7 @@
 }
 
 .exercise-dropdown,
-.reps-dropdown,
+.rep-dropdown,
 .set-dropdown {
   background-color: transparent;
   border-top: none;
@@ -137,7 +137,7 @@
 }
 
 .exercise-dropdown:focus,
-.reps-dropdown:focus,
+.rep-dropdown:focus,
 .set-dropdown:focus {
   outline: none;
 }

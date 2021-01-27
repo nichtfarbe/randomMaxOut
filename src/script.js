@@ -7,6 +7,7 @@ import {
 } from './constants.js';
 import { weekdaysMockData } from './data.js';
 import { renderExercisePage } from './exercise.js';
+import { renderDatepicker } from './datePicker.js';
 
 const myStorage = window.localStorage;
 
@@ -17,6 +18,10 @@ if (isLocalStorageEmpty) {
 const weekdaysData = JSON.parse(localStorage.getItem('weekdays'));
 
 function init() {
+  //render Datepicker
+  renderDatepicker();
+
+  //session card logic
   function addDeleteSessionCardLogic(deleteButton) {
     const shallDelete = confirm('Bist du sicher?');
     if (shallDelete) {

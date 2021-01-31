@@ -131,6 +131,12 @@ button.add:focus {
   filter: grayscale(70%);
 }
 
+.week-calender-input-field {
+  position: fixed;
+  right: 1%;
+  bottom: 3.5%;
+}
+
 .calendar {
   font-size: 2rem;
   display: grid;

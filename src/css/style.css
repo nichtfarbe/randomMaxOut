@@ -129,12 +129,15 @@ button.add:focus {
   background-image: url('../../media/headerImage.jpg');
   background-size: cover;
   filter: grayscale(70%);
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  padding: 1%;
 }
 
-.week-calender-input-field {
-  position: fixed;
-  right: 1%;
-  bottom: 3.5%;
+.week-calendar-input-field {
+  font-family: 'Roboto';
+  font-size: 1.5rem;
 }
 
 .calendar {

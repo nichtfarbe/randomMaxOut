@@ -23,5 +23,8 @@
     "url": "https://github.com/nichtfarbe/randomMaxOut/issues"
   },
   "homepage": "https://github.com/nichtfarbe/randomMaxOut#readme",
-  "keywords": []
+  "keywords": [],
+  "dependencies": {
+    "parcel-bundler": "^1.12.4"
+  }
 }

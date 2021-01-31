@@ -7,7 +7,7 @@ import {
 } from './constants.js';
 import { weekdaysMockData } from './data.js';
 import { renderExercisePage } from './exercise.js';
-import { renderDatepicker } from './datePicker.js';
+import { renderDatepicker } from './components/datePicker.js';
 
 const myStorage = window.localStorage;
 

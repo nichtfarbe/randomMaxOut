@@ -5,17 +5,17 @@ import {
   ADD_BUTTON_LABEL,
   SESSIONS,
 } from './constants.js';
-import { weekdaysMockData } from './data.js';
+import { weeksMockData } from './data2.js';
 import { renderExercisePage } from './exercise.js';
 import { renderDatepicker } from './components/datePicker.js';
 
 const myStorage = window.localStorage;
 
-const isLocalStorageEmpty = !localStorage.getItem('weekdays');
+const isLocalStorageEmpty = !localStorage.getItem('weeks');
 if (isLocalStorageEmpty) {
-  myStorage.setItem('weekdays', JSON.stringify(weekdaysMockData));
+  myStorage.setItem('weeks', JSON.stringify(weeksMockData));
 }
-const weekdaysData = JSON.parse(localStorage.getItem('weekdays'));
+const weeksData = JSON.parse(localStorage.getItem('weeks'));
 
 function init() {
   function removeWeekFromDOMAndRenderSelectedWeek(selectedDate) {
@@ -34,6 +34,8 @@ function init() {
   renderDatepicker(removeWeekFromDOMAndRenderSelectedWeek);
 
   function renderWeek(selectedDate) {
+    const weekdaysData = weeksData[selectedDate];
+
     //session card logic
     function addDeleteSessionCardLogic(deleteButton) {
       const shallDelete = confirm('Bist du sicher?');
@@ -53,7 +55,7 @@ function init() {
         });
 
         // delete session card from local storage
-        myStorage.setItem('weekdays', JSON.stringify(weekdaysData));
+        myStorage.setItem('weeks', JSON.stringify(weekdaysData));
 
         //re-create the add session button and make sure it gets an eventlistener assignes
         const addButton = document.createElement('button');
@@ -192,7 +194,7 @@ function init() {
         });
 
         // save session card to local storage
-        myStorage.setItem('weekdays', JSON.stringify(weekdaysData));
+        myStorage.setItem('weeks', JSON.stringify(weekdaysData));
       })
     );
   }

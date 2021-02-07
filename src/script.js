@@ -34,50 +34,41 @@ function init() {
   renderDatepicker(removeWeekFromDOMAndRenderSelectedWeek);
 
   function renderWeek(selectedDate) {
-    const weekdaysData = weeksData[selectedDate];
-
+    let weekdaysData = weeksData[selectedDate];
     //session card logic
     function addDeleteSessionCardLogic(deleteButton) {
       const shallDelete = confirm('Bist du sicher?');
       if (shallDelete) {
-        //find surrounding div of delete button in order to remove it from the DOM
+        weekdaysData = weeksData[selectedDate];
+        // remove card from DOM
         const deletableCard = deleteButton.parentNode.parentNode;
         const weekday = deletableCard.parentNode;
         deletableCard.remove();
 
-        //find index of affected weekday in weekday array, manipulate the session string to ''
+        // remove session from database array by finding index of affected weekday
+        // in weekday array and deleting obsolete properties
         const weekdayID = weekday.id;
-        weekdaysData.map((weekday) => {
-          if (weekday.day === weekdayID) {
-            delete weekday.session;
-            delete weekday.exercises;
-          }
-        });
+        const updatedWeekdaysData = weekdaysData.filter(
+          (weekday) => weekday.day !== weekdayID
+        );
 
-        weeksData[selectedDate] = weekdaysData;
-
-        // delete session card from local storage
+        // update local storage
+        weeksData[selectedDate] = updatedWeekdaysData;
         myStorage.setItem('weeks', JSON.stringify(weeksData));
 
-        //re-create the add session button and make sure it gets an eventlistener assignes
-        const addButton = document.createElement('button');
-        addButton.innerText = ADD_SESSION_BUTTON_LABEL;
-        addButton.classList.add('add-session');
-        weekday.appendChild(addButton);
-        addAddSessionCardLogic(addButton);
+        // render the addSessionButton again
+        renderAddSessionButton(weekdayID);
       }
     }
 
-    let clickedWeekdayID = null;
-    const addAddSessionCardLogic = (button) => {
-      button.addEventListener('click', (event) => {
-        // create overlay on button click
-        overlay.style.display = 'flex';
-        overlay.style.cursor = 'pointer';
-        //retrieve the weekday
-        clickedWeekdayID = event.target.parentNode.id;
-      });
-    };
+    function renderAddSessionButton(weekdayId) {
+      const addButton = document.createElement('button');
+      addButton.innerText = ADD_SESSION_BUTTON_LABEL;
+      addButton.classList.add('add-session');
+      const weekdayElement = document.getElementById(weekdayId);
+      weekdayElement.appendChild(addButton);
+      addButton.addEventListener('click', () => renderOverlay(weekdayId));
+    }
 
     // render weekdays
     WEEKDAYS.forEach(renderWeekday);
@@ -89,14 +80,18 @@ function init() {
     `;
       const calendar = document.querySelector('.calendar');
       calendar.insertAdjacentHTML('beforeend', weekday);
+
+      // render added session cards
+      renderAddedSessionCard(day);
     }
 
-    // render added session cards
-    WEEKDAYS.forEach(renderAddedSessionCard);
-    function renderAddedSessionCard(dayConst) {
+    function renderAddedSessionCard(weekdayId) {
       // go through WEEKDAYS constants and check if they exist in the current week data.
       // if they exist, there is a session that day.
-      const filteredArray = weekdaysData?.filter(({ day }) => day === dayConst);
+      let weekdaysData = weeksData[selectedDate];
+      const filteredArray = weekdaysData?.filter(
+        ({ day }) => day === weekdayId
+      );
 
       // if session data exists, render the card
       if (filteredArray?.length) {
@@ -143,78 +138,82 @@ function init() {
         }
       } else {
         // if no session data for this day exists, render the add button
-        const addSessionButton = `<button class="add-session">${ADD_SESSION_BUTTON_LABEL}</button>`;
-        const weekday = document.getElementById(`${dayConst}`);
-        weekday.insertAdjacentHTML('beforeend', addSessionButton);
-        const addSessionButtonElement = weekday.getElementsByClassName(
-          'add-session'
-        )[0];
-        addAddSessionCardLogic(addSessionButtonElement);
+        renderAddSessionButton(weekdayId);
       }
     }
 
-    // escape through overlay, normalize pointer and re-insert the add button
-    const overlay = document.getElementById('overlay');
-    function blurOverlay() {
-      overlay.style.display = 'none';
-      overlay.style.cursor = 'default';
-    }
-    overlay.addEventListener('click', blurOverlay);
+    function renderOverlay(weekdayId) {
+      const overlayElements = `
+      <div id="overlay">
+      <div class="card-container"></div>
+      </div>
+      `;
+      document.body.insertAdjacentHTML('afterbegin', overlayElements);
 
-    //prevent blur on click on actual modal
-    const cardContainer = document.querySelector('.card-container');
-    cardContainer.addEventListener('click', (event) => {
-      event.stopPropagation();
-    });
+      // add delete functionality when clicking on overlay
+      const overlay = document.getElementById('overlay');
+      function removeOverlay() {
+        overlay.remove();
+      }
+      overlay.addEventListener('click', removeOverlay);
 
-    // render overlay session cards
-    Object.keys(SESSIONS).forEach(renderOverlaySessionCards);
-    function renderOverlaySessionCards(sessionCardKey) {
-      const overlayCard = `
+      // prevent blur on click on actual modal
+      const cardContainer = document.querySelector('.card-container');
+      cardContainer.addEventListener('click', (event) =>
+        event.stopPropagation()
+      );
+
+      // render overlay session cards
+      Object.keys(SESSIONS).forEach(renderOverlaySessionCards);
+      function renderOverlaySessionCards(sessionCardKey) {
+        const overlayCard = `
         <div class="card">
-          <div class="card-color" id="${sessionCardKey}-card"></div>
-          <div class="card-sub-container">
-            <div class="card-headline">${SESSIONS[sessionCardKey].title}</div>
-            <div class="card-subtext">${SESSIONS[sessionCardKey].text}</div>
-            <button class="add">${ADD_BUTTON_LABEL}</button>
-          </div>
+        <div class="card-color" id="${sessionCardKey}-card"></div>
+        <div class="card-sub-container">
+        <div class="card-headline">${SESSIONS[sessionCardKey].title}</div>
+        <div class="card-subtext">${SESSIONS[sessionCardKey].text}</div>
+        <button class="add">${ADD_BUTTON_LABEL}</button>
         </div>
-    `;
-      cardContainer.insertAdjacentHTML('beforeend', overlayCard);
+        </div>
+        `;
+        cardContainer.insertAdjacentHTML('beforeend', overlayCard);
+      }
+
+      //add functionality to add-button in overlay
+      const overlayAddButtons = Array.from(
+        document.querySelectorAll('button.add')
+      );
+      overlayAddButtons.forEach((overlayAddButton) =>
+        overlayAddButton.addEventListener('click', () => {
+          removeOverlay();
+
+          //find id of the selected card
+          const selectedCard = overlayAddButton.parentNode.parentNode;
+          const selectedCardID = selectedCard.firstElementChild.id;
+          const addSessionButton = document.querySelector(
+            `#${weekdayId} > button.add-session`
+          );
+          addSessionButton.remove();
+
+          //create session names for the weekdays array
+          let selectedSessionName = selectedCardID.split('-')[0];
+
+          //manipluate session property weekdays array
+          const selectedWeekday = {
+            day: weekdayId,
+            session: selectedSessionName
+          };
+          const weekdaysData = weeksData[selectedDate];
+          weekdaysData.push(selectedWeekday);
+
+          renderAddedSessionCard(weekdayId);
+
+          weeksData[selectedDate] = weekdaysData;
+          // save session card to local storage
+          myStorage.setItem('weeks', JSON.stringify(weeksData));
+        })
+      );
     }
-
-    //add functionality to add-button in overlay
-    const addButtonsFromOverlay = Array.from(
-      document.querySelectorAll('button.add')
-    );
-    addButtonsFromOverlay.forEach((addButtonFromOverlay) =>
-      addButtonFromOverlay.addEventListener('click', () => {
-        blurOverlay();
-
-        //find id of the selected card
-        const selectedCard = addButtonFromOverlay.parentNode.parentNode;
-        const selectedCardID = selectedCard.firstElementChild.id;
-        const addSessionButton = document.querySelector(
-          `#${clickedWeekdayID} > button.add-session`
-        );
-        addSessionButton.remove();
-
-        //create session names for the weekdays array
-        let selectedSessionName = selectedCardID.split('-')[0];
-
-        //manipluate session property weekdays array
-        weekdaysData.forEach((weekday) => {
-          if (weekday.day === clickedWeekdayID) {
-            weekday.session = selectedSessionName;
-            renderAddedSessionCard(weekday);
-          }
-        });
-        weeksData[selectedDate] = weekdaysData;
-
-        // save session card to local storage
-        myStorage.setItem('weeks', JSON.stringify(weeksData));
-      })
-    );
   }
 }
 init();

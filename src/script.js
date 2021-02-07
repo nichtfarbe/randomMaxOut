@@ -209,12 +209,16 @@ function init() {
             day: weekdayId,
             session: selectedSessionName
           };
-          const weekdaysData = weeksData[selectedDate];
-          weekdaysData.push(selectedWeekday);
+          let weekdaysData = weeksData?.[selectedDate];
+          if (!weekdaysData) {
+            weeksData[selectedDate] = [selectedWeekday];
+          } else {
+            weekdaysData.push(selectedWeekday);
+            weeksData[selectedDate] = weekdaysData;
+          }
 
           renderAddedSessionCard(weekdayId);
 
-          weeksData[selectedDate] = weekdaysData;
           // save session card to local storage
           myStorage.setItem('weeks', JSON.stringify(weeksData));
         })

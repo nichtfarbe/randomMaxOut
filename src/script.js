@@ -52,8 +52,14 @@ function init() {
           (weekday) => weekday.day !== weekdayID
         );
 
+        // delete selectedDate if empty
+        if (updatedWeekdaysData.length) {
+          weeksData[selectedDate] = updatedWeekdaysData;
+        } else {
+          delete weeksData[selectedDate];
+        }
+
         // update local storage
-        weeksData[selectedDate] = updatedWeekdaysData;
         myStorage.setItem('weeks', JSON.stringify(weeksData));
 
         // render the addSessionButton again

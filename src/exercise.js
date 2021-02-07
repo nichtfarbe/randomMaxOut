@@ -1,7 +1,8 @@
 import { SESSIONS, SET_OPTIONS, REP_OPTIONS } from './constants.js';
 
 export const renderExercisePage = ({
-  weekdaysData,
+  weeksData,
+  selectedDate,
   day,
   session,
   myStorage
@@ -136,7 +137,7 @@ export const renderExercisePage = ({
       deleteExerciseButtonEventListener(deleteExerciseButton, exerciseIndex);
     });
   }
-
+  const weekdaysData = weeksData[selectedDate];
   const weekdayData = weekdaysData.filter((weekday) => weekday.day === day)[0];
   renderElements(weekdayData);
 
@@ -171,12 +172,14 @@ export const renderExercisePage = ({
       weekdayData.exercises.push(emptyEntry);
 
       const index = weekdaysData.findIndex((weekDay) => weekDay.day === day);
-      const updatedData = [
+      const updatedWeekdaysData = [
         ...weekdaysData.slice(0, index),
         weekdayData,
         ...weekdaysData.slice(index + 1)
       ];
-      myStorage.setItem('weekdays', JSON.stringify(updatedData));
+
+      weeksData[selectedDate] = updatedWeekdaysData;
+      myStorage.setItem('weeks', JSON.stringify(weeksData));
 
       //ui change
       bodyContainer.innerHTML = '';
@@ -204,15 +207,19 @@ export const renderExercisePage = ({
         (weekdayExercise, index) => index !== exerciseIndex
       );
       weekdayData.exercises = updatedWeekdayExercisesData;
+      if (!weekdayData.exercises.length) {
+        delete weekdayData.exercises;
+      }
 
       const index = weekdaysData.findIndex((weekDay) => weekDay.day === day);
-      const updatedData = [
+      const updatedWeekdaysData = [
         ...weekdaysData.slice(0, index),
         weekdayData,
         ...weekdaysData.slice(index + 1)
       ];
 
-      myStorage.setItem('weekdays', JSON.stringify(updatedData));
+      weeksData[selectedDate] = updatedWeekdaysData;
+      myStorage.setItem('weeks', JSON.stringify(weeksData));
 
       //ui change
       bodyContainer.innerHTML = '';
@@ -255,13 +262,14 @@ export const renderExercisePage = ({
       );
       weekdayData.exercises = updatedWeekdayExercisesData;
       const index = weekdaysData.findIndex((weekDay) => weekDay.day === day);
-      const updatedData = [
+      const updatedWeekdaysData = [
         ...weekdaysData.slice(0, index),
         weekdayData,
         ...weekdaysData.slice(index + 1)
       ];
 
-      myStorage.setItem('weekdays', JSON.stringify(updatedData));
+      weeksData[selectedDate] = updatedWeekdaysData;
+      myStorage.setItem('weeks', JSON.stringify(weeksData));
     });
   }
 
@@ -282,13 +290,14 @@ export const renderExercisePage = ({
       );
       weekdayData.exercises = updatedWeekdayExercisesData;
       const index = weekdaysData.findIndex((weekDay) => weekDay.day === day);
-      const updatedData = [
+      const updatedWeekdaysData = [
         ...weekdaysData.slice(0, index),
         weekdayData,
         ...weekdaysData.slice(index + 1)
       ];
 
-      myStorage.setItem('weekdays', JSON.stringify(updatedData));
+      weeksData[selectedDate] = updatedWeekdaysData;
+      myStorage.setItem('weeks', JSON.stringify(weeksData));
     });
   }
 
@@ -309,13 +318,14 @@ export const renderExercisePage = ({
       );
       weekdayData.exercises = updatedWeekdayExercisesData;
       const index = weekdaysData.findIndex((weekDay) => weekDay.day === day);
-      const updatedData = [
+      const updatedWeekdaysData = [
         ...weekdaysData.slice(0, index),
         weekdayData,
         ...weekdaysData.slice(index + 1)
       ];
 
-      myStorage.setItem('weekdays', JSON.stringify(updatedData));
+      weeksData[selectedDate] = updatedWeekdaysData;
+      myStorage.setItem('weeks', JSON.stringify(weeksData));
     });
   }
 
@@ -342,13 +352,14 @@ export const renderExercisePage = ({
         );
         weekdayData.exercises = updatedWeekdayExercisesData;
         const index = weekdaysData.findIndex((weekDay) => weekDay.day === day);
-        const updatedData = [
+        const updatedWeekdaysData = [
           ...weekdaysData.slice(0, index),
           weekdayData,
           ...weekdaysData.slice(index + 1)
         ];
 
-        myStorage.setItem('weekdays', JSON.stringify(updatedData));
+        weeksData[selectedDate] = updatedWeekdaysData;
+        myStorage.setItem('weeks', JSON.stringify(weeksData));
       })
     );
   }
@@ -376,13 +387,14 @@ export const renderExercisePage = ({
         );
         weekdayData.exercises = updatedWeekdayExercisesData;
         const index = weekdaysData.findIndex((weekDay) => weekDay.day === day);
-        const updatedData = [
+        const updatedWeekdaysData = [
           ...weekdaysData.slice(0, index),
           weekdayData,
           ...weekdaysData.slice(index + 1)
         ];
 
-        myStorage.setItem('weekdays', JSON.stringify(updatedData));
+        weeksData[selectedDate] = updatedWeekdaysData;
+        myStorage.setItem('weeks', JSON.stringify(weeksData));
       })
     );
   }

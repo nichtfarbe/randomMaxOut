@@ -3,9 +3,9 @@ import {
   ADDED_SESSION_CARD_LABEL,
   DELETE_SESSION_BUTTON_LABEL,
   ADD_BUTTON_LABEL,
-  SESSIONS,
+  SESSIONS
 } from './constants.js';
-import { weeksMockData } from './data2.js';
+import { weeksMockData } from './data.js';
 import { renderExercisePage } from './exercise.js';
 import { renderDatepicker } from './components/datePicker.js';
 
@@ -19,7 +19,6 @@ const weeksData = JSON.parse(localStorage.getItem('weeks'));
 
 function init() {
   function removeWeekFromDOMAndRenderSelectedWeek(selectedDate) {
-    console.log('removeWeekFromDOMAndRenderSelectedWeek()', selectedDate);
     // remove current week from DOM
     const weekdayElements = document.querySelectorAll('.weekday');
     weekdayElements.forEach((e) => e.parentNode.removeChild(e));
@@ -49,13 +48,15 @@ function init() {
         const weekdayID = weekday.id;
         weekdaysData.map((weekday) => {
           if (weekday.day === weekdayID) {
-            weekday.session = '';
-            weekday.exercises = [];
+            delete weekday.session;
+            delete weekday.exercises;
           }
         });
 
+        weeksData[selectedDate] = weekdaysData;
+
         // delete session card from local storage
-        myStorage.setItem('weeks', JSON.stringify(weekdaysData));
+        myStorage.setItem('weeks', JSON.stringify(weeksData));
 
         //re-create the add session button and make sure it gets an eventlistener assignes
         const addButton = document.createElement('button');
@@ -113,7 +114,13 @@ function init() {
         const sessionCardElement = weekday.querySelector('.added-card');
         if (session !== 'restday') {
           sessionCardElement.addEventListener('click', () => {
-            renderExercisePage({ weekdaysData, day, session, myStorage });
+            renderExercisePage({
+              weeksData,
+              selectedDate,
+              day,
+              session,
+              myStorage
+            });
           });
         } else {
           sessionCardElement.style.cursor = 'default';
@@ -192,9 +199,10 @@ function init() {
             renderAddedSessionCard(weekday);
           }
         });
+        weeksData[selectedDate] = weekdaysData;
 
         // save session card to local storage
-        myStorage.setItem('weeks', JSON.stringify(weekdaysData));
+        myStorage.setItem('weeks', JSON.stringify(weeksData));
       })
     );
   }

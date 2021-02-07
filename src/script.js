@@ -96,10 +96,10 @@ function init() {
     function renderAddedSessionCard(dayConst) {
       // go through WEEKDAYS constants and check if they exist in the current week data.
       // if they exist, there is a session that day.
-      const filteredArray = weekdaysData.filter(({ day }) => day === dayConst);
+      const filteredArray = weekdaysData?.filter(({ day }) => day === dayConst);
 
       // if session data exists, render the card
-      if (filteredArray.length) {
+      if (filteredArray?.length) {
         const { day, session } = filteredArray[0];
         if (session) {
           const sessionTitle = SESSIONS[session].title;

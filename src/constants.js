@@ -1,3 +1,4 @@
+export const WEEKDAYS = ['MO', 'DI', 'MI', 'DO', 'FR', 'SA', 'SO'];
 export const ADD_SESSION_BUTTON_LABEL = '+Einheit';
 export const ADDED_SESSION_CARD_LABEL =
   'Klick hier, um die Session zu bearbeiten.';

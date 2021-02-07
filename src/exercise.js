@@ -337,7 +337,6 @@ export const renderExercisePage = ({
       'input',
       debounce((event) => {
         const weightInputValue = event.target.value;
-        console.log(weightInputValue);
         // save selected key to local storage as we did before
         const weekdayData = weekdaysData.filter(
           (weekdayData) => weekdayData.day === day
@@ -372,7 +371,6 @@ export const renderExercisePage = ({
       'input',
       debounce((event) => {
         const notesInputValue = event.target.value;
-        console.log(notesInputValue);
         // save selected key to local storage as we did before
         const weekdayData = weekdaysData.filter(
           (weekdayData) => weekdayData.day === day

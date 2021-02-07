@@ -8,10 +8,9 @@ export const renderDatepicker = (removeWeekFromDOMAndRenderSelectedWeek) => {
     daysOfWeekDisabled: [0, 2, 3, 4, 5, 6],
     daysOfWeekHighlighted: [1],
     language: 'de',
-    weekStart: 1,
+    weekStart: 1
   });
   inputElement.addEventListener('changeDate', (event) => {
-    console.log(datepicker.getDate('yyyymmdd'));
     const selectedDate = datepicker.getDate('yyyymmdd');
     removeWeekFromDOMAndRenderSelectedWeek(selectedDate);
   });

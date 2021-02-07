@@ -1,9 +1,6 @@
 export const weeksMockData = {
   20210201: [
     {
-      day: 'MO'
-    },
-    {
       day: 'DI',
       session: 'clean',
       exercises: [
@@ -42,19 +39,7 @@ export const weeksMockData = {
           notes: ''
         }
       ]
-    },
-    { day: 'DO' },
-    { day: 'FR' },
-    { day: 'SA' },
-    { day: 'SO' }
+    }
   ],
-  20210208: [
-    { day: 'MO', session: 'snatch' },
-    { day: 'DI' },
-    { day: 'MI' },
-    { day: 'DO' },
-    { day: 'FR' },
-    { day: 'SA' },
-    { day: 'SO' }
-  ]
+  20210208: [{ day: 'MO', session: 'snatch' }]
 };

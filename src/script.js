@@ -3,7 +3,8 @@ import {
   ADDED_SESSION_CARD_LABEL,
   DELETE_SESSION_BUTTON_LABEL,
   ADD_BUTTON_LABEL,
-  SESSIONS
+  SESSIONS,
+  WEEKDAYS
 } from './constants.js';
 import { weeksMockData } from './data.js';
 import { renderExercisePage } from './exercise.js';
@@ -79,8 +80,8 @@ function init() {
     };
 
     // render weekdays
-    weekdaysData.forEach(renderWeekday);
-    function renderWeekday({ day }) {
+    WEEKDAYS.forEach(renderWeekday);
+    function renderWeekday(day) {
       const weekday = `
       <div class="weekday" id="${day}">
         <p class="day-string">${day}</p>
@@ -91,50 +92,59 @@ function init() {
     }
 
     // render added session cards
-    weekdaysData.forEach(renderAddedSessionCard);
-    function renderAddedSessionCard({ day, session }) {
-      if (session) {
-        const sessionTitle = SESSIONS[session].title;
-        const sessionCard = ` 
-        <div class="added-card" id="${session}-card">
-          <div class="added-card-color"></div>
-          <div class="added-card-subcontainer">
-            <div class="added-card-headline">${sessionTitle}</div>
-            <div class="added-card-subtext">
-            ${session !== 'restday' ? ADDED_SESSION_CARD_LABEL : ''}
+    WEEKDAYS.forEach(renderAddedSessionCard);
+    function renderAddedSessionCard(dayConst) {
+      // go through WEEKDAYS constants and check if they exist in the current week data.
+      // if they exist, there is a session that day.
+      const filteredArray = weekdaysData.filter(({ day }) => day === dayConst);
+
+      // if session data exists, render the card
+      if (filteredArray.length) {
+        const { day, session } = filteredArray[0];
+        if (session) {
+          const sessionTitle = SESSIONS[session].title;
+          const sessionCard = ` 
+          <div class="added-card" id="${session}-card">
+            <div class="added-card-color"></div>
+            <div class="added-card-subcontainer">
+              <div class="added-card-headline">${sessionTitle}</div>
+              <div class="added-card-subtext">
+              ${session !== 'restday' ? ADDED_SESSION_CARD_LABEL : ''}
+              </div>
+              <div class="delete">${DELETE_SESSION_BUTTON_LABEL}</div>
             </div>
-            <div class="delete">${DELETE_SESSION_BUTTON_LABEL}</div>
           </div>
-        </div>
-      `;
-        const weekday = document.getElementById(day);
-        weekday.insertAdjacentHTML('beforeend', sessionCard);
+        `;
+          const weekday = document.getElementById(day);
+          weekday.insertAdjacentHTML('beforeend', sessionCard);
 
-        // add session card event listener
-        const sessionCardElement = weekday.querySelector('.added-card');
-        if (session !== 'restday') {
-          sessionCardElement.addEventListener('click', () => {
-            renderExercisePage({
-              weeksData,
-              selectedDate,
-              day,
-              session,
-              myStorage
+          // add session card event listener
+          const sessionCardElement = weekday.querySelector('.added-card');
+          if (session !== 'restday') {
+            sessionCardElement.addEventListener('click', () => {
+              renderExercisePage({
+                weeksData,
+                selectedDate,
+                day,
+                session,
+                myStorage
+              });
             });
-          });
-        } else {
-          sessionCardElement.style.cursor = 'default';
-        }
+          } else {
+            sessionCardElement.style.cursor = 'default';
+          }
 
-        // add delete card event listener
-        const deleteButton = weekday.getElementsByClassName('delete')[0];
-        deleteButton.addEventListener('click', (event) => {
-          event.stopPropagation();
-          addDeleteSessionCardLogic(deleteButton);
-        });
+          // add delete card event listener
+          const deleteButton = weekday.getElementsByClassName('delete')[0];
+          deleteButton.addEventListener('click', (event) => {
+            event.stopPropagation();
+            addDeleteSessionCardLogic(deleteButton);
+          });
+        }
       } else {
+        // if no session data for this day exists, render the add button
         const addSessionButton = `<button class="add-session">${ADD_SESSION_BUTTON_LABEL}</button>`;
-        const weekday = document.getElementById(`${day}`);
+        const weekday = document.getElementById(`${dayConst}`);
         weekday.insertAdjacentHTML('beforeend', addSessionButton);
         const addSessionButtonElement = weekday.getElementsByClassName(
           'add-session'

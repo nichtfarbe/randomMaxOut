@@ -4,17 +4,32 @@ Object.assign(Datepicker.locales, de);
 
 export const renderDatepicker = (removeWeekFromDOMAndRenderSelectedWeek) => {
   const inputElement = document.querySelector('input[name="date-picker"]');
+
+  // set this week's monday date as input value
+  const currentDate = new Date();
+  const options = {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit'
+  };
+  const dateOfThisMonday = currentDate.toLocaleDateString('de-DE', options);
+  inputElement.value = dateOfThisMonday;
+
   const datepicker = new Datepicker(inputElement, {
     daysOfWeekDisabled: [0, 2, 3, 4, 5, 6],
     daysOfWeekHighlighted: [1],
     language: 'de',
     weekStart: 1
   });
-  inputElement.addEventListener('changeDate', (event) => {
+  renderWeekWithSelectedDate();
+  inputElement.addEventListener('changeDate', renderWeekWithSelectedDate);
+
+  function renderWeekWithSelectedDate() {
     const selectedDate = datepicker.getDate('yyyymmdd');
     removeWeekFromDOMAndRenderSelectedWeek(selectedDate);
-  });
+  }
 };
 
 //https://mymth.github.io/vanillajs-datepicker/#/
 //https://raw.githack.com/mymth/vanillajs-datepicker/v1.1.2/demo/index.html
+//https://stackoverflow.com/questions/5210376/how-to-get-first-and-last-day-of-the-current-week-in-javascript

@@ -6,14 +6,20 @@ export const renderDatepicker = (removeWeekFromDOMAndRenderSelectedWeek) => {
   const inputElement = document.querySelector('input[name="date-picker"]');
 
   // set this week's monday date as input value
-  const currentDate = new Date();
+  const curr = new Date();
+  const dateOfThisMonday = new Date(
+    curr.setDate(curr.getDate() - curr.getDay() + 1)
+  );
   const options = {
     year: 'numeric',
     month: '2-digit',
     day: '2-digit'
   };
-  const dateOfThisMonday = currentDate.toLocaleDateString('de-DE', options);
-  inputElement.value = dateOfThisMonday;
+  const formattedDateOfThisMonday = dateOfThisMonday.toLocaleDateString(
+    'de-DE',
+    options
+  );
+  inputElement.value = formattedDateOfThisMonday;
 
   const datepicker = new Datepicker(inputElement, {
     daysOfWeekDisabled: [0, 2, 3, 4, 5, 6],

@@ -5,7 +5,7 @@ export const renderExercisePage = ({
   selectedDate,
   day,
   session,
-  myStorage
+  myStorage,
 }) => {
   const body = document.querySelector('body');
   const exerciseWrapperElement = '<div class="exercise-wrapper"></div>';
@@ -164,7 +164,7 @@ export const renderExercisePage = ({
         sets: '',
         reps: '',
         weight: '',
-        notes: ''
+        notes: '',
       };
       if (!weekdayData.exercises) {
         weekdayData.exercises = [];
@@ -175,7 +175,7 @@ export const renderExercisePage = ({
       const updatedWeekdaysData = [
         ...weekdaysData.slice(0, index),
         weekdayData,
-        ...weekdaysData.slice(index + 1)
+        ...weekdaysData.slice(index + 1),
       ];
 
       weeksData[selectedDate] = updatedWeekdaysData;
@@ -215,7 +215,7 @@ export const renderExercisePage = ({
       const updatedWeekdaysData = [
         ...weekdaysData.slice(0, index),
         weekdayData,
-        ...weekdaysData.slice(index + 1)
+        ...weekdaysData.slice(index + 1),
       ];
 
       weeksData[selectedDate] = updatedWeekdaysData;
@@ -265,7 +265,7 @@ export const renderExercisePage = ({
       const updatedWeekdaysData = [
         ...weekdaysData.slice(0, index),
         weekdayData,
-        ...weekdaysData.slice(index + 1)
+        ...weekdaysData.slice(index + 1),
       ];
 
       weeksData[selectedDate] = updatedWeekdaysData;
@@ -293,7 +293,7 @@ export const renderExercisePage = ({
       const updatedWeekdaysData = [
         ...weekdaysData.slice(0, index),
         weekdayData,
-        ...weekdaysData.slice(index + 1)
+        ...weekdaysData.slice(index + 1),
       ];
 
       weeksData[selectedDate] = updatedWeekdaysData;
@@ -321,7 +321,7 @@ export const renderExercisePage = ({
       const updatedWeekdaysData = [
         ...weekdaysData.slice(0, index),
         weekdayData,
-        ...weekdaysData.slice(index + 1)
+        ...weekdaysData.slice(index + 1),
       ];
 
       weeksData[selectedDate] = updatedWeekdaysData;
@@ -354,7 +354,7 @@ export const renderExercisePage = ({
         const updatedWeekdaysData = [
           ...weekdaysData.slice(0, index),
           weekdayData,
-          ...weekdaysData.slice(index + 1)
+          ...weekdaysData.slice(index + 1),
         ];
 
         weeksData[selectedDate] = updatedWeekdaysData;
@@ -388,7 +388,7 @@ export const renderExercisePage = ({
         const updatedWeekdaysData = [
           ...weekdaysData.slice(0, index),
           weekdayData,
-          ...weekdaysData.slice(index + 1)
+          ...weekdaysData.slice(index + 1),
         ];
 
         weeksData[selectedDate] = updatedWeekdaysData;
@@ -398,13 +398,11 @@ export const renderExercisePage = ({
   }
 
   //debounce function for text input fields
-  function debounce(func, timeout = 300) {
+  const debounce = (func, timeout = 1000) => {
     let timer;
-    return (...args) => {
+    return function executedFunction(...args) {
       clearTimeout(timer);
-      timer = setTimeout(() => {
-        func.apply(this, args);
-      }, timeout);
+      timer = setTimeout(() => func(...args), timeout);
     };
-  }
+  };
 };

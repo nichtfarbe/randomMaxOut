@@ -369,7 +369,10 @@ export const renderExercisePage = ({
   ) {
     notesInputFieldElement.addEventListener(
       'input',
-      debounce((event) => {
+      debounce(notesInputFieldEventListener)
+    );
+    function notesInputFieldEventListener() {
+      (event) => {
         const notesInputValue = event.target.value;
         // save selected key to local storage as we did before
         const weekdayData = weekdaysData.filter(
@@ -393,16 +396,16 @@ export const renderExercisePage = ({
 
         weeksData[selectedDate] = updatedWeekdaysData;
         myStorage.setItem('weeks', JSON.stringify(weeksData));
-      })
-    );
+      };
+    }
   }
 
   //debounce function for text input fields
-  const debounce = (func, timeout = 1000) => {
+  function debounce(func, timeout = 300) {
     let timer;
     return function executedFunction(...args) {
       clearTimeout(timer);
       timer = setTimeout(() => func(...args), timeout);
     };
-  };
+  }
 };

@@ -5,7 +5,7 @@ export const renderExercisePage = ({
   selectedDate,
   day,
   session,
-  myStorage,
+  myStorage
 }) => {
   const body = document.querySelector('body');
   const exerciseWrapperElement = '<div class="exercise-wrapper"></div>';
@@ -164,7 +164,7 @@ export const renderExercisePage = ({
         sets: '',
         reps: '',
         weight: '',
-        notes: '',
+        notes: ''
       };
       if (!weekdayData.exercises) {
         weekdayData.exercises = [];
@@ -175,7 +175,7 @@ export const renderExercisePage = ({
       const updatedWeekdaysData = [
         ...weekdaysData.slice(0, index),
         weekdayData,
-        ...weekdaysData.slice(index + 1),
+        ...weekdaysData.slice(index + 1)
       ];
 
       weeksData[selectedDate] = updatedWeekdaysData;
@@ -215,7 +215,7 @@ export const renderExercisePage = ({
       const updatedWeekdaysData = [
         ...weekdaysData.slice(0, index),
         weekdayData,
-        ...weekdaysData.slice(index + 1),
+        ...weekdaysData.slice(index + 1)
       ];
 
       weeksData[selectedDate] = updatedWeekdaysData;
@@ -265,7 +265,7 @@ export const renderExercisePage = ({
       const updatedWeekdaysData = [
         ...weekdaysData.slice(0, index),
         weekdayData,
-        ...weekdaysData.slice(index + 1),
+        ...weekdaysData.slice(index + 1)
       ];
 
       weeksData[selectedDate] = updatedWeekdaysData;
@@ -293,7 +293,7 @@ export const renderExercisePage = ({
       const updatedWeekdaysData = [
         ...weekdaysData.slice(0, index),
         weekdayData,
-        ...weekdaysData.slice(index + 1),
+        ...weekdaysData.slice(index + 1)
       ];
 
       weeksData[selectedDate] = updatedWeekdaysData;
@@ -321,7 +321,7 @@ export const renderExercisePage = ({
       const updatedWeekdaysData = [
         ...weekdaysData.slice(0, index),
         weekdayData,
-        ...weekdaysData.slice(index + 1),
+        ...weekdaysData.slice(index + 1)
       ];
 
       weeksData[selectedDate] = updatedWeekdaysData;
@@ -335,32 +335,33 @@ export const renderExercisePage = ({
   ) {
     weightInputFieldElement.addEventListener(
       'input',
-      debounce((event) => {
-        const weightInputValue = event.target.value;
-        // save selected key to local storage as we did before
-        const weekdayData = weekdaysData.filter(
-          (weekdayData) => weekdayData.day === day
-        )[0];
-        const updatedWeekdayExercisesData = weekdayData.exercises.map(
-          (weekdayExercise, index) => {
-            if (index === exerciseIndex) {
-              return { ...weekdayExercise, weight: weightInputValue };
-            }
-            return weekdayExercise;
-          }
-        );
-        weekdayData.exercises = updatedWeekdayExercisesData;
-        const index = weekdaysData.findIndex((weekDay) => weekDay.day === day);
-        const updatedWeekdaysData = [
-          ...weekdaysData.slice(0, index),
-          weekdayData,
-          ...weekdaysData.slice(index + 1),
-        ];
-
-        weeksData[selectedDate] = updatedWeekdaysData;
-        myStorage.setItem('weeks', JSON.stringify(weeksData));
-      })
+      debounce(weightInputFieldEventListener)
     );
+    function weightInputFieldEventListener() {
+      const weightInputValue = event.target.value;
+      // save selected key to local storage as we did before
+      const weekdayData = weekdaysData.filter(
+        (weekdayData) => weekdayData.day === day
+      )[0];
+      const updatedWeekdayExercisesData = weekdayData.exercises.map(
+        (weekdayExercise, index) => {
+          if (index === exerciseIndex) {
+            return { ...weekdayExercise, weight: weightInputValue };
+          }
+          return weekdayExercise;
+        }
+      );
+      weekdayData.exercises = updatedWeekdayExercisesData;
+      const index = weekdaysData.findIndex((weekDay) => weekDay.day === day);
+      const updatedWeekdaysData = [
+        ...weekdaysData.slice(0, index),
+        weekdayData,
+        ...weekdaysData.slice(index + 1)
+      ];
+
+      weeksData[selectedDate] = updatedWeekdaysData;
+      myStorage.setItem('weeks', JSON.stringify(weeksData));
+    }
   }
 
   function addNotesInputFieldEventListener(
@@ -391,7 +392,7 @@ export const renderExercisePage = ({
         const updatedWeekdaysData = [
           ...weekdaysData.slice(0, index),
           weekdayData,
-          ...weekdaysData.slice(index + 1),
+          ...weekdaysData.slice(index + 1)
         ];
 
         weeksData[selectedDate] = updatedWeekdaysData;

@@ -7,7 +7,7 @@ import {
   WEEKDAYS
 } from './constants.js';
 import { weeksMockData } from './data.js';
-import { renderExercisePage } from './exercise.js';
+import { ExercisePage } from './components/ExercisePage/ExercisePage.js';
 import { renderDatepicker } from './components/datePicker.js';
 
 const myStorage = window.localStorage;
@@ -19,7 +19,7 @@ if (isLocalStorageEmpty) {
 const weeksData = JSON.parse(localStorage.getItem('weeks'));
 
 function init() {
-  function removeWeekFromDOMAndRenderSelectedWeek(selectedDate) {
+  function removeWeekFromDOMAndRenderSelectedWeek(selectedDates) {
     // remove current week from DOM
     const weekdayElements = document.querySelectorAll('.weekday');
     weekdayElements.forEach((e) => e.parentNode.removeChild(e));
@@ -28,12 +28,13 @@ function init() {
     overlayCards.forEach((e) => e.parentNode.removeChild(e));
 
     // render selected week
-    renderWeek(selectedDate);
+    renderWeek(selectedDates);
   }
   //render Datepicker
   renderDatepicker(removeWeekFromDOMAndRenderSelectedWeek);
 
-  function renderWeek(selectedDate) {
+  function renderWeek(selectedDates) {
+    const { selectedDate, dateOfThisMonday } = selectedDates;
     let weekdaysData = weeksData[selectedDate];
     //session card logic
     function addDeleteSessionCardLogic(deleteButton) {
@@ -123,9 +124,10 @@ function init() {
           const sessionCardElement = weekday.querySelector('.added-card');
           if (session !== 'restday') {
             sessionCardElement.addEventListener('click', () => {
-              renderExercisePage({
+              ExercisePage({
                 weeksData,
                 selectedDate,
+                dateOfThisMonday,
                 day,
                 session,
                 myStorage

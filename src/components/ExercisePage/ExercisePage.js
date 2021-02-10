@@ -1,8 +1,10 @@
-import { SESSIONS, SET_OPTIONS, REP_OPTIONS } from './constants.js';
+import { SESSIONS, SET_OPTIONS, REP_OPTIONS } from '../../constants.js';
+import { getExerciseHeaderDate } from './utilities.js';
 
-export const renderExercisePage = ({
+export const ExercisePage = ({
   weeksData,
   selectedDate,
+  dateOfThisMonday,
   day,
   session,
   myStorage
@@ -15,7 +17,10 @@ export const renderExercisePage = ({
   // create header div
   const headerElement = `
     <div class="exercise-header" id=${session}-card>
-      <div class="current-weekday">${day}, 13. Dezember</div>
+      <div class="current-weekday">${getExerciseHeaderDate(
+        day,
+        dateOfThisMonday
+      )}</div>
       <div class="return-button-wrapper">
         <button class="return-button">Zurück</button>
       </div>

@@ -31,8 +31,11 @@ export const renderDatepicker = (removeWeekFromDOMAndRenderSelectedWeek) => {
   inputElement.addEventListener('changeDate', renderWeekWithSelectedDate);
 
   function renderWeekWithSelectedDate() {
-    const selectedDate = datepicker.getDate('yyyymmdd');
-    removeWeekFromDOMAndRenderSelectedWeek(selectedDate);
+    const selectedDates = {
+      selectedDate: datepicker.getDate('yyyymmdd'),
+      dateOfThisMonday: datepicker.getDate()
+    };
+    removeWeekFromDOMAndRenderSelectedWeek(selectedDates);
   }
 };
 

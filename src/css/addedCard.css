@@ -16,26 +16,30 @@
 }
 
 .added-card-subcontainer {
-  padding-left: 1vmin;
-  padding-right: 0.5vmin;
   flex: auto;
   background-color: rgb(245, 245, 245);
-
   display: grid;
-  grid-template-rows: 1fr 2.5fr 0.5fr;
+  grid-template-rows: 1.6fr 2.5fr 0.5fr;
 }
 
 .added-card-headline {
+  padding: 0 0.5vmin 0 1vmin;
+  overflow: hidden;
+  text-overflow: ellipsis;
   font-size: 18px;
   font-weight: bold;
 }
 
 .added-card-subtext {
+  padding: 0 0.5vmin 0 1vmin;
+  overflow: hidden;
+  text-overflow: ellipsis;
   font-size: 13px;
   align-self: center;
 }
 
 .delete {
+  padding: 0 0.5vmin 0 1vmin;
   font-weight: bold;
   color: rgb(98, 2, 238);
   font-size: 15px;

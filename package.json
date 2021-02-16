@@ -4,11 +4,11 @@
   "description": "",
   "main": "index.js",
   "devDependencies": {
+    "babel-eslint": "^10.1.0",
     "eslint": "^7.13.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-import": "^2.22.1",
-    "sass": "^1.32.6",
-    "vanillajs-datepicker": "^1.1.2"
+    "sass": "^1.32.6"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -26,6 +26,7 @@
   "homepage": "https://github.com/nichtfarbe/randomMaxOut#readme",
   "keywords": [],
   "dependencies": {
-    "parcel-bundler": "^1.12.4"
+    "parcel-bundler": "^1.12.4",
+    "vanillajs-datepicker": "^1.1.2"
   }
 }

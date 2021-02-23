@@ -1,16 +1,18 @@
 /* eslint-disable import/prefer-default-export */
 import { Datepicker } from 'vanillajs-datepicker';
 import de from 'vanillajs-datepicker/js/i18n/locales/de';
+import { formatDate } from './ExercisePage/utilities';
 
 Object.assign(Datepicker.locales, de);
 
 const getMondayToSundayString = (curr) => {
-  const thisMonday = new Date(curr.setDate(curr.getDate() - curr.getDay() + 1));
-  const thisSunday = new Date(curr.setDate(curr.getDate() - curr.getDay() + 7));
+  const c = new Date(curr);
+  const thisMonday = new Date(c.setDate(c.getDate() - c.getDay() + 1));
+  const thisSunday = new Date(c.setDate(c.getDate() - c.getDay() + 7));
   const options = {
     year: 'numeric',
     month: '2-digit',
-    day: '2-digit',
+    day: '2-digit'
   };
   const formattedThisMonday = thisMonday.toLocaleDateString('de-DE', options);
   const formattedThisSunday = thisSunday.toLocaleDateString('de-DE', options);
@@ -31,17 +33,22 @@ export const renderDatepicker = (removeWeekFromDOMAndRenderSelectedWeek) => {
       },
       toDisplay(date) {
         return getMondayToSundayString(date);
-      },
-    },
+      }
+    }
   });
 
   const curr = new Date();
   inputElement.value = getMondayToSundayString(curr);
 
   function renderWeekWithSelectedDate() {
+    // const curr = new Date();
+    const initialMonday = new Date(
+      curr.setDate(curr.getDate() - curr.getDay() + 1)
+    );
+    const initialSelectedDate = formatDate(initialMonday);
     const selectedDates = {
-      selectedDate: datepicker.getDate('yyyymmdd'),
-      dateOfThisMonday: datepicker.getDate(),
+      selectedDate: datepicker.getDate('yyyymmdd') || initialSelectedDate,
+      dateOfThisMonday: datepicker.getDate() || initialMonday
     };
     inputElement.style.width = inputElement.value.length - 4 + 'ch';
     removeWeekFromDOMAndRenderSelectedWeek(selectedDates);

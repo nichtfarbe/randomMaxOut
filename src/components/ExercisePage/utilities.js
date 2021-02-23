@@ -29,3 +29,11 @@ export const getExerciseHeaderDate = (day, dateOfThisMonday) => {
   );
   return formattedSelectedSessionDate;
 };
+
+export const debounce = (func, timeout = 300) => {
+  let timer;
+  return function executedFunction(...args) {
+    clearTimeout(timer);
+    timer = setTimeout(() => func(...args), timeout);
+  };
+};

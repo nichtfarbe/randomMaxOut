@@ -59,12 +59,12 @@
 
   .added-card-subcontainer {
     display: flex;
-    flex-direction: row;
     align-items: center;
+    justify-content: space-between;
   }
 
   .added-card-headline {
-    font-size: 14px;
+    font-size: 20px;
   }
 
   .added-card-subtext {
@@ -72,7 +72,7 @@
   }
 
   .delete {
-    font-size: 12px;
+    font-size: 18px;
     align-self: center;
   }
 }

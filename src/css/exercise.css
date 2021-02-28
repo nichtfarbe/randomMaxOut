@@ -106,6 +106,7 @@
 
 .weight-input {
   padding: 5px;
+  width: 100%;
   background-color: #ededed;
   border-left: none;
   border-top: none;

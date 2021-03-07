@@ -17,19 +17,22 @@ export const ExercisePage = ({
   // create header div
   const headerElement = `
     <div class="exercise-header" id=${session}-card>
-      <div class="current-weekday">${getExerciseHeaderDate(
+      <div class="exercise-header-weekday">${getExerciseHeaderDate(
         day,
         dateOfThisMonday
       )}</div>
-      <div class="return-button-wrapper">
-        <button class="return-button">Zurück</button>
+      <div class="exercise-header-title">
+      ${SESSIONS[session].title}
+      </div>
+      <div class="exercise-header-return-button-wrapper">
+        <button class="exercise-header-return-button">Zurück</button>
       </div>
     </div>
     `;
   exerciseWrapper.insertAdjacentHTML('beforeend', headerElement);
 
   // create return button event listener
-  const returnButton = document.querySelector('.return-button');
+  const returnButton = document.querySelector('.exercise-header-return-button');
   returnButton.addEventListener('click', () => {
     body.removeChild(exerciseWrapper);
   });

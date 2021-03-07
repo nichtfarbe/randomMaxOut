@@ -11,10 +11,9 @@
 .exercise-header {
   display: flex;
   justify-content: space-around;
-  background-color: rgb(86, 204, 242);
 }
 
-.current-weekday {
+.exercise-header-weekday {
   flex: 1;
   font-size: 1.5rem;
   font-weight: bold;
@@ -25,11 +24,17 @@
   margin-bottom: 0.5%;
 }
 
-.return-button-wrapper {
+.exercise-header-title {
+  font-weight: bold;
+  font-size: 2.5rem;
+  align-self: center;
+}
+
+.exercise-header-return-button-wrapper {
   flex: 1;
 }
 
-.return-button {
+.exercise-header-return-button {
   font-family: 'Roboto';
   font-style: normal;
   font-weight: bold;
@@ -53,6 +58,7 @@
   grid-gap: 20px;
   grid-template-columns: 1fr 5fr repeat(3, 2fr) 8fr 1fr;
   grid-auto-rows: fit-content(0px);
+  margin-top: 2.2rem;
 }
 
 .exercise-title,
@@ -62,7 +68,7 @@
 
 .exercise-title {
   font-weight: bold;
-  font-size: 2rem;
+  font-size: 1.5rem;
   display: flex;
   align-items: center;
   justify-content: center;

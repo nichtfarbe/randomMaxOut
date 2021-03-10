@@ -159,3 +159,56 @@
   font-family: 'Roboto';
   font-size: 1rem;
 }
+
+@media only screen and (max-width: 600px) {
+  .exercise-wrapper {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+  }
+
+  .exercise-body-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+  }
+
+  .exercise-header {
+    position: sticky;
+    top: 0;
+  }
+
+  .exercise-header-title {
+    font-size: 1.1rem;
+  }
+
+  .exercise-header-weekday {
+    flex: unset;
+    display: block;
+    font-size: 1.1rem;
+    align-self: center;
+    margin: 0;
+  }
+
+  .exercise-title {
+    display: none;
+  }
+
+  .exercise-header-return-button-wrapper {
+    flex: unset;
+    display: flex;
+    align-items: center;
+  }
+
+  .exercise-header-return-button {
+    position: inherit;
+    font-size: 1.1rem;
+    margin: 0;
+  }
+
+  .exercise-number {
+    background: lightgray;
+    width: 100%;
+  }
+}

@@ -132,6 +132,8 @@ function init() {
                 session,
                 myStorage
               });
+              const calendar = document.querySelector('.wrapper');
+              calendar.style = 'display: none';
             });
           } else {
             sessionCardElement.style.cursor = 'default';

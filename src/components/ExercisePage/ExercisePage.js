@@ -35,6 +35,8 @@ export const ExercisePage = ({
   const returnButton = document.querySelector('.exercise-header-return-button');
   returnButton.addEventListener('click', () => {
     body.removeChild(exerciseWrapper);
+    const calendar = document.querySelector('.wrapper');
+    calendar.style = '';
   });
 
   // create body div

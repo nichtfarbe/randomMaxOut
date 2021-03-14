@@ -1,3 +1,4 @@
+import 'regenerator-runtime/runtime';
 import {
   ADD_SESSION_BUTTON_LABEL,
   ADDED_SESSION_CARD_LABEL,
@@ -9,6 +10,7 @@ import {
 import { weeksMockData } from './data.js';
 import { ExercisePage } from './components/ExercisePage/ExercisePage.js';
 import { renderDatepicker } from './components/datePicker.js';
+import { DeleteSessionCardDialog } from './components/DeleteSessionCardDialog/DeleteSessionCardDialog';
 
 const myStorage = window.localStorage;
 
@@ -37,8 +39,8 @@ function init() {
     const { selectedDate, dateOfThisMonday } = selectedDates;
     let weekdaysData = weeksData[selectedDate];
     //session card logic
-    function addDeleteSessionCardLogic(deleteButton) {
-      const shallDelete = confirm('Bist du sicher?');
+    async function addDeleteSessionCardLogic(deleteButton) {
+      const shallDelete = await DeleteSessionCardDialog();
       if (shallDelete) {
         weekdaysData = weeksData[selectedDate];
         // remove card from DOM

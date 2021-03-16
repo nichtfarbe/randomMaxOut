@@ -27,6 +27,7 @@
   "keywords": [],
   "dependencies": {
     "parcel-bundler": "^1.12.4",
+    "regenerator-runtime": "^0.13.7",
     "vanillajs-datepicker": "^1.1.2"
   }
 }

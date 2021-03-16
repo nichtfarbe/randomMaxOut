@@ -1,15 +1,23 @@
-export const DeleteSessionCardDialog = () =>
+export const DeleteSessionCardDialog = (session) =>
   new Promise((resolve) => {
+    const isRestday = session === 'restday';
     const overlayElements = `<div class="overlay-delete-container">
-  <div class="overlay-delete-dialog-box">
-    <div class="overlay-delete-title">Achtung!</div>
-    <div class="overlay-delete-subtitle">Du bist im Begriff, eine Trainingseinheit zu löschen. Damit gehen auch alle Übungen dieses Trainingstages verloren. Bist du sicher?</div>
-    <div class="overlay-delete-buttons">      
-      <button class="overlay-delete-button-cancel">Abbrechen</button>
-      <button class="overlay-delete-button-confirm">Bestätigen</button>
-    </div>
-  </div>
-  </div>`;
+      <div class="overlay-delete-dialog-box">
+        <div class="overlay-delete-title">Achtung!</div>
+        <div class="overlay-delete-subtitle">Du bist im Begriff, eine Trainingseinheit zu löschen. 
+        ${
+          isRestday
+            ? ''
+            : 'Damit gehen auch alle Übungen dieses Trainingstages verloren.'
+        }
+        Bist du sicher?</div>
+        <div class="overlay-delete-buttons">      
+          <button class="overlay-delete-button-cancel">Abbrechen</button>
+          <button class="overlay-delete-button-confirm">Bestätigen</button>
+        </div>
+      </div>
+      </div>`;
+
     document.body.insertAdjacentHTML('afterbegin', overlayElements);
 
     // add delete functionality when clicking on overlay

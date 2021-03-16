@@ -39,8 +39,8 @@ function init() {
     const { selectedDate, dateOfThisMonday } = selectedDates;
     let weekdaysData = weeksData[selectedDate];
     //session card logic
-    async function addDeleteSessionCardLogic(deleteButton) {
-      const shallDelete = await DeleteSessionCardDialog();
+    async function addDeleteSessionCardLogic(deleteButton, session) {
+      const shallDelete = await DeleteSessionCardDialog(session);
       if (shallDelete) {
         weekdaysData = weeksData[selectedDate];
         // remove card from DOM
@@ -145,7 +145,7 @@ function init() {
           const deleteButton = weekday.getElementsByClassName('delete')[0];
           deleteButton.addEventListener('click', (event) => {
             event.stopPropagation();
-            addDeleteSessionCardLogic(deleteButton);
+            addDeleteSessionCardLogic(deleteButton, session);
           });
         }
       } else {

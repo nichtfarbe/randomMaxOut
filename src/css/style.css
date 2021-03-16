@@ -12,37 +12,6 @@ body {
   margin: 0;
 }
 
-/*everything for the card selection modal*/
-
-#overlay {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.88);
-  z-index: 2;
-  overflow: hidden;
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.card-container {
-  display: grid;
-  grid-gap: 4vmin;
-  grid-template-rows: 1fr 1fr;
-  grid-template-columns: 1fr 1fr;
-
-  width: 60%;
-  height: 75%;
-
-  z-index: 2;
-}
-
 /*designing the cards itself*/
 
 .card {
@@ -93,22 +62,18 @@ button.add:focus {
   outline: 0;
 }
 
-/*snatch card*/
 #snatch-card {
   background-color: rgb(86, 204, 242);
 }
 
-/*clean card*/
 #clean-card {
   background-color: rgb(155, 81, 224);
 }
 
-/*accessorie card*/
 #accessorie-card {
   background-color: rgb(242, 201, 76);
 }
 
-/*restday card*/
 #restday-card {
   background-color: rgb(224, 224, 224);
 }

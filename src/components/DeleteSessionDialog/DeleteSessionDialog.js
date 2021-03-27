@@ -1,4 +1,4 @@
-export const DeleteSessionCardDialog = (session) =>
+export const DeleteSessionDialog = (session) =>
   new Promise((resolve) => {
     const isRestday = session === 'restday';
     const overlayElements = `<div class="overlay-delete-container">

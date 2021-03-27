@@ -9,7 +9,7 @@ import {
 import { weeksMockData } from './data.js';
 import { ExercisePage } from './components/ExercisePage/ExercisePage.js';
 import { renderDatepicker } from './components/datePicker.js';
-import { DeleteSessionCardDialog } from './components/DeleteSessionCardDialog/DeleteSessionCardDialog';
+import { DeleteSessionDialog } from './components/DeleteSessionDialog/DeleteSessionDialog';
 import { AddSessionDialog } from './components/AddSessionDialog/AddSessionDialog';
 
 const myStorage = window.localStorage;
@@ -40,7 +40,7 @@ function init() {
     let weekdaysData = weeksData[selectedDate];
     //session card logic
     async function addDeleteSessionCardLogic(deleteButton, session) {
-      const shallDelete = await DeleteSessionCardDialog(session);
+      const shallDelete = await DeleteSessionDialog(session);
       if (shallDelete) {
         weekdaysData = weeksData[selectedDate];
         // remove card from DOM
@@ -109,9 +109,10 @@ function init() {
       const filteredArray = weekdaysData?.filter(
         ({ day }) => day === weekdayId
       );
+      const hasSession = filteredArray?.length;
 
       // if session data exists, render the card
-      if (filteredArray?.length) {
+      if (hasSession) {
         const { day, session } = filteredArray[0];
         if (session) {
           const sessionTitle = SESSIONS[session].title;

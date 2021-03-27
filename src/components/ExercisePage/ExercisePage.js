@@ -1,5 +1,6 @@
 import { SESSIONS, SET_OPTIONS, REP_OPTIONS } from '../../constants.js';
 import { getExerciseHeaderDate, debounce } from './utilities.js';
+import { DeleteSessionCardDialog } from '../../components/DeleteSessionCardDialog/DeleteSessionCardDialog';
 
 export const ExercisePage = ({
   weeksData,
@@ -207,39 +208,43 @@ export const ExercisePage = ({
     deleteExerciseButton,
     exerciseIndex
   ) {
-    deleteExerciseButton.addEventListener('click', () => {
-      //database change
-      const weekdayData = weekdaysData.filter(
-        (weekdayData) => weekdayData.day === day
-      )[0];
+    deleteExerciseButton.addEventListener('click', async () => {
+      const session = '';
+      const shallDelete = await DeleteSessionCardDialog(session);
+      if (shallDelete) {
+        //database change
+        const weekdayData = weekdaysData.filter(
+          (weekdayData) => weekdayData.day === day
+        )[0];
 
-      const updatedWeekdayExercisesData = weekdayData.exercises.filter(
-        (weekdayExercise, index) => index !== exerciseIndex
-      );
-      weekdayData.exercises = updatedWeekdayExercisesData;
-      if (!weekdayData.exercises.length) {
-        delete weekdayData.exercises;
+        const updatedWeekdayExercisesData = weekdayData.exercises.filter(
+          (weekdayExercise, index) => index !== exerciseIndex
+        );
+        weekdayData.exercises = updatedWeekdayExercisesData;
+        if (!weekdayData.exercises.length) {
+          delete weekdayData.exercises;
+        }
+
+        const index = weekdaysData.findIndex((weekDay) => weekDay.day === day);
+        const updatedWeekdaysData = [
+          ...weekdaysData.slice(0, index),
+          weekdayData,
+          ...weekdaysData.slice(index + 1)
+        ];
+
+        weeksData[selectedDate] = updatedWeekdaysData;
+        myStorage.setItem('weeks', JSON.stringify(weeksData));
+
+        //ui change
+        bodyContainer.innerHTML = '';
+        bodyContainer.insertAdjacentHTML('beforeend', bodyTitles);
+        renderElements(weekdayData);
+        bodyContainer.insertAdjacentHTML('beforeend', addExerciseButtonElement);
+        const addExerciseButton = document.querySelector(
+          '.exercise-add-button-wrapper'
+        );
+        addExerciseButtonEventListener(addExerciseButton);
       }
-
-      const index = weekdaysData.findIndex((weekDay) => weekDay.day === day);
-      const updatedWeekdaysData = [
-        ...weekdaysData.slice(0, index),
-        weekdayData,
-        ...weekdaysData.slice(index + 1)
-      ];
-
-      weeksData[selectedDate] = updatedWeekdaysData;
-      myStorage.setItem('weeks', JSON.stringify(weeksData));
-
-      //ui change
-      bodyContainer.innerHTML = '';
-      bodyContainer.insertAdjacentHTML('beforeend', bodyTitles);
-      renderElements(weekdayData);
-      bodyContainer.insertAdjacentHTML('beforeend', addExerciseButtonElement);
-      const addExerciseButton = document.querySelector(
-        '.exercise-add-button-wrapper'
-      );
-      addExerciseButtonEventListener(addExerciseButton);
     });
   }
 

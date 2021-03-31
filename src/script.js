@@ -4,12 +4,13 @@ import {
   ADDED_SESSION_CARD_LABEL,
   DELETE_SESSION_BUTTON_LABEL,
   SESSIONS,
-  WEEKDAYS
+  WEEKDAYS,
+  DELETE_DIALOG_STRINGS
 } from './constants.js';
 import { weeksMockData } from './data.js';
 import { ExercisePage } from './components/ExercisePage/ExercisePage.js';
 import { renderDatepicker } from './components/datePicker.js';
-import { DeleteSessionDialog } from './components/DeleteSessionDialog/DeleteSessionDialog';
+import { DeleteDialog } from './components/DeleteDialog/DeleteDialog';
 import { AddSessionDialog } from './components/AddSessionDialog/AddSessionDialog';
 
 const myStorage = window.localStorage;
@@ -40,7 +41,11 @@ function init() {
     let weekdaysData = weeksData[selectedDate];
     //session card logic
     async function addDeleteSessionCardLogic(deleteButton, session) {
-      const shallDelete = await DeleteSessionDialog(session);
+      const deleteText =
+        session === 'restday'
+          ? DELETE_DIALOG_STRINGS.SESSION_RESTDAY
+          : DELETE_DIALOG_STRINGS.SESSION;
+      const shallDelete = await DeleteDialog(deleteText);
       if (shallDelete) {
         weekdaysData = weeksData[selectedDate];
         // remove card from DOM

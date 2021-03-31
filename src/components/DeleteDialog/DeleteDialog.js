@@ -1,15 +1,10 @@
-export const DeleteSessionDialog = (session) =>
+export const DeleteDialog = (text) =>
   new Promise((resolve) => {
-    const isRestday = session === 'restday';
     const overlayElements = `<div class="overlay-delete-container">
       <div class="overlay-delete-dialog-box">
         <div class="overlay-delete-title">Achtung!</div>
-        <div class="overlay-delete-subtitle">Du bist im Begriff, eine Trainingseinheit zu löschen. 
-        ${
-          isRestday
-            ? ''
-            : 'Damit gehen auch alle Übungen dieses Trainingstages verloren.'
-        }
+        <div class="overlay-delete-subtitle">
+        ${text}
         Bist du sicher?</div>
         <div class="overlay-delete-buttons">      
           <button class="overlay-delete-button-cancel">Abbrechen</button>

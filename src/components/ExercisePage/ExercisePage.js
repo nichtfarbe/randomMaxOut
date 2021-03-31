@@ -1,6 +1,11 @@
-import { SESSIONS, SET_OPTIONS, REP_OPTIONS } from '../../constants.js';
+import {
+  SESSIONS,
+  SET_OPTIONS,
+  REP_OPTIONS,
+  DELETE_DIALOG_STRINGS
+} from '../../constants.js';
 import { getExerciseHeaderDate, debounce } from './utilities.js';
-import { DeleteSessionDialog } from '../../components/DeleteSessionDialog/DeleteSessionDialog';
+import { DeleteDialog } from '../../components/DeleteDialog/DeleteDialog';
 
 export const ExercisePage = ({
   weeksData,
@@ -209,8 +214,7 @@ export const ExercisePage = ({
     exerciseIndex
   ) {
     deleteExerciseButton.addEventListener('click', async () => {
-      const session = '';
-      const shallDelete = await DeleteSessionDialog(session);
+      const shallDelete = await DeleteDialog(DELETE_DIALOG_STRINGS.EXERCISE);
       if (shallDelete) {
         //database change
         const weekdayData = weekdaysData.filter(

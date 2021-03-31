@@ -5,6 +5,13 @@ export const ADDED_SESSION_CARD_LABEL =
 export const DELETE_SESSION_BUTTON_LABEL = 'Löschen';
 export const ADD_BUTTON_LABEL = 'Hinzufügen';
 
+export const DELETE_DIALOG_STRINGS = {
+  EXERCISE: 'Du bist im Begriff, eine Übung zu löschen.',
+  SESSION_RESTDAY: 'Du bist im Begriff, eine Trainingseinheit zu löschen.',
+  SESSION:
+    'Du bist im Begriff, eine Trainingseinheit zu löschen. Damit gehen auch alle Übungen dieses Trainingstages verloren.'
+};
+
 export const SESSIONS = {
   snatch: {
     title: 'Reißen',

@@ -15,7 +15,7 @@
   align-items: center;
 }
 
-.card-container {
+.overlay-add-session-card-container {
   display: grid;
   grid-gap: 4vmin;
   grid-template-rows: 1fr 1fr;
@@ -25,4 +25,52 @@
   height: 75%;
 
   z-index: 2;
+}
+
+.overlay-add-session-card {
+  display: flex;
+  flex-direction: column;
+  cursor: default;
+}
+
+.overlay-add-session-card-color {
+  height: 55%;
+}
+
+.overlay-add-session-card-sub-container {
+  background-color: rgb(245, 245, 245);
+  flex: auto;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding: 1vmin;
+}
+
+.overlay-add-session-card-headline {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.overlay-add-session-card-subtext {
+  width: 100%;
+  font-size: 14px;
+}
+
+button.overlay-add-session-add-button {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: bold;
+  color: rgb(98, 2, 238);
+
+  background-color: transparent;
+  border: transparent;
+
+  padding: 0;
+
+  cursor: pointer;
+}
+
+button.overlay-add-session-add-button:focus {
+  outline: 0;
 }

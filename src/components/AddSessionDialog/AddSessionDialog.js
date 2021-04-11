@@ -9,7 +9,7 @@ export const AddSessionDialog = (
 ) => {
   const overlayElements = `
       <div id="overlay">
-      <div class="card-container"></div>
+      <div class="overlay-add-session-card-container"></div>
       </div>
       `;
   document.body.insertAdjacentHTML('afterbegin', overlayElements);
@@ -22,19 +22,21 @@ export const AddSessionDialog = (
   overlay.addEventListener('click', removeOverlay);
 
   // prevent blur on click on actual modal
-  const cardContainer = document.querySelector('.card-container');
+  const cardContainer = document.querySelector(
+    '.overlay-add-session-card-container'
+  );
   cardContainer.addEventListener('click', (event) => event.stopPropagation());
 
   // render overlay session cards
   Object.keys(SESSIONS).forEach(renderOverlaySessionCards);
   function renderOverlaySessionCards(sessionCardKey) {
     const overlayCard = `
-        <div class="card">
-        <div class="card-color" id="${sessionCardKey}-card"></div>
-        <div class="card-sub-container">
-        <div class="card-headline">${SESSIONS[sessionCardKey].title}</div>
-        <div class="card-subtext">${SESSIONS[sessionCardKey].text}</div>
-        <button class="add">${ADD_BUTTON_LABEL}</button>
+        <div class="overlay-add-session-card">
+        <div class="overlay-add-session-card-color" id="${sessionCardKey}-card"></div>
+        <div class="overlay-add-session-card-sub-container">
+        <div class="overlay-add-session-card-headline">${SESSIONS[sessionCardKey].title}</div>
+        <div class="overlay-add-session-card-subtext">${SESSIONS[sessionCardKey].text}</div>
+        <button class="overlay-add-session-add-button">${ADD_BUTTON_LABEL}</button>
         </div>
         </div>
         `;
@@ -42,7 +44,9 @@ export const AddSessionDialog = (
   }
 
   //add functionality to add-button in overlay
-  const overlayAddButtons = Array.from(document.querySelectorAll('button.add'));
+  const overlayAddButtons = Array.from(
+    document.querySelectorAll('button.overlay-add-session-add-button')
+  );
   overlayAddButtons.forEach((overlayAddButton) =>
     overlayAddButton.addEventListener('click', () => {
       removeOverlay();

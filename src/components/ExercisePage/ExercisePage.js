@@ -74,7 +74,9 @@ export const ExercisePage = ({
               const selected = exercise.name === option ? 'selected' : '';
               return `<option ${selected}>${exerciseOptions[option]}</option>`;
             })}
+            <option value="customOption">[type a custom value]</option>
           </select>
+          <input name="browser" id="exercise-dropdown-${exerciseIndex}-custom-input" style="display:none;" disabled="disabled"">
         </div>
         <div class="exercise-content set-dropdown-wrapper">
           <select class="set-dropdown" id="set-dropdown-${exerciseIndex}">
@@ -289,6 +291,27 @@ export const ExercisePage = ({
 
       weeksData[selectedDate] = updatedWeekdaysData;
       myStorage.setItem('weeks', JSON.stringify(weeksData));
+
+      // handle case that user selects own input option
+      function toggleField(hideObj, showObj) {
+        hideObj.disabled = true;
+        hideObj.style.display = 'none';
+        showObj.disabled = false;
+        showObj.style.display = 'inline';
+        showObj.focus();
+      }
+      if (event.target.value == 'customOption') {
+        const inputElement = document.querySelector(
+          `#exercise-dropdown-${exerciseIndex}-custom-input`
+        );
+        inputElement.addEventListener('blur', (event) => {
+          if (event.target.value == '') {
+            toggleField(inputElement, exerciseDropdownElement);
+            exerciseDropdownElement.selectedIndex = '0';
+          }
+        });
+        toggleField(exerciseDropdownElement, inputElement);
+      }
     });
   }
 

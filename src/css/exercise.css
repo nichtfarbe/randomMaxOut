@@ -95,6 +95,7 @@
 }
 
 .note-input {
+  padding: 5px;
   width: 100%;
   height: 100%;
   background-color: #ededed;
@@ -111,20 +112,11 @@
 }
 
 .weight-input {
-  padding: 5px;
   width: 100%;
-  background-color: #ededed;
-  border-left: none;
-  border-top: none;
-  border-right: none;
-  border-bottom: 1px solid black;
-  font-family: 'Roboto';
-  text-align: center;
-  font-size: 1rem;
 }
 
-.weight-input:focus {
-  outline: none;
+.exercise-input {
+  width: 70%;
 }
 
 .exercise-dropdown,

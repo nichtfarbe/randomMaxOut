@@ -12,6 +12,22 @@ body {
   margin: 0;
 }
 
+input {
+  padding: 5px;
+  background-color: #ededed;
+  border-left: none;
+  border-top: none;
+  border-right: none;
+  border-bottom: 1px solid black;
+  font-family: 'Roboto';
+  text-align: center;
+  font-size: 1rem;
+}
+
+input:focus {
+  outline: none;
+}
+
 /*designing the cards itself*/
 
 #snatch-card {

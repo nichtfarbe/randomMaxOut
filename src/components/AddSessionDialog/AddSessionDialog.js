@@ -21,11 +21,9 @@ export const AddSessionDialog = (
   }
   overlay.addEventListener('click', removeOverlay);
 
-  // prevent blur on click on actual modal
   const cardContainer = document.querySelector(
     '.overlay-add-session-card-container'
   );
-  cardContainer.addEventListener('click', (event) => event.stopPropagation());
 
   // render overlay session cards
   Object.keys(SESSIONS).forEach(renderOverlaySessionCards);
@@ -42,6 +40,15 @@ export const AddSessionDialog = (
         `;
     cardContainer.insertAdjacentHTML('beforeend', overlayCard);
   }
+
+  // make clicks on the overlay cards not close the modal/overlay.
+  // only clicking outside the cards shall close it.
+  const overlayCards = Array.from(
+    document.querySelectorAll('.overlay-add-session-card')
+  );
+  overlayCards.forEach((card) =>
+    card.addEventListener('click', (event) => event.stopPropagation())
+  );
 
   //add functionality to add-button in overlay
   const overlayAddButtons = Array.from(

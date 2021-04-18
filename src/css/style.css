@@ -75,6 +75,9 @@ body {
 }
 
 button.add-session {
+  background-image: linear-gradient(to right, #606c88 0%, #3f4c6b 100%);
+}
+button.add-session {
   font-family: 'Roboto';
   font-size: 20px;
 
@@ -82,11 +85,11 @@ button.add-session {
   outline: none;
   border-radius: 25px;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+  background-size: 200% auto;
 
-  background-color: rgba(112, 128, 144, 0.863);
   color: white;
 
-  transition: background-color 0.3s;
+  transition: 0.75s;
 
   align-self: center;
 
@@ -94,12 +97,11 @@ button.add-session {
   padding-bottom: 5%;
   padding-right: 10%;
   padding-left: 8%;
-  cursor: pointer;
 }
 
 button.add-session:hover,
 button.add-session:focus {
-  background-color: rgb(47, 79, 79);
+  background-position: right center;
   cursor: pointer;
 }
 

@@ -284,7 +284,21 @@ export const ExercisePage = ({
       myStorage.setItem('weeks', JSON.stringify(weeksData));
 
       // handle case that user selects own input option
-      if (event.target.value == 'customOption') {
+      if (event.target.value == 'customExercise') {
+        const inputElement = document.querySelector(
+          `#exercise-dropdown-${exerciseIndex}-custom-input`
+        );
+        inputElement.addEventListener('input', saveValueToDatabase);
+        inputElement.addEventListener('blur', hideInputFieldIfEmpty);
+        toggleField(exerciseDropdownElement, inputElement);
+
+        function saveValueToDatabase(event) {
+          const customExerciseName = event.target.value;
+          // 1. save customExerciseName to local storage under 'customName' key:
+          // { name: 'customExercise', 'customName: 'Tolle Uebung' }
+          // 2. if customName is empty, delete the key from database and set name to empty string
+          // 3. UI: if name === customExercise and customName is not empty, show input field with customName as content
+        }
         function toggleField(hideObj, showObj) {
           hideObj.disabled = true;
           hideObj.style.display = 'none';
@@ -292,16 +306,12 @@ export const ExercisePage = ({
           showObj.style.display = 'inline';
           showObj.focus();
         }
-        const inputElement = document.querySelector(
-          `#exercise-dropdown-${exerciseIndex}-custom-input`
-        );
-        inputElement.addEventListener('blur', (event) => {
+        function hideInputFieldIfEmpty(event) {
           if (event.target.value == '') {
             toggleField(inputElement, exerciseDropdownElement);
             exerciseDropdownElement.selectedIndex = '0';
           }
-        });
-        toggleField(exerciseDropdownElement, inputElement);
+        }
       }
     });
   }

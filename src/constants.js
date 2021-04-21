@@ -23,7 +23,7 @@ export const SESSIONS = {
       snatchDrop: 'Unterhocken',
       snatchBalance: 'Hocke Senken',
       hangSnatch: 'Reißen aus dem Hang',
-      customOption: '[Eigene Übung eingeben]'
+      customExercise: '[Eigene Übung eingeben]'
     }
   },
   clean: {
@@ -35,7 +35,8 @@ export const SESSIONS = {
       powerClean: 'Standumsetzen',
       cleanAndJerk: 'Stoßen',
       splitJerk: 'Ausstoßen',
-      hangClean: 'Umsetzen aus dem Hang'
+      hangClean: 'Umsetzen aus dem Hang',
+      customExercise: '[Eigene Übung eingeben]'
     }
   },
   accessorie: {
@@ -46,7 +47,8 @@ export const SESSIONS = {
       backSquat: 'Kniebeuge hinten',
       frontSquat: 'Kniebeuge vorne',
       pushPress: 'Schwungdrücken',
-      pullUp: 'Klimmzüge'
+      pullUp: 'Klimmzüge',
+      customExercise: '[Eigene Übung eingeben]'
     }
   },
   restday: {

@@ -72,9 +72,8 @@ export const ExercisePage = ({
             ${Object.keys(exerciseOptions).map((option) => {
               // find saved exercise in database and make it the selected option
               const selected = exercise.name === option ? 'selected' : '';
-              return `<option ${selected}>${exerciseOptions[option]}</option>`;
+              return `<option value=${option} ${selected}>${exerciseOptions[option]}</option>`;
             })}
-            <option value="customOption">[Eigene Übung eingeben]</option>
           </select>
           <input class="exercise-input" id="exercise-dropdown-${exerciseIndex}-custom-input" style="display:none;" disabled="disabled"">
         </div>
@@ -260,15 +259,7 @@ export const ExercisePage = ({
     exerciseIndex
   ) {
     exerciseDropdownElement.addEventListener('change', (event) => {
-      // find the corresponding exercise key of the selected value
-      // find matching keys to selected value
-      const exerciseKeyArray = Object.entries(exerciseOptions).map((entry) => {
-        if (entry[1] === event.target.value) {
-          return entry[0];
-        }
-      });
-      // filter out undefined values and select the only remaining element within the keyArray
-      const exerciseKey = exerciseKeyArray.filter((item) => item)[0];
+      const exerciseKey = event.target.value;
       // save selected key to local storage as we did before
       const weekdayData = weekdaysData.filter(
         (weekdayData) => weekdayData.day === day

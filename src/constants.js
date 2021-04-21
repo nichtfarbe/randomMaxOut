@@ -22,7 +22,8 @@ export const SESSIONS = {
       powerSnatch: 'Standreißen',
       snatchDrop: 'Unterhocken',
       snatchBalance: 'Hocke Senken',
-      hangSnatch: 'Reißen aus dem Hang'
+      hangSnatch: 'Reißen aus dem Hang',
+      customOption: '[Eigene Übung eingeben]'
     }
   },
   clean: {

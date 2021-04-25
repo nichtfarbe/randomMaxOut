@@ -272,13 +272,20 @@ export const ExercisePage = ({
         toggleField(exerciseDropdownElement, inputElement);
 
         function saveValueToDatabase(event) {
-          const customExerciseName = event.target.value;
-          console.log(customExerciseName);
+          const customExerciseNameValue = event.target.value;
+          console.log(customExerciseNameValue);
+          safeExerciseInputToDatabase(
+            'customExerciseName',
+            customExerciseNameValue,
+            exerciseIndex
+          );
+
           // 1. save customExerciseName to local storage under 'customName' key:
           // { name: 'customExercise', 'customName: 'Tolle Uebung' }
           // 2. if customName is empty, delete the key from database and set name to empty string
           // 3. UI: if name === customExercise and customName is not empty, show input field with customName as content
         }
+
         function toggleField(hideObj, showObj) {
           hideObj.disabled = true;
           hideObj.style.display = 'none';
@@ -290,6 +297,7 @@ export const ExercisePage = ({
           if (event.target.value == '') {
             toggleField(inputElement, exerciseDropdownElement);
             exerciseDropdownElement.selectedIndex = '0';
+            safeExerciseInputToDatabase('name', '', exerciseIndex);
           }
         }
       }
@@ -345,7 +353,11 @@ export const ExercisePage = ({
     const updatedWeekdayExercisesData = weekdayData.exercises.map(
       (weekdayExercise, index) => {
         if (index === exerciseIndex) {
-          return { ...weekdayExercise, [key]: value };
+          const updatedExercise = { ...weekdayExercise, [key]: value };
+          if (updatedExercise.name !== 'customExercise') {
+            delete updatedExercise.customExerciseName;
+          }
+          return updatedExercise;
         }
         return weekdayExercise;
       }

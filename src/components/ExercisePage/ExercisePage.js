@@ -259,29 +259,8 @@ export const ExercisePage = ({
     exerciseIndex
   ) {
     exerciseDropdownElement.addEventListener('change', (event) => {
-      const exerciseKey = event.target.value;
-      // save selected key to local storage as we did before
-      const weekdayData = weekdaysData.filter(
-        (weekdayData) => weekdayData.day === day
-      )[0];
-      const updatedWeekdayExercisesData = weekdayData.exercises.map(
-        (weekdayExercise, index) => {
-          if (index === exerciseIndex) {
-            return { ...weekdayExercise, name: exerciseKey };
-          }
-          return weekdayExercise;
-        }
-      );
-      weekdayData.exercises = updatedWeekdayExercisesData;
-      const index = weekdaysData.findIndex((weekDay) => weekDay.day === day);
-      const updatedWeekdaysData = [
-        ...weekdaysData.slice(0, index),
-        weekdayData,
-        ...weekdaysData.slice(index + 1)
-      ];
-
-      weeksData[selectedDate] = updatedWeekdaysData;
-      myStorage.setItem('weeks', JSON.stringify(weeksData));
+      const exerciseInput = event.target.value;
+      safeExerciseInputToDatabase('name', exerciseInput, exerciseIndex);
 
       // handle case that user selects own input option
       if (event.target.value == 'customExercise') {
@@ -294,6 +273,7 @@ export const ExercisePage = ({
 
         function saveValueToDatabase(event) {
           const customExerciseName = event.target.value;
+          console.log(customExerciseName);
           // 1. save customExerciseName to local storage under 'customName' key:
           // { name: 'customExercise', 'customName: 'Tolle Uebung' }
           // 2. if customName is empty, delete the key from database and set name to empty string
@@ -319,56 +299,14 @@ export const ExercisePage = ({
   function addSetDropdownEventListener(setDropdownElement, exerciseIndex) {
     setDropdownElement.addEventListener('change', (event) => {
       const selectedSetValue = Number(event.target.value);
-      // save selected key to local storage as we did before
-      const weekdayData = weekdaysData.filter(
-        (weekdayData) => weekdayData.day === day
-      )[0];
-      const updatedWeekdayExercisesData = weekdayData.exercises.map(
-        (weekdayExercise, index) => {
-          if (index === exerciseIndex) {
-            return { ...weekdayExercise, sets: selectedSetValue };
-          }
-          return weekdayExercise;
-        }
-      );
-      weekdayData.exercises = updatedWeekdayExercisesData;
-      const index = weekdaysData.findIndex((weekDay) => weekDay.day === day);
-      const updatedWeekdaysData = [
-        ...weekdaysData.slice(0, index),
-        weekdayData,
-        ...weekdaysData.slice(index + 1)
-      ];
-
-      weeksData[selectedDate] = updatedWeekdaysData;
-      myStorage.setItem('weeks', JSON.stringify(weeksData));
+      safeExerciseInputToDatabase('sets', selectedSetValue, exerciseIndex);
     });
   }
 
   function addRepDropdownEventListener(repDropdownElement, exerciseIndex) {
     repDropdownElement.addEventListener('change', (event) => {
       const selectedRepValue = Number(event.target.value);
-      // save selected key to local storage as we did before
-      const weekdayData = weekdaysData.filter(
-        (weekdayData) => weekdayData.day === day
-      )[0];
-      const updatedWeekdayExercisesData = weekdayData.exercises.map(
-        (weekdayExercise, index) => {
-          if (index === exerciseIndex) {
-            return { ...weekdayExercise, reps: selectedRepValue };
-          }
-          return weekdayExercise;
-        }
-      );
-      weekdayData.exercises = updatedWeekdayExercisesData;
-      const index = weekdaysData.findIndex((weekDay) => weekDay.day === day);
-      const updatedWeekdaysData = [
-        ...weekdaysData.slice(0, index),
-        weekdayData,
-        ...weekdaysData.slice(index + 1)
-      ];
-
-      weeksData[selectedDate] = updatedWeekdaysData;
-      myStorage.setItem('weeks', JSON.stringify(weeksData));
+      safeExerciseInputToDatabase('reps', selectedRepValue, exerciseIndex);
     });
   }
 
@@ -382,28 +320,7 @@ export const ExercisePage = ({
     );
     function weightInputFieldEventListener(event) {
       const weightInputValue = event.target.value;
-      // save selected key to local storage as we did before
-      const weekdayData = weekdaysData.filter(
-        (weekdayData) => weekdayData.day === day
-      )[0];
-      const updatedWeekdayExercisesData = weekdayData.exercises.map(
-        (weekdayExercise, index) => {
-          if (index === exerciseIndex) {
-            return { ...weekdayExercise, weight: weightInputValue };
-          }
-          return weekdayExercise;
-        }
-      );
-      weekdayData.exercises = updatedWeekdayExercisesData;
-      const index = weekdaysData.findIndex((weekDay) => weekDay.day === day);
-      const updatedWeekdaysData = [
-        ...weekdaysData.slice(0, index),
-        weekdayData,
-        ...weekdaysData.slice(index + 1)
-      ];
-
-      weeksData[selectedDate] = updatedWeekdaysData;
-      myStorage.setItem('weeks', JSON.stringify(weeksData));
+      safeExerciseInputToDatabase('weight', weightInputValue, exerciseIndex);
     }
   }
 
@@ -417,28 +334,31 @@ export const ExercisePage = ({
     );
     function notesInputFieldEventListener(event) {
       const notesInputValue = event.target.value;
-      // save selected key to local storage as we did before
-      const weekdayData = weekdaysData.filter(
-        (weekdayData) => weekdayData.day === day
-      )[0];
-      const updatedWeekdayExercisesData = weekdayData.exercises.map(
-        (weekdayExercise, index) => {
-          if (index === exerciseIndex) {
-            return { ...weekdayExercise, notes: notesInputValue };
-          }
-          return weekdayExercise;
-        }
-      );
-      weekdayData.exercises = updatedWeekdayExercisesData;
-      const index = weekdaysData.findIndex((weekDay) => weekDay.day === day);
-      const updatedWeekdaysData = [
-        ...weekdaysData.slice(0, index),
-        weekdayData,
-        ...weekdaysData.slice(index + 1)
-      ];
-
-      weeksData[selectedDate] = updatedWeekdaysData;
-      myStorage.setItem('weeks', JSON.stringify(weeksData));
+      safeExerciseInputToDatabase('notes', notesInputValue, exerciseIndex);
     }
+  }
+
+  function safeExerciseInputToDatabase(key, value, exerciseIndex) {
+    const weekdayData = weekdaysData.filter(
+      (weekdayData) => weekdayData.day === day
+    )[0];
+    const updatedWeekdayExercisesData = weekdayData.exercises.map(
+      (weekdayExercise, index) => {
+        if (index === exerciseIndex) {
+          return { ...weekdayExercise, [key]: value };
+        }
+        return weekdayExercise;
+      }
+    );
+    weekdayData.exercises = updatedWeekdayExercisesData;
+    const index = weekdaysData.findIndex((weekDay) => weekDay.day === day);
+    const updatedWeekdaysData = [
+      ...weekdaysData.slice(0, index),
+      weekdayData,
+      ...weekdaysData.slice(index + 1)
+    ];
+
+    weeksData[selectedDate] = updatedWeekdaysData;
+    myStorage.setItem('weeks', JSON.stringify(weeksData));
   }
 };
